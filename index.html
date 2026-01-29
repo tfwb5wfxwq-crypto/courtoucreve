@@ -1003,6 +1003,12 @@
       transition: all 0.4s ease;
     }
 
+    /* Position custom par personne */
+    .team-photo.guillaume img { object-position: 30% 20%; transform: scale(1.8); }
+    .team-photo.pierre img { object-position: 70% 20%; transform: scale(1.8); }
+    .team-photo.ludoc img { object-position: center 30%; }
+    .team-photo.jr img { object-position: center 15%; transform: scale(1.8); }
+
     .team-member:hover .team-photo {
       border-color: var(--red);
     }
@@ -2078,8 +2084,8 @@
         </div>
 
         <div class="team-member">
-          <div class="team-photo">
-            <img src="team/guillaume.jpg?v=2" alt="Guillaume - Formateur réseaux sociaux">
+          <div class="team-photo guillaume">
+            <img src="team/guillaume.jpg?v=3" alt="Guillaume - Formateur réseaux sociaux">
           </div>
           <h3 class="team-name">Guillaume</h3>
           <p class="team-role">Réseaux</p>
@@ -2088,7 +2094,7 @@
 
         <div class="team-member">
           <div class="team-photo">
-            <img src="team/kemar.jpg?v=2" alt="Kemar - Formateur jeu d'acteur">
+            <img src="team/kemar.jpg?v=3" alt="Kemar - Formateur jeu d'acteur">
           </div>
           <h3 class="team-name">Kemar</h3>
           <p class="team-role">Jeu</p>
@@ -2097,7 +2103,7 @@
 
         <div class="team-member">
           <div class="team-photo">
-            <img src="team/babor.jpg?v=2" alt="Babor - Formateur écriture scénario">
+            <img src="team/babor.jpg?v=3" alt="Babor - Formateur écriture scénario">
           </div>
           <h3 class="team-name">Babor</h3>
           <p class="team-role">Écriture</p>
@@ -2105,8 +2111,8 @@
         </div>
 
         <div class="team-member">
-          <div class="team-photo">
-            <img src="team/pierre.jpg?v=2" alt="Pierre - Créateur Court ou Crève">
+          <div class="team-photo pierre">
+            <img src="team/pierre.jpg?v=3" alt="Pierre - Créateur Court ou Crève">
           </div>
           <h3 class="team-name">Pierre</h3>
           <p class="team-role">Créateur</p>
@@ -2114,8 +2120,8 @@
         </div>
 
         <div class="team-member">
-          <div class="team-photo">
-            <img src="team/ludoc.jpg?v=2" alt="Ludoc - Formateur technique">
+          <div class="team-photo ludoc">
+            <img src="team/ludoc.jpg?v=3" alt="Ludoc - Formateur technique">
           </div>
           <h3 class="team-name">Ludoc</h3>
           <p class="team-role">Technique</p>
@@ -2123,8 +2129,8 @@
         </div>
 
         <div class="team-member">
-          <div class="team-photo">
-            <img src="team/jr.jpg?v=2" alt="Jhon Rachid - Acteur">
+          <div class="team-photo jr">
+            <img src="team/jr.jpg?v=3" alt="Jhon Rachid - Acteur">
           </div>
           <h3 class="team-name">Jhon Rachid</h3>
           <p class="team-role">Acteur</p>
@@ -2396,6 +2402,7 @@
       const video = galleryMain.querySelector('video');
 
       if (video) {
+        // Click to play/pause
         galleryMain.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -2406,22 +2413,34 @@
             video.play();
             galleryPlay.style.display = 'none';
             galleryMain.classList.add('playing');
+          } else {
+            video.pause();
           }
         });
 
+        // Reset when ended
         video.addEventListener('ended', () => {
           video.controls = false;
           video.muted = true;
+          video.currentTime = 0;
           galleryPlay.style.display = 'block';
           galleryMain.classList.remove('playing');
         });
 
-        video.addEventListener('pause', () => {
-          if (video.currentTime === video.duration || video.currentTime === 0) {
-            video.controls = false;
-            video.muted = true;
-            galleryPlay.style.display = 'block';
-            galleryMain.classList.remove('playing');
+        // Pause when not visible (mobile battery saver)
+        const videoObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting && !video.paused) {
+              video.pause();
+            }
+          });
+        }, { threshold: 0.3 });
+        videoObserver.observe(galleryMain);
+
+        // Pause when tab hidden
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden && !video.paused) {
+            video.pause();
           }
         });
       }
