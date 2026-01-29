@@ -945,6 +945,8 @@
     .team-member {
       text-align: center;
       width: 120px;
+      position: relative;
+      cursor: pointer;
     }
 
     .team-photo {
@@ -958,14 +960,13 @@
     }
 
     .team-photo img {
-      width: 180%;
-      height: 180%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      object-position: center 15%;
-      margin-left: -40%;
-      margin-top: -15%;
+      object-position: center top;
+      transform: scale(1.4);
       filter: grayscale(100%);
-      transition: filter 0.4s ease;
+      transition: all 0.4s ease;
     }
 
     .team-member:hover .team-photo {
@@ -990,6 +991,35 @@
       color: var(--red);
       text-transform: uppercase;
       letter-spacing: 1px;
+    }
+
+    /* Tooltip description */
+    .team-member::after {
+      content: attr(data-desc);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      width: 220px;
+      padding: 15px;
+      background: var(--black-light);
+      border: 1px solid var(--red);
+      border-radius: 8px;
+      color: var(--white);
+      font-size: 12px;
+      line-height: 1.5;
+      text-align: left;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 100;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+
+    .team-member:hover::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(-15px);
     }
 
     /* Form success animation */
@@ -1718,7 +1748,7 @@
       <h2 class="section-title">L'<span>Équipe</span></h2>
 
       <div class="team-grid">
-        <div class="team-member">
+        <div class="team-member" data-desc="Créateur de contenu et producteur. Il t'accompagne sur toute la chaîne de production de ton court-métrage.">
           <div class="team-photo">
             <img src="team/ludovik.jpg" alt="Ludovik - Formateur production vidéo Court ou Crève">
           </div>
@@ -1726,7 +1756,7 @@
           <p class="team-role">Production</p>
         </div>
 
-        <div class="team-member">
+        <div class="team-member" data-desc="Expert réseaux sociaux. Il te donne les clés pour cartonner sur TikTok, Instagram et YouTube.">
           <div class="team-photo">
             <img src="team/guillaume.jpg" alt="Guillaume Matas - Formateur réseaux sociaux">
           </div>
@@ -1734,7 +1764,7 @@
           <p class="team-role">Réseaux</p>
         </div>
 
-        <div class="team-member">
+        <div class="team-member" data-desc="Comédien et créateur. Il t'apprend à diriger des acteurs et à jouer devant la caméra.">
           <div class="team-photo">
             <img src="team/kemar.jpg" alt="Kemar - Formateur jeu d'acteur masterclass vidéo">
           </div>
@@ -1742,7 +1772,7 @@
           <p class="team-role">Jeu</p>
         </div>
 
-        <div class="team-member">
+        <div class="team-member" data-desc="Scénariste et auteur. Il t'aide à structurer ton histoire et écrire un scénario qui claque.">
           <div class="team-photo">
             <img src="team/babor.jpg" alt="Babor - Formateur écriture scénario">
           </div>
@@ -1750,15 +1780,15 @@
           <p class="team-role">Écriture</p>
         </div>
 
-        <div class="team-member">
+        <div class="team-member" data-desc="Créateur de Court ou Crève. Il a imaginé ce concept unique de masterclass avec projection au cinéma.">
           <div class="team-photo">
-            <img src="team/pierre.jpg" alt="Pierre - Formateur montage vidéo">
+            <img src="team/pierre.jpg" alt="Pierre - Créateur de Court ou Crève">
           </div>
           <h3 class="team-name">Pierre</h3>
-          <p class="team-role">Montage</p>
+          <p class="team-role">Créateur</p>
         </div>
 
-        <div class="team-member">
+        <div class="team-member" data-desc="Technicien image et son. Il t'apprend à utiliser le matos pro : caméra, lumière, micro.">
           <div class="team-photo">
             <img src="team/ludoc.jpg" alt="Ludoc - Formateur technique réalisation">
           </div>
@@ -1766,7 +1796,7 @@
           <p class="team-role">Technique</p>
         </div>
 
-        <div class="team-member">
+        <div class="team-member" data-desc="Réalisateur et créateur. Il partage son expérience et ses conseils pour réussir dans la vidéo.">
           <div class="team-photo">
             <img src="team/jr.jpg" alt="Jhon Rachid - Conseiller masterclass vidéo">
           </div>
