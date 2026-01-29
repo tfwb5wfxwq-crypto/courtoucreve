@@ -5,7 +5,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Court ou Crève | Masterclass Réalisation Vidéo</title>
   <meta name="description" content="Maîtrise la réalisation vidéo et le format court avec Ludovik. Formation immersive pour créer ton court-métrage. Éligible AFDAS.">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://courtoucreve.com/">
+  <meta property="og:site_name" content="Court ou Crève">
+  <meta property="og:title" content="Court ou Crève | Masterclass Réalisation Vidéo">
+  <meta property="og:description" content="Réalise ton court-métrage avec Kemar, Ludovik et Ludoc. Formation immersive. Diffusion au cinéma. Éligible AFDAS.">
+  <meta property="og:image" content="https://courtoucreve.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="fr_FR">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@courtoucreve">
+  <meta name="twitter:title" content="Court ou Crève | Masterclass Réalisation">
+  <meta name="twitter:description" content="Réalise ton court-métrage avec Kemar, Ludovik et Ludoc. Diffusion au cinéma. Éligible AFDAS.">
+  <meta name="twitter:image" content="https://courtoucreve.com/og-image.png">
+  <meta name="twitter:image:alt" content="Court ou Crève - Masterclass Réalisation">
+
+  <!-- Additional SEO -->
+  <meta name="author" content="Court ou Crève">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#B91C1C">
+  <link rel="canonical" href="https://courtoucreve.com/">
+  <meta name="keywords" content="masterclass, réalisation vidéo, court-métrage, formation AFDAS, Kemar, Ludovik, Ludoc, cinéma, format court">
+
   <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="og-image.png">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Court ou Crève - Masterclass Réalisation Vidéo",
+    "description": "Formation immersive pour réaliser ton court-métrage avec Kemar, Ludovik et Ludoc. De l'écriture au montage, tes créations finissent au cinéma.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Court ou Crève",
+      "url": "https://courtoucreve.com"
+    },
+    "offers": {
+      "@type": "Offer",
+      "category": "Éligible AFDAS",
+      "availability": "https://schema.org/InStock"
+    },
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "name": "Saison 2",
+      "startDate": "2026-03",
+      "endDate": "2026-04",
+      "courseMode": "onsite",
+      "location": {
+        "@type": "Place",
+        "name": "Paris, France"
+      }
+    },
+    "instructor": [
+      {"@type": "Person", "name": "Ludovik"},
+      {"@type": "Person", "name": "Kemar"},
+      {"@type": "Person", "name": "Ludoc"}
+    ]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Creepster&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -817,9 +882,10 @@
     }
 
     .team-photo img {
-      width: 100%;
-      height: 100%;
+      width: 140%;
+      height: 140%;
       object-fit: cover;
+      object-position: center 20%;
       filter: grayscale(100%);
       transition: filter 0.4s ease;
     }
@@ -1529,16 +1595,10 @@
 
       <div class="about-content">
         <p class="about-text">
-          <strong>Tu es intermittent ?</strong> Profite d'un financement AFDAS et deviens le boss du format court avec Court ou Crève.
+          Une équipe de choc (<strong>Kemar</strong>, <strong>Ludovik</strong>, <strong>Ludoc</strong>...) t'accompagne de A à Z : écriture, tournage, montage. Tes créations finissent <strong>au cinéma</strong>.
         </p>
-        <p class="about-text">
-          On a monté une équipe de choc avec des pointures comme <strong>Kemar</strong>, <strong>Ludovik</strong> ou <strong>Ludoc</strong> pour vous transmettre tout leur savoir-faire. On vous accompagne de A à Z dans cette masterclass réalisation vidéo : de l'écriture à la prod, du tournage au montage.
-        </p>
-        <p class="about-text">
-          Et parce qu'on voit les choses en grand, ton travail ne finira pas juste sur un écran de smartphone : on diffuse toutes les créations <strong>au cinéma</strong> lors d'une grande soirée de gala.
-        </p>
-        <p class="about-text" style="margin-top: 40px; font-style: italic; color: var(--cream);">
-          "Le meilleur peut gagner le premier prix.<br>Les autres, on les bute."
+        <p class="about-text" style="margin-top: 30px; font-style: italic; color: var(--cream);">
+          "Le meilleur gagne. Les autres, on les bute."
         </p>
       </div>
     </section>
@@ -1771,8 +1831,16 @@
       </div>
 
       <div class="social-links">
-        <a href="https://facebook.com" target="_blank">f</a>
-        <a href="https://instagram.com" target="_blank">ig</a>
+        <a href="https://instagram.com/courtoucreve" target="_blank" aria-label="Instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </a>
+        <a href="https://tiktok.com/@courtoucreve" target="_blank" aria-label="TikTok">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
+          </svg>
+        </a>
       </div>
 
       <div class="footer-links">
