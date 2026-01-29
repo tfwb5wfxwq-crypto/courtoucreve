@@ -751,34 +751,54 @@
     }
 
     .countdown {
-      display: flex;
-      gap: 8px;
-      margin-top: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      margin-top: 15px;
+      background: rgba(185, 28, 28, 0.15);
+      border: 1px solid rgba(185, 28, 28, 0.3);
+      border-radius: 6px;
+      padding: 8px 16px;
     }
 
     .countdown-item {
-      text-align: center;
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
+    }
+
+    .countdown-item::after {
+      content: ':';
+      color: var(--red);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      margin: 0 8px;
+      opacity: 0.6;
+    }
+
+    .countdown-item:last-child::after {
+      display: none;
     }
 
     .countdown-item span {
-      display: block;
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 22px;
+      font-size: 20px;
       color: var(--white);
-      line-height: 1;
+      min-width: 24px;
+      text-align: center;
     }
 
     .countdown-item small {
-      font-size: 9px;
+      font-size: 10px;
       color: var(--gray);
+      text-transform: uppercase;
     }
 
     .countdown-ended {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 20px;
+      font-size: 18px;
       color: var(--red);
       letter-spacing: 2px;
-      margin-top: 20px;
     }
 
     /* Mobile: stack vertically */
