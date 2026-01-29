@@ -35,6 +35,89 @@
       overflow-x: hidden;
     }
 
+    /* ========== HEADER ========== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.9) 0%, transparent 100%);
+      transition: all 0.3s ease;
+    }
+
+    .header.scrolled {
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(10px);
+      padding: 10px 30px;
+    }
+
+    .header-logo {
+      height: 50px;
+      width: auto;
+      transition: all 0.3s ease;
+      filter: drop-shadow(0 0 10px rgba(185, 28, 28, 0.3));
+      animation: headerLogoGlow 3s ease-in-out infinite;
+    }
+
+    .header.scrolled .header-logo {
+      height: 40px;
+    }
+
+    @keyframes headerLogoGlow {
+      0%, 100% {
+        filter: drop-shadow(0 0 10px rgba(185, 28, 28, 0.3));
+      }
+      50% {
+        filter: drop-shadow(0 0 20px rgba(185, 28, 28, 0.6));
+      }
+    }
+
+    .header-logo:hover {
+      animation: headerLogoGlitch 0.3s ease;
+    }
+
+    @keyframes headerLogoGlitch {
+      0%, 100% {
+        filter: drop-shadow(0 0 10px rgba(185, 28, 28, 0.3));
+        transform: translateX(0);
+      }
+      25% {
+        filter: drop-shadow(3px 0 0 cyan) drop-shadow(-3px 0 0 red);
+        transform: translateX(-2px);
+      }
+      50% {
+        filter: drop-shadow(-3px 0 0 cyan) drop-shadow(3px 0 0 red);
+        transform: translateX(2px);
+      }
+      75% {
+        filter: drop-shadow(2px 0 0 cyan) drop-shadow(-2px 0 0 red);
+        transform: translateX(-1px);
+      }
+    }
+
+    .header-cta {
+      padding: 10px 24px;
+      background: var(--red);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+
+    .header-cta:hover {
+      background: var(--red-light);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(185, 28, 28, 0.4);
+    }
+
     /* ========== LOADING SCREEN ========== */
     .loader {
       position: fixed;
@@ -1104,6 +1187,14 @@
     </div>
   </div>
 
+  <!-- Header -->
+  <header class="header" id="header">
+    <a href="#">
+      <img src="logo.svg" alt="Court ou Crève" class="header-logo">
+    </a>
+    <a href="#inscription" class="header-cta">S'inscrire</a>
+  </header>
+
   <!-- Main Content -->
   <div class="main-content" id="mainContent">
 
@@ -1394,6 +1485,16 @@
           item.classList.add('open');
         }
       });
+    });
+
+    // Header scroll effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
     });
 
     // Smooth scroll
