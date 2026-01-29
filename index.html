@@ -1374,24 +1374,10 @@
   </div>
 
   <script>
-    // Cinematic loading sequence - Logo only
+    // Loading page disabled - waiting for SVG
     window.addEventListener('load', () => {
-      const flashOverlay = document.getElementById('flashOverlay');
-      const logoImg = document.getElementById('logoImg');
-      const logoTagline = document.getElementById('logoTagline');
-
-      // Small delay then animate logo
-      setTimeout(() => {
-        flashOverlay.classList.add('animate');
-        logoImg.classList.add('animate');
-        logoTagline.classList.add('animate');
-      }, 300);
-
-      // After logo animation, reveal main content
-      setTimeout(() => {
-        document.getElementById('loader').classList.add('hidden');
-        document.getElementById('mainContent').classList.add('visible');
-      }, 2800);
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('mainContent').classList.add('visible');
     });
 
     // FAQ accordion
