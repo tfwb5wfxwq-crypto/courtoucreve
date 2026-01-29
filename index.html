@@ -1112,11 +1112,31 @@
     .faq-list {
       max-width: 800px;
       margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
 
     .faq-item {
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding: 25px 0;
+      background: linear-gradient(135deg, rgba(20,20,20,0.8) 0%, rgba(15,15,15,0.9) 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-left: 3px solid var(--red);
+      border-radius: 8px;
+      padding: 0;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .faq-item:hover {
+      border-color: rgba(255,255,255,0.1);
+      border-left-color: var(--red-light);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 20px rgba(185, 28, 28, 0.1);
+      transform: translateX(5px);
+    }
+
+    .faq-item.open {
+      border-left-color: var(--red-light);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 30px rgba(185, 28, 28, 0.15);
     }
 
     .faq-question {
@@ -1124,10 +1144,11 @@
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 500;
       color: var(--white);
-      transition: color 0.3s ease;
+      padding: 25px 30px;
+      transition: all 0.3s ease;
     }
 
     .faq-question:hover {
@@ -1135,26 +1156,36 @@
     }
 
     .faq-icon {
-      font-size: 24px;
+      font-size: 28px;
       color: var(--red);
-      transition: transform 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      font-weight: 300;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
     .faq-item.open .faq-icon {
       transform: rotate(45deg);
+      color: var(--red-light);
+      text-shadow: 0 0 20px rgba(185, 28, 28, 0.8);
     }
 
     .faq-answer {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s ease, padding 0.3s ease;
+      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s ease;
       color: var(--gray);
-      line-height: 1.7;
+      line-height: 1.8;
+      padding: 0 30px;
     }
 
     .faq-item.open .faq-answer {
       max-height: 200px;
-      padding-top: 20px;
+      padding: 0 30px 25px 30px;
     }
 
     /* Contact/Inscription section */
