@@ -690,6 +690,125 @@
       }
     }
 
+    /* ========== MANIFESTO SECTION ========== */
+    .manifesto {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .manifesto-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: cover;
+      opacity: 0.4;
+      filter: grayscale(30%);
+    }
+
+    .manifesto-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(10,10,10,0.3) 0%,
+        rgba(10,10,10,0.6) 50%,
+        rgba(10,10,10,0.9) 100%
+      );
+    }
+
+    .manifesto-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 40px;
+      max-width: 900px;
+    }
+
+    .manifesto-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 10vw, 100px);
+      line-height: 1;
+      letter-spacing: 4px;
+      color: var(--white);
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .manifesto-text.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .manifesto-text span {
+      color: var(--red);
+    }
+
+    .manifesto-text.small {
+      font-size: clamp(20px, 4vw, 36px);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: var(--gray);
+      margin-top: 30px;
+    }
+
+    .manifesto-line {
+      width: 80px;
+      height: 3px;
+      background: var(--red);
+      margin: 40px auto;
+      opacity: 0;
+      transform: scaleX(0);
+      transition: all 0.6s ease 0.3s;
+    }
+
+    .manifesto-line.visible {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
+    .manifesto-sound-btn {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .manifesto-sound-btn:hover {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    .manifesto-sound-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
     /* About section */
     .about {
       background: var(--black-light);
@@ -1397,6 +1516,29 @@
       </div>
     </section>
 
+    <!-- Manifesto -->
+    <section class="manifesto" id="manifesto">
+      <video class="manifesto-video" autoplay muted loop playsinline>
+        <source src="video-manifesto.mp4" type="video/mp4">
+      </video>
+      <div class="manifesto-overlay"></div>
+
+      <div class="manifesto-content">
+        <p class="manifesto-text" data-delay="0">TU VEUX <span>CRÉER</span> ?</p>
+        <div class="manifesto-line"></div>
+        <p class="manifesto-text" data-delay="200">ALORS <span>FAIS-LE</span>.</p>
+        <p class="manifesto-text small" data-delay="400">Pas demain. Pas "un jour". Maintenant.</p>
+      </div>
+
+      <button class="manifesto-sound-btn" id="manifestoSound" title="Activer le son">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+          <line x1="23" y1="9" x2="17" y2="15"/>
+          <line x1="17" y1="9" x2="23" y2="15"/>
+        </svg>
+      </button>
+    </section>
+
     <!-- Videos -->
     <section class="videos" id="videos">
       <h2 class="section-title">En <span>Images</span></h2>
@@ -1812,6 +1954,55 @@
     });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closePhotoModal();
+    });
+
+    // Manifesto section animations
+    const manifestoTexts = document.querySelectorAll('.manifesto-text');
+    const manifestoLine = document.querySelector('.manifesto-line');
+    const manifestoSection = document.querySelector('.manifesto');
+
+    const manifestoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Animate texts with staggered delay
+          manifestoTexts.forEach((text, index) => {
+            const delay = parseInt(text.dataset.delay) || index * 200;
+            setTimeout(() => {
+              text.classList.add('visible');
+            }, delay);
+          });
+          // Animate line
+          setTimeout(() => {
+            manifestoLine.classList.add('visible');
+          }, 100);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    manifestoObserver.observe(manifestoSection);
+
+    // Manifesto sound toggle
+    const manifestoSoundBtn = document.getElementById('manifestoSound');
+    const manifestoVideo = document.querySelector('.manifesto-video');
+    let manifestoMuted = true;
+
+    manifestoSoundBtn.addEventListener('click', () => {
+      manifestoMuted = !manifestoMuted;
+      manifestoVideo.muted = manifestoMuted;
+
+      // Update icon
+      if (manifestoMuted) {
+        manifestoSoundBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+          <line x1="23" y1="9" x2="17" y2="15"/>
+          <line x1="17" y1="9" x2="23" y2="15"/>
+        </svg>`;
+      } else {
+        manifestoSoundBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        </svg>`;
+      }
     });
   </script>
 </body>
