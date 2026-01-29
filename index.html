@@ -1784,20 +1784,6 @@
       color: var(--red);
     }
 
-    @media (max-width: 768px) {
-      .season-gallery {
-        grid-template-columns: 1fr;
-      }
-
-      .gallery-side {
-        flex-direction: row;
-      }
-
-      .testimonial blockquote {
-        font-size: 18px;
-      }
-    }
-
     /* Responsive */
     @media (max-width: 768px) {
       .hero {
@@ -1808,14 +1794,83 @@
         padding: 80px 20px;
       }
 
+      .hero-logo-img {
+        max-width: 280px;
+      }
+
+      .hero-tagline {
+        font-size: 14px;
+      }
+
+      .cta-button {
+        font-size: 16px;
+        padding: 14px 30px;
+      }
+
+      .season-announce {
+        padding: 8px 14px;
+        gap: 10px;
+      }
+
+      .season-announce span {
+        font-size: 11px;
+      }
+
+      .season-gallery {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .gallery-side {
+        flex-direction: row;
+        gap: 8px;
+      }
+
+      .gallery-thumb {
+        aspect-ratio: 1;
+      }
+
+      .play-btn {
+        width: 50px;
+        height: 50px;
+      }
+
+      .play-btn::after {
+        border-left-width: 12px;
+        border-top-width: 8px;
+        border-bottom-width: 8px;
+      }
+
+      .testimonial blockquote {
+        font-size: 16px;
+        padding: 0 10px;
+      }
+
+      .testimonial cite {
+        font-size: 12px;
+      }
+
+      .season-cta {
+        font-size: 14px;
+        padding: 12px 25px;
+      }
+
       .team-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 30px;
       }
 
       .team-photo {
-        width: 140px;
-        height: 140px;
+        width: 120px;
+        height: 120px;
+      }
+
+      .team-name {
+        font-size: 16px;
+      }
+
+      .team-role, .team-desc {
+        font-size: 11px;
       }
 
       .footer-links {
