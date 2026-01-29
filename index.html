@@ -363,46 +363,126 @@
       opacity: 1;
     }
 
-    /* Hero Section */
+    /* Hero Section - Split Screen */
     .hero {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       position: relative;
       overflow: hidden;
     }
 
-    .hero-bg {
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      background: var(--black);
+      position: relative;
+    }
+
+    .hero-left::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(185,28,28,0.3), transparent);
+    }
+
+    .hero-right {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: cover;
+      opacity: 0.5;
+    }
+
+    .hero-video-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background:
-        radial-gradient(ellipse at 20% 20%, rgba(185, 28, 28, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(185, 28, 28, 0.1) 0%, transparent 50%),
-        var(--black);
-      z-index: -1;
+      background: linear-gradient(
+        135deg,
+        rgba(10,10,10,0.8) 0%,
+        rgba(10,10,10,0.4) 50%,
+        rgba(10,10,10,0.6) 100%
+      );
+    }
+
+    .hero-video-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .hero-video-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 6vw, 70px);
+      line-height: 1;
+      letter-spacing: 3px;
+      color: var(--white);
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-video-text.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero-video-text span {
+      color: var(--red);
+    }
+
+    .hero-video-sub {
+      font-size: clamp(14px, 2vw, 18px);
+      color: rgba(255,255,255,0.6);
+      font-weight: 300;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease 0.3s;
+    }
+
+    .hero-video-sub.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .hero-logo {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
     .hero-logo-img {
-      width: clamp(280px, 45vw, 450px);
+      width: clamp(200px, 30vw, 350px);
       height: auto;
       opacity: 0;
-      transform: scale(0);
+      transform: scale(0.9);
     }
 
-    /* Animation d'entrée fluide */
     .hero-logo-img.animate-enter {
       animation: logoFadeIn 0.8s ease-out forwards;
     }
@@ -414,7 +494,6 @@
       animation: heroLogoFloat 6s ease-in-out infinite;
     }
 
-    /* Entrée douce */
     @keyframes logoFadeIn {
       0% {
         opacity: 0;
@@ -428,14 +507,13 @@
       }
     }
 
-    /* Flottement doux et fluide */
     @keyframes heroLogoFloat {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
     }
 
     .hero-subtitle {
-      font-size: clamp(14px, 2.5vw, 18px);
+      font-size: clamp(12px, 1.5vw, 14px);
       color: var(--gray);
       text-transform: uppercase;
       letter-spacing: 4px;
@@ -444,13 +522,13 @@
     }
 
     .hero-tagline {
-      font-size: clamp(18px, 3vw, 24px);
+      font-size: clamp(16px, 2vw, 20px);
       color: var(--white);
       font-weight: 300;
       text-align: center;
-      max-width: 600px;
+      max-width: 400px;
       line-height: 1.6;
-      margin-bottom: 50px;
+      margin-bottom: 40px;
     }
 
     .hero-tagline strong {
@@ -462,11 +540,11 @@
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      padding: 18px 40px;
+      padding: 16px 36px;
       background: var(--red);
       color: var(--white);
       text-decoration: none;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -499,12 +577,12 @@
     }
 
     .session-badge {
-      margin-top: 30px;
-      padding: 10px 24px;
+      margin-top: 25px;
+      padding: 8px 20px;
       border: 1px solid rgba(255,255,255,0.2);
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       color: var(--gray);
     }
 
@@ -513,33 +591,26 @@
       font-weight: 600;
     }
 
-    /* Scroll indicator */
-    .scroll-indicator {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      color: var(--gray);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      animation: bounce 2s infinite;
-    }
+    /* Mobile: stack vertically */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
 
-    .scroll-indicator::after {
-      content: '';
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, var(--gray), transparent);
-    }
+      .hero-left {
+        order: 1;
+        padding: 40px 20px;
+      }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(10px); }
+      .hero-right {
+        order: 2;
+        min-height: 50vh;
+      }
+
+      .hero-left::after {
+        display: none;
+      }
     }
 
     /* Section styles */
@@ -1469,29 +1540,42 @@
   <!-- Main Content -->
   <div class="main-content" id="mainContent">
 
-    <!-- Hero -->
+    <!-- Hero Split Screen -->
     <section class="hero">
-      <div class="hero-bg"></div>
+      <!-- Left: Logo & Info -->
+      <div class="hero-left">
+        <div class="hero-logo">
+          <img src="logo.svg" alt="Court ou Crève" class="hero-logo-img">
+        </div>
 
-      <div class="hero-logo">
-        <img src="logo.svg" alt="Court ou Crève" class="hero-logo-img">
+        <p class="hero-subtitle">Masterclass Réalisation Vidéo</p>
+
+        <p class="hero-tagline">
+          Apprends à réaliser ton <strong>court-métrage</strong> avec des pros. L'aventure se termine <strong>au cinéma</strong>.
+        </p>
+
+        <a href="#inscription" class="cta-button">
+          Je m'inscris
+          <span>→</span>
+        </a>
+
+        <div class="session-badge">
+          Saison 2 : <span>Mars - Avril 2026</span>
+        </div>
       </div>
 
-      <p class="hero-subtitle">Masterclass Réalisation Vidéo</p>
+      <!-- Right: Video & Manifesto -->
+      <div class="hero-right">
+        <video class="hero-video" autoplay muted loop playsinline>
+          <source src="video-manifesto.mp4" type="video/mp4">
+        </video>
+        <div class="hero-video-overlay"></div>
 
-      <p class="hero-tagline">
-        Apprends à réaliser ton <strong>court-métrage</strong> avec des pros du cinéma et du format court. Une aventure immersive qui se termine <strong>au cinéma</strong>.
-      </p>
-
-      <a href="#inscription" class="cta-button">
-        Je m'inscris
-        <span>→</span>
-      </a>
-
-      <div class="session-badge">
-        Saison 2 : <span>Mars - Avril 2026</span>
+        <div class="hero-video-content">
+          <p class="hero-video-text"><span>COURT</span> OU <span>CRÈVE</span></p>
+          <p class="hero-video-sub">Le meilleur gagne. Les autres, on les bute.</p>
+        </div>
       </div>
-
     </section>
 
     <!-- About -->
@@ -1512,29 +1596,6 @@
           "Le meilleur peut gagner le premier prix.<br>Les autres, on les bute."
         </p>
       </div>
-    </section>
-
-    <!-- Manifesto -->
-    <section class="manifesto" id="manifesto">
-      <video class="manifesto-video" autoplay muted loop playsinline>
-        <source src="video-manifesto.mp4" type="video/mp4">
-      </video>
-      <div class="manifesto-overlay"></div>
-
-      <div class="manifesto-content">
-        <p class="manifesto-text" data-delay="0"><span>COURT</span> OU <span>CRÈVE</span></p>
-        <div class="manifesto-line"></div>
-        <p class="manifesto-text small" data-delay="300">Le meilleur gagne le premier prix.</p>
-        <p class="manifesto-text small" data-delay="500">Les autres, on les bute.</p>
-      </div>
-
-      <button class="manifesto-sound-btn" id="manifestoSound" title="Activer le son">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-          <line x1="23" y1="9" x2="17" y2="15"/>
-          <line x1="17" y1="9" x2="23" y2="15"/>
-        </svg>
-      </button>
     </section>
 
     <!-- Videos -->
@@ -1929,54 +1990,17 @@
 
     sectionTitles.forEach(title => titleObserver.observe(title));
 
-    // Manifesto section animations
-    const manifestoTexts = document.querySelectorAll('.manifesto-text');
-    const manifestoLine = document.querySelector('.manifesto-line');
-    const manifestoSection = document.querySelector('.manifesto');
+    // Hero video text animation on load
+    const heroVideoText = document.querySelector('.hero-video-text');
+    const heroVideoSub = document.querySelector('.hero-video-sub');
 
-    const manifestoObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // Animate texts with staggered delay
-          manifestoTexts.forEach((text, index) => {
-            const delay = parseInt(text.dataset.delay) || index * 200;
-            setTimeout(() => {
-              text.classList.add('visible');
-            }, delay);
-          });
-          // Animate line
-          setTimeout(() => {
-            manifestoLine.classList.add('visible');
-          }, 100);
-        }
-      });
-    }, { threshold: 0.5 });
+    setTimeout(() => {
+      heroVideoText.classList.add('visible');
+    }, 800);
 
-    manifestoObserver.observe(manifestoSection);
-
-    // Manifesto sound toggle
-    const manifestoSoundBtn = document.getElementById('manifestoSound');
-    const manifestoVideo = document.querySelector('.manifesto-video');
-    let manifestoMuted = true;
-
-    manifestoSoundBtn.addEventListener('click', () => {
-      manifestoMuted = !manifestoMuted;
-      manifestoVideo.muted = manifestoMuted;
-
-      // Update icon
-      if (manifestoMuted) {
-        manifestoSoundBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-          <line x1="23" y1="9" x2="17" y2="15"/>
-          <line x1="17" y1="9" x2="23" y2="15"/>
-        </svg>`;
-      } else {
-        manifestoSoundBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
-        </svg>`;
-      }
-    });
+    setTimeout(() => {
+      heroVideoSub.classList.add('visible');
+    }, 1200);
 
     // Form submission with animation
     const inscriptionForm = document.querySelector('.inscription-form');
