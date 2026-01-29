@@ -83,97 +83,14 @@
       90% { transform: translate(1%, 1%); }
     }
 
-    /* ===== COUNTDOWN ANIMATION ===== */
-    .countdown {
-      position: absolute;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      opacity: 1;
-      transition: opacity 0.3s ease;
-    }
-
-    .countdown.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .countdown-circle {
-      position: relative;
-      width: 150px;
-      height: 150px;
-    }
-
-    .countdown-circle svg {
-      transform: rotate(-90deg);
-      width: 100%;
-      height: 100%;
-    }
-
-    .countdown-progress {
-      stroke-dasharray: 283;
-      stroke-dashoffset: 283;
-      animation: countdownStroke 1s linear forwards;
-    }
-
-    @keyframes countdownStroke {
-      to { stroke-dashoffset: 0; }
-    }
-
-    .countdown-number {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 60px;
-      color: var(--white);
-      animation: countPulse 0.3s ease;
-    }
-
-    @keyframes countPulse {
-      0% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
-      50% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    }
-
-    .countdown-marks {
-      display: flex;
-      gap: 8px;
-      margin-top: 30px;
-    }
-
-    .countdown-marks span {
-      width: 8px;
-      height: 8px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 50%;
-    }
-
-    .countdown-marks span:first-child {
-      background: var(--red);
-      animation: markPulse 0.5s ease infinite;
-    }
-
-    @keyframes markPulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
     /* ===== LOGO REVEAL ===== */
     .logo-reveal {
       position: absolute;
       display: flex;
       flex-direction: column;
       align-items: center;
-      opacity: 0;
-      transform: scale(0.9);
-    }
-
-    .logo-reveal.visible {
       opacity: 1;
       transform: scale(1);
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .flash-overlay {
@@ -188,7 +105,7 @@
       z-index: 10;
     }
 
-    .logo-reveal.visible .flash-overlay {
+    .flash-overlay.animate {
       animation: flashBang 0.6s ease-out;
     }
 
@@ -200,9 +117,13 @@
     .logo-img {
       width: clamp(280px, 50vw, 500px);
       height: auto;
+      opacity: 0;
       filter: drop-shadow(0 0 80px rgba(185, 28, 28, 0.5));
-      animation: logoFloat 4s ease-in-out infinite;
-      animation-delay: 0.5s;
+    }
+
+    .logo-img.animate {
+      animation: logoEnter 1s cubic-bezier(0.16, 1, 0.3, 1) forwards, logoFloat 4s ease-in-out infinite, logoGlitch 5s infinite;
+      animation-delay: 0s, 1s, 3s;
     }
 
     @keyframes logoFloat {
@@ -210,10 +131,6 @@
       50% { transform: translateY(-10px); }
     }
 
-    .logo-reveal.visible .logo-img {
-      animation: logoEnter 1s cubic-bezier(0.16, 1, 0.3, 1) forwards, logoFloat 4s ease-in-out infinite;
-      animation-delay: 0s, 1s;
-    }
 
     @keyframes logoEnter {
       0% {
@@ -238,7 +155,7 @@
       transform: translateY(20px);
     }
 
-    .logo-reveal.visible .logo-tagline {
+    .logo-tagline.animate {
       animation: taglineIn 0.8s ease forwards;
       animation-delay: 0.5s;
     }
@@ -250,11 +167,6 @@
       }
     }
 
-    /* Glitch effect périodique */
-    .logo-reveal.visible .logo-img {
-      animation: logoEnter 1s cubic-bezier(0.16, 1, 0.3, 1) forwards, logoFloat 4s ease-in-out infinite, logoGlitch 5s infinite;
-      animation-delay: 0s, 1s, 3s;
-    }
 
     @keyframes logoGlitch {
       0%, 96%, 100% {
@@ -1021,25 +933,10 @@
 
   <!-- Loading Screen -->
   <div class="loader" id="loader">
-    <!-- Film countdown -->
-    <div class="countdown" id="countdown">
-      <div class="countdown-circle">
-        <svg viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
-          <circle cx="50" cy="50" r="45" fill="none" stroke="var(--red)" stroke-width="2" class="countdown-progress"/>
-        </svg>
-        <span class="countdown-number">3</span>
-      </div>
-      <div class="countdown-marks">
-        <span></span><span></span><span></span><span></span>
-      </div>
-    </div>
-
-    <!-- Logo reveal -->
     <div class="logo-reveal" id="logoReveal">
-      <div class="flash-overlay"></div>
-      <img src="logo.png" alt="Court ou Crève" class="logo-img">
-      <div class="logo-tagline">MASTERCLASS RÉALISATION</div>
+      <div class="flash-overlay" id="flashOverlay"></div>
+      <img src="logo.png" alt="Court ou Crève" class="logo-img" id="logoImg">
+      <div class="logo-tagline" id="logoTagline">MASTERCLASS RÉALISATION</div>
     </div>
   </div>
 
@@ -1288,41 +1185,24 @@
   </div>
 
   <script>
-    // Cinematic loading sequence
+    // Cinematic loading sequence - Logo only
     window.addEventListener('load', () => {
-      const countdown = document.getElementById('countdown');
-      const logoReveal = document.getElementById('logoReveal');
-      const countdownNumber = document.querySelector('.countdown-number');
-      const progress = document.querySelector('.countdown-progress');
+      const flashOverlay = document.getElementById('flashOverlay');
+      const logoImg = document.getElementById('logoImg');
+      const logoTagline = document.getElementById('logoTagline');
 
-      let count = 3;
+      // Small delay then animate logo
+      setTimeout(() => {
+        flashOverlay.classList.add('animate');
+        logoImg.classList.add('animate');
+        logoTagline.classList.add('animate');
+      }, 300);
 
-      // Countdown sequence
-      const countInterval = setInterval(() => {
-        count--;
-        if (count > 0) {
-          countdownNumber.textContent = count;
-          countdownNumber.style.animation = 'none';
-          void countdownNumber.offsetWidth; // Trigger reflow
-          countdownNumber.style.animation = 'countPulse 0.3s ease';
-          progress.style.animation = 'none';
-          void progress.offsetWidth;
-          progress.style.animation = 'countdownStroke 1s linear forwards';
-        } else {
-          clearInterval(countInterval);
-          // Hide countdown, show logo
-          countdown.classList.add('hidden');
-          setTimeout(() => {
-            logoReveal.classList.add('visible');
-          }, 200);
-
-          // After logo animation, reveal main content
-          setTimeout(() => {
-            document.getElementById('loader').classList.add('hidden');
-            document.getElementById('mainContent').classList.add('visible');
-          }, 3500);
-        }
-      }, 1000);
+      // After logo animation, reveal main content
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+        document.getElementById('mainContent').classList.add('visible');
+      }, 2800);
     });
 
     // FAQ accordion
