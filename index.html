@@ -70,60 +70,18 @@
     .header.scrolled .header-logo {
       opacity: 1;
       transform: scale(1) translateY(0);
-      animation: headerLogoAppear 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards,
-                 headerLogoFloat 3s ease-in-out infinite 0.6s,
-                 headerLogoGlow 3s ease-in-out infinite 0.6s,
-                 headerLogoMicroGlitch 5s infinite 1s;
+      animation: headerLogoAppear 0.5s ease-out forwards;
     }
 
     @keyframes headerLogoAppear {
       0% {
         opacity: 0;
-        transform: scale(2) translateY(50px);
-        filter: blur(10px) brightness(3);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.1) translateY(-5px);
-        filter: blur(0) brightness(1.5);
+        transform: translateY(-10px);
       }
       100% {
         opacity: 1;
-        transform: scale(1) translateY(0);
-        filter: blur(0) brightness(1) drop-shadow(0 0 20px rgba(185, 28, 28, 0.5));
+        transform: translateY(0);
       }
-    }
-
-    @keyframes headerLogoFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
-    }
-
-    @keyframes headerLogoGlow {
-      0%, 100% {
-        filter: drop-shadow(0 0 15px rgba(185, 28, 28, 0.4));
-      }
-      50% {
-        filter: drop-shadow(0 0 30px rgba(185, 28, 28, 0.6));
-      }
-    }
-
-    @keyframes headerLogoMicroGlitch {
-      0%, 97%, 100% {
-        transform: translateY(var(--header-float, 0));
-      }
-      97.5% {
-        transform: translateY(var(--header-float, 0)) translateX(-2px) skewX(-1deg);
-        filter: drop-shadow(2px 0 0 #ff0000) drop-shadow(-2px 0 0 #00ffff);
-      }
-      98% {
-        transform: translateY(var(--header-float, 0)) translateX(2px) skewX(1deg);
-        filter: drop-shadow(-2px 0 0 #ff0000) drop-shadow(2px 0 0 #00ffff);
-      }
-    }
-
-    .header-logo:hover {
-      animation: logoGlitchScary 0.5s ease forwards !important;
     }
 
     .header-cta {
@@ -444,113 +402,36 @@
       transform: scale(0);
     }
 
-    /* Animation d'entrée: Flash → Glitch → Float */
+    /* Animation d'entrée fluide */
     .hero-logo-img.animate-enter {
-      animation: logoEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .hero-logo-img.animate-glitch {
-      animation: logoGlitchScary 0.8s ease-out forwards;
+      animation: logoFadeIn 0.8s ease-out forwards;
     }
 
     .hero-logo-img.animate-complete {
       opacity: 1;
       transform: scale(1);
-      filter: drop-shadow(0 0 50px rgba(185, 28, 28, 0.4));
-      animation: heroLogoFloat 4s ease-in-out infinite, heroLogoGlow 3s ease-in-out infinite, heroLogoGlitchRandom 8s infinite;
+      filter: drop-shadow(0 0 40px rgba(185, 28, 28, 0.3));
+      animation: heroLogoFloat 6s ease-in-out infinite;
     }
 
-    /* Entrée: zoom brutal depuis rien */
-    @keyframes logoEnter {
+    /* Entrée douce */
+    @keyframes logoFadeIn {
       0% {
         opacity: 0;
-        transform: scale(0);
-        filter: brightness(10) blur(20px);
-      }
-      60% {
-        opacity: 1;
-        transform: scale(1.2);
-        filter: brightness(3) blur(0);
+        transform: scale(0.95);
+        filter: blur(5px);
       }
       100% {
         opacity: 1;
         transform: scale(1);
-        filter: brightness(1) drop-shadow(0 0 60px rgba(185, 28, 28, 0.6));
+        filter: blur(0) drop-shadow(0 0 40px rgba(185, 28, 28, 0.3));
       }
     }
 
-    /* Glitch effrayant style film d'horreur */
-    @keyframes logoGlitchScary {
-      0%, 100% {
-        transform: scale(1) translate(0, 0);
-        filter: drop-shadow(0 0 50px rgba(185, 28, 28, 0.5));
-      }
-      5% {
-        transform: scale(1.02) translate(-5px, 2px) skewX(-2deg);
-        filter: drop-shadow(5px 0 0 #ff0000) drop-shadow(-5px 0 0 #00ffff) brightness(1.5);
-      }
-      10% {
-        transform: scale(0.98) translate(5px, -2px) skewX(2deg);
-        filter: drop-shadow(-5px 0 0 #ff0000) drop-shadow(5px 0 0 #00ffff) brightness(0.8);
-      }
-      15% {
-        transform: scale(1.01) translate(-3px, 0) skewY(-1deg);
-        filter: drop-shadow(3px 0 0 #ff0000) drop-shadow(-3px 0 0 #00ffff);
-      }
-      20% {
-        transform: scale(0.99) translate(3px, 0) skewY(1deg);
-        filter: drop-shadow(-3px 0 0 #ff0000) drop-shadow(3px 0 0 #00ffff);
-      }
-      25%, 30% {
-        transform: scale(1) translate(0, 0);
-        filter: drop-shadow(0 0 50px rgba(185, 28, 28, 0.5));
-      }
-      32% {
-        transform: scale(1.03) translate(-8px, 0) skewX(-3deg);
-        filter: drop-shadow(8px 0 0 #ff0000) drop-shadow(-8px 0 0 #00ffff) brightness(2);
-      }
-      34% {
-        transform: scale(0.97) translate(8px, 0) skewX(3deg);
-        filter: drop-shadow(-8px 0 0 #ff0000) drop-shadow(8px 0 0 #00ffff) brightness(0.5);
-      }
-      36% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 50px rgba(185, 28, 28, 0.5));
-      }
-    }
-
-    /* Glitch aléatoire subtil en continu */
-    @keyframes heroLogoGlitchRandom {
-      0%, 95%, 100% {
-        transform: translateY(var(--float-y, 0)) scale(1);
-        filter: drop-shadow(0 0 50px rgba(185, 28, 28, 0.4));
-      }
-      96% {
-        transform: translateY(var(--float-y, 0)) scale(1.01) translateX(-3px);
-        filter: drop-shadow(3px 0 0 #ff0000) drop-shadow(-3px 0 0 #00ffff);
-      }
-      97% {
-        transform: translateY(var(--float-y, 0)) scale(0.99) translateX(3px);
-        filter: drop-shadow(-3px 0 0 #ff0000) drop-shadow(3px 0 0 #00ffff);
-      }
-      98% {
-        transform: translateY(var(--float-y, 0)) scale(1);
-        filter: drop-shadow(0 0 50px rgba(185, 28, 28, 0.4));
-      }
-    }
-
+    /* Flottement doux et fluide */
     @keyframes heroLogoFloat {
-      0%, 100% { --float-y: 0px; transform: translateY(0); }
-      50% { --float-y: -12px; transform: translateY(-12px); }
-    }
-
-    @keyframes heroLogoGlow {
-      0%, 100% { filter: drop-shadow(0 0 50px rgba(185, 28, 28, 0.4)); }
-      50% { filter: drop-shadow(0 0 80px rgba(185, 28, 28, 0.7)); }
-    }
-
-    .hero-logo-img:hover {
-      animation: logoGlitchScary 0.6s ease !important;
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
 
     .hero-subtitle {
@@ -1612,25 +1493,19 @@
       document.getElementById('loader').style.display = 'none';
       document.getElementById('mainContent').classList.add('visible');
 
-      // Animation séquencée du logo hero
+      // Animation fluide du logo hero
       const heroLogo = document.querySelector('.hero-logo-img');
 
-      // Stage 1: Entrée rapide avec flash (immédiat)
+      // Entrée douce
       setTimeout(() => {
         heroLogo.classList.add('animate-enter');
       }, 100);
 
-      // Stage 2: Glitch effrayant style horreur
+      // Puis flottement continu
       setTimeout(() => {
         heroLogo.classList.remove('animate-enter');
-        heroLogo.classList.add('animate-glitch');
-      }, 500);
-
-      // Stage 3: Animation continue (flotte + glow + micro-glitch)
-      setTimeout(() => {
-        heroLogo.classList.remove('animate-glitch');
         heroLogo.classList.add('animate-complete');
-      }, 1400);
+      }, 900);
     });
 
     // FAQ accordion
