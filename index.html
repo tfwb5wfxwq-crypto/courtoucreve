@@ -671,12 +671,13 @@
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      padding: 16px 36px;
-      background: var(--red);
+      padding: 18px 42px;
+      background: linear-gradient(135deg, var(--red) 0%, #DC2626 50%, var(--red) 100%);
+      background-size: 200% 200%;
       color: var(--white);
       text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 2px;
       border: none;
@@ -684,6 +685,18 @@
       position: relative;
       overflow: hidden;
       transition: all 0.4s ease;
+      box-shadow: 0 4px 25px rgba(185, 28, 28, 0.5);
+      animation: pulse 2s ease-in-out infinite, gradientShift 3s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 4px 25px rgba(185, 28, 28, 0.5); }
+      50% { box-shadow: 0 4px 40px rgba(185, 28, 28, 0.8), 0 0 60px rgba(185, 28, 28, 0.4); }
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
     .cta-button::before {
@@ -761,6 +774,7 @@
       opacity: 0;
       transform: translateY(30px);
       transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      text-shadow: 0 0 40px rgba(255,255,255,0.1);
     }
 
     .section-title.visible {
@@ -770,6 +784,13 @@
 
     .section-title span {
       color: var(--red);
+      text-shadow: 0 0 30px rgba(185, 28, 28, 0.6);
+      animation: titleGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes titleGlow {
+      0%, 100% { text-shadow: 0 0 30px rgba(185, 28, 28, 0.6); }
+      50% { text-shadow: 0 0 50px rgba(185, 28, 28, 0.9), 0 0 80px rgba(185, 28, 28, 0.4); }
     }
 
     
