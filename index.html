@@ -944,18 +944,16 @@
 
     .team-member {
       text-align: center;
-      width: 130px;
-      position: relative;
-      cursor: pointer;
+      width: 140px;
     }
 
     .team-photo {
-      width: 100px;
-      height: 100px;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
-      margin: 0 auto 12px;
+      margin: 0 auto 15px;
       overflow: hidden;
-      border: 2px solid var(--black-light);
+      border: 3px solid transparent;
       transition: all 0.4s ease;
     }
 
@@ -964,14 +962,13 @@
       height: 100%;
       object-fit: cover;
       object-position: center top;
-      transform: scale(1.4);
+      transform: scale(1.3);
       filter: grayscale(100%);
       transition: all 0.4s ease;
     }
 
     .team-member:hover .team-photo {
       border-color: var(--red);
-      transform: scale(1.1);
     }
 
     .team-member:hover .team-photo img {
@@ -980,68 +977,17 @@
 
     .team-name {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px;
+      font-size: 20px;
       color: var(--white);
       letter-spacing: 1px;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
     }
 
     .team-role {
-      font-size: 10px;
+      font-size: 11px;
       color: var(--red);
       text-transform: uppercase;
       letter-spacing: 1px;
-    }
-
-    /* Tooltip description */
-    .team-member::after {
-      content: attr(data-desc);
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%) translateY(-10px);
-      width: 240px;
-      padding: 18px 20px;
-      background: linear-gradient(135deg, rgba(20,20,20,0.98) 0%, rgba(30,10,10,0.98) 100%);
-      border: none;
-      border-left: 3px solid var(--red);
-      border-radius: 4px;
-      color: rgba(255,255,255,0.9);
-      font-size: 13px;
-      line-height: 1.6;
-      text-align: left;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      z-index: 100;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 30px rgba(185, 28, 28, 0.2);
-      backdrop-filter: blur(10px);
-    }
-
-    .team-member::before {
-      content: '';
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%) translateY(5px);
-      border: 8px solid transparent;
-      border-top-color: var(--red);
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      z-index: 101;
-    }
-
-    .team-member:hover::after {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(-50%) translateY(-20px);
-    }
-
-    .team-member:hover::before {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(-50%) translateY(-12px);
     }
 
     /* Form success animation */
@@ -1801,31 +1747,31 @@
       <h2 class="section-title">L'<span>Équipe</span></h2>
 
       <div class="team-grid">
-        <div class="team-member" data-desc="Créateur de contenu et producteur. Il t'accompagne sur toute la chaîne de production de ton court-métrage.">
+        <div class="team-member">
           <div class="team-photo">
-            <img src="team/ludovik.jpg" alt="Ludovik - Formateur production vidéo Court ou Crève">
+            <img src="team/ludovik.jpg" alt="Ludovik - Formateur production vidéo">
           </div>
           <h3 class="team-name">Ludovik</h3>
           <p class="team-role">Production</p>
         </div>
 
-        <div class="team-member" data-desc="Expert réseaux sociaux. Il te donne les clés pour cartonner sur TikTok, Instagram et YouTube.">
+        <div class="team-member">
           <div class="team-photo">
-            <img src="team/guillaume.jpg" alt="Guillaume Matas - Formateur réseaux sociaux">
+            <img src="team/guillaume.jpg" alt="Guillaume - Formateur réseaux sociaux">
           </div>
           <h3 class="team-name">Guillaume</h3>
           <p class="team-role">Réseaux</p>
         </div>
 
-        <div class="team-member" data-desc="Comédien et créateur. Il t'apprend à diriger des acteurs et à jouer devant la caméra.">
+        <div class="team-member">
           <div class="team-photo">
-            <img src="team/kemar.jpg" alt="Kemar - Formateur jeu d'acteur masterclass vidéo">
+            <img src="team/kemar.jpg" alt="Kemar - Formateur jeu d'acteur">
           </div>
           <h3 class="team-name">Kemar</h3>
           <p class="team-role">Jeu</p>
         </div>
 
-        <div class="team-member" data-desc="Scénariste et auteur. Il t'aide à structurer ton histoire et écrire un scénario qui claque.">
+        <div class="team-member">
           <div class="team-photo">
             <img src="team/babor.jpg" alt="Babor - Formateur écriture scénario">
           </div>
@@ -1833,25 +1779,25 @@
           <p class="team-role">Écriture</p>
         </div>
 
-        <div class="team-member" data-desc="Créateur de Court ou Crève. Il a imaginé ce concept unique de masterclass avec projection au cinéma.">
+        <div class="team-member">
           <div class="team-photo">
-            <img src="team/pierre.jpg" alt="Pierre - Créateur de Court ou Crève">
+            <img src="team/pierre.jpg" alt="Pierre - Créateur Court ou Crève">
           </div>
           <h3 class="team-name">Pierre</h3>
           <p class="team-role">Créateur</p>
         </div>
 
-        <div class="team-member" data-desc="Technicien image et son. Il t'apprend à utiliser le matos pro : caméra, lumière, micro.">
+        <div class="team-member">
           <div class="team-photo">
-            <img src="team/ludoc.jpg" alt="Ludoc - Formateur technique réalisation">
+            <img src="team/ludoc.jpg" alt="Ludoc - Formateur technique">
           </div>
           <h3 class="team-name">Ludoc</h3>
           <p class="team-role">Technique</p>
         </div>
 
-        <div class="team-member" data-desc="Réalisateur et créateur. Il partage son expérience et ses conseils pour réussir dans la vidéo.">
+        <div class="team-member">
           <div class="team-photo">
-            <img src="team/jr.jpg" alt="Jhon Rachid - Conseiller masterclass vidéo">
+            <img src="team/jr.jpg" alt="Jhon Rachid - Conseiller">
           </div>
           <h3 class="team-name">Jhon Rachid</h3>
           <p class="team-role">Conseils</p>
