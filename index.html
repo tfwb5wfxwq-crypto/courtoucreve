@@ -793,6 +793,14 @@
       color: var(--gray);
     }
 
+    .countdown-ended {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      color: var(--red);
+      letter-spacing: 2px;
+      animation: pulse 1s ease-in-out infinite;
+    }
+
     /* Mobile: stack vertically */
     @media (max-width: 900px) {
       .hero {
@@ -1829,6 +1837,7 @@
             <div class="countdown-item"><span id="days">--</span><small>jours</small></div>
             <div class="countdown-item"><span id="hours">--</span><small>heures</small></div>
             <div class="countdown-item"><span id="mins">--</span><small>min</small></div>
+            <div class="countdown-item"><span id="secs">--</span><small>sec</small></div>
           </div>
         </div>
       </div>
@@ -2285,22 +2294,30 @@
 
     // Countdown timer - Saison 2 Mars 2026
     const targetDate = new Date('2026-03-01T00:00:00').getTime();
+    const countdownEl = document.getElementById('countdown');
 
     function updateCountdown() {
       const now = new Date().getTime();
       const diff = targetDate - now;
 
+      if (diff <= 0) {
+        countdownEl.innerHTML = '<div class="countdown-ended">C\'est parti ! 🎬</div>';
+        return;
+      }
+
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((diff % (1000 * 60)) / 1000);
 
       document.getElementById('days').textContent = days;
       document.getElementById('hours').textContent = hours;
       document.getElementById('mins').textContent = mins;
+      document.getElementById('secs').textContent = secs;
     }
 
     updateCountdown();
-    setInterval(updateCountdown, 60000);
+    setInterval(updateCountdown, 1000);
 
     // Form submission with animation
     const inscriptionForm = document.querySelector('.inscription-form');
