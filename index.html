@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Court ou Crève | Masterclass Réalisation Vidéo</title>
   <meta name="description" content="Maîtrise la réalisation vidéo et le format court avec Ludovik. Formation immersive pour créer ton court-métrage. Éligible AFDAS.">
-  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Creepster&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -570,124 +570,50 @@
       color: var(--red);
     }
 
-    /* ========== PHOTO GALLERY ========== */
-    .gallery {
-      background: var(--black-light);
-      max-width: none;
-      padding: 120px 20px;
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .gallery-item {
+    /* ========== PHOTO BREAKS ========== */
+    .photo-break {
       position: relative;
-      aspect-ratio: 4/3;
+      height: 50vh;
+      min-height: 300px;
       overflow: hidden;
-      cursor: pointer;
-      border-radius: 4px;
     }
 
-    .gallery-item:nth-child(1) {
-      grid-column: span 2;
-      grid-row: span 2;
-    }
-
-    .gallery-item img {
+    .photo-break img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       width: 100%;
-      height: 100%;
+      height: 120%;
       object-fit: cover;
-      filter: grayscale(30%);
-      transition: all 0.5s ease;
+      filter: grayscale(40%);
     }
 
-    .gallery-item:hover img {
-      filter: grayscale(0%);
-      transform: scale(1.05);
-    }
-
-    .gallery-item::after {
+    .photo-break::after {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      background: linear-gradient(
+        to bottom,
+        rgba(10,10,10,0.8) 0%,
+        rgba(10,10,10,0.3) 30%,
+        rgba(10,10,10,0.3) 70%,
+        rgba(10,10,10,0.8) 100%
+      );
     }
 
-    .gallery-item:hover::after {
-      opacity: 1;
-    }
-
-    /* Photo Modal */
-    .photo-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.95);
-      z-index: 10002;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .photo-modal.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .photo-modal img {
-      max-width: 90vw;
-      max-height: 90vh;
-      object-fit: contain;
-      border-radius: 4px;
-    }
-
-    .photo-modal-close {
+    .photo-break-text {
       position: absolute;
-      top: 30px;
-      right: 30px;
-      width: 50px;
-      height: 50px;
-      background: transparent;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      color: white;
-      font-size: 28px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
-
-    .photo-modal-close:hover {
-      border-color: var(--red);
-      color: var(--red);
-    }
-
-    @media (max-width: 768px) {
-      .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .gallery-item:nth-child(1) {
-        grid-column: span 2;
-        grid-row: span 1;
-      }
+      bottom: 30px;
+      right: 40px;
+      z-index: 2;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: rgba(255,255,255,0.4);
     }
 
     /* ========== MANIFESTO SECTION ========== */
@@ -1524,10 +1450,10 @@
       <div class="manifesto-overlay"></div>
 
       <div class="manifesto-content">
-        <p class="manifesto-text" data-delay="0">TU VEUX <span>CRÉER</span> ?</p>
+        <p class="manifesto-text" data-delay="0"><span>COURT</span> OU <span>CRÈVE</span></p>
         <div class="manifesto-line"></div>
-        <p class="manifesto-text" data-delay="200">ALORS <span>FAIS-LE</span>.</p>
-        <p class="manifesto-text small" data-delay="400">Pas demain. Pas "un jour". Maintenant.</p>
+        <p class="manifesto-text small" data-delay="300">Le meilleur gagne le premier prix.</p>
+        <p class="manifesto-text small" data-delay="500">Les autres, on les bute.</p>
       </div>
 
       <button class="manifesto-sound-btn" id="manifestoSound" title="Activer le son">
@@ -1564,36 +1490,10 @@
       </div>
     </div>
 
-    <!-- Gallery -->
-    <section class="gallery" id="gallery">
-      <h2 class="section-title">La <span>Projo</span></h2>
-
-      <div class="gallery-grid">
-        <div class="gallery-item">
-          <img src="gallery/projo-1.jpg" alt="Public dans la salle">
-        </div>
-        <div class="gallery-item">
-          <img src="gallery/projo-2.jpg" alt="Présentation">
-        </div>
-        <div class="gallery-item">
-          <img src="gallery/projo-3.jpg" alt="Sur scène">
-        </div>
-        <div class="gallery-item">
-          <img src="gallery/projo-4.jpg" alt="Gagnants">
-        </div>
-        <div class="gallery-item">
-          <img src="gallery/projo-5.jpg" alt="Équipe gagnante">
-        </div>
-        <div class="gallery-item">
-          <img src="gallery/projo-6.jpg" alt="Cinéma Christine">
-        </div>
-      </div>
-    </section>
-
-    <!-- Photo Modal -->
-    <div class="photo-modal" id="photoModal">
-      <button class="photo-modal-close" id="photoModalClose">×</button>
-      <img id="photoModalImg" src="" alt="">
+    <!-- Photo Break 1 -->
+    <div class="photo-break">
+      <img src="gallery/projo-1.jpg" alt="Session 1">
+      <span class="photo-break-text">Session 1 — Novembre 2025</span>
     </div>
 
     <!-- Team -->
@@ -1651,6 +1551,12 @@
       </div>
     </section>
 
+    <!-- Photo Break 2 -->
+    <div class="photo-break">
+      <img src="gallery/projo-5.jpg" alt="Gagnants">
+      <span class="photo-break-text">Les gagnants</span>
+    </div>
+
     <!-- FAQ -->
     <section class="about" id="faq">
       <h2 class="section-title"><span>F</span>AQ</h2>
@@ -1707,6 +1613,12 @@
         </div>
       </div>
     </section>
+
+    <!-- Photo Break 3 -->
+    <div class="photo-break">
+      <img src="gallery/projo-6.jpg" alt="Cinéma Christine">
+      <span class="photo-break-text">Cinéma Christine — Paris</span>
+    </div>
 
     <!-- Inscription -->
     <section class="inscription" id="inscription">
@@ -1927,34 +1839,6 @@
     }, observerOptions);
 
     sectionTitles.forEach(title => titleObserver.observe(title));
-
-    // Photo gallery modal
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    const photoModal = document.getElementById('photoModal');
-    const photoModalImg = document.getElementById('photoModalImg');
-    const photoModalClose = document.getElementById('photoModalClose');
-
-    galleryItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const img = item.querySelector('img');
-        photoModalImg.src = img.src;
-        photoModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      });
-    });
-
-    function closePhotoModal() {
-      photoModal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    photoModalClose.addEventListener('click', closePhotoModal);
-    photoModal.addEventListener('click', (e) => {
-      if (e.target === photoModal) closePhotoModal();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closePhotoModal();
-    });
 
     // Manifesto section animations
     const manifestoTexts = document.querySelectorAll('.manifesto-text');
