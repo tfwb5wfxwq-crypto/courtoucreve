@@ -217,7 +217,8 @@
       position: absolute;
       right: 30px;
       padding: 12px 28px;
-      background: var(--red);
+      background: linear-gradient(135deg, var(--red) 0%, #DC2626 50%, var(--red) 100%);
+      background-size: 200% 200%;
       color: var(--white);
       text-decoration: none;
       font-size: 13px;
@@ -232,12 +233,14 @@
     .header.scrolled .header-cta {
       opacity: 1;
       transform: translateX(0);
+      animation: pulse 2s ease-in-out infinite, gradientShift 3s ease infinite;
+      box-shadow: 0 4px 20px rgba(185, 28, 28, 0.5);
     }
 
     .header-cta:hover {
       background: var(--red-light);
       transform: translateY(-2px);
-      box-shadow: 0 5px 20px rgba(185, 28, 28, 0.4);
+      box-shadow: 0 5px 30px rgba(185, 28, 28, 0.6);
     }
 
     /* ========== LOADING SCREEN ========== */
