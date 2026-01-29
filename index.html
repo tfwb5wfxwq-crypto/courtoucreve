@@ -1003,11 +1003,14 @@
       transition: all 0.4s ease;
     }
 
-    /* Position custom par personne */
-    .team-photo.guillaume img { object-position: 25% 15%; transform: scale(2.2); }
-    .team-photo.pierre img { object-position: 75% 15%; transform: scale(2.5); }
-    .team-photo.ludoc img { object-position: 50% 20%; transform: scale(2); }
-    .team-photo.jr img { object-position: 50% 10%; transform: scale(2.2); }
+    /* Position custom par personne - photos pré-croppées */
+    .team-photo.guillaume img,
+    .team-photo.pierre img,
+    .team-photo.ludoc img,
+    .team-photo.jr img {
+      object-position: center 30%;
+      transform: scale(1.4);
+    }
 
     .team-member:hover .team-photo {
       border-color: var(--red);
@@ -2032,20 +2035,20 @@
 
       <div class="season-gallery">
         <div class="gallery-main" data-video="video-preview.mp4">
-          <video src="video-preview.mp4" muted loop playsinline preload="metadata"></video>
+          <video src="video-preview.mp4" muted loop playsinline preload="auto" poster="og-image.jpg"></video>
           <div class="gallery-play">
             <div class="play-btn"></div>
           </div>
         </div>
         <div class="gallery-side">
           <div class="gallery-thumb">
-            <img src="gallery/pierre-gagnant.jpg?v=2" alt="Pierre, vainqueur Court ou Crève Saison 1 avec son trophée">
+            <img src="gallery/pierre-gagnant.jpg?v=4" alt="Pierre, vainqueur Court ou Crève Saison 1 avec son trophée">
           </div>
           <div class="gallery-thumb">
-            <img src="gallery/projo-1.jpg?v=2" alt="Public lors de la projection des courts-métrages au cinéma">
+            <img src="gallery/projo-1.jpg?v=4" alt="Public lors de la projection des courts-métrages au cinéma">
           </div>
           <div class="gallery-thumb">
-            <img src="gallery/groupe-saison1.jpg?v=2" alt="Tous les participants Court ou Crève Saison 1">
+            <img src="gallery/groupe-saison1.jpg?v=4" alt="Tous les participants Court ou Crève Saison 1">
           </div>
         </div>
       </div>
@@ -2076,7 +2079,7 @@
       <div class="team-grid">
         <div class="team-member">
           <div class="team-photo">
-            <img src="team/ludovik.jpg?v=2" alt="Ludovik - Formateur production vidéo">
+            <img src="team/ludovik.jpg?v=4" alt="Ludovik - Formateur production vidéo">
           </div>
           <h3 class="team-name">Ludovik</h3>
           <p class="team-role">Production</p>
@@ -2085,7 +2088,7 @@
 
         <div class="team-member">
           <div class="team-photo guillaume">
-            <img src="team/guillaume.jpg?v=3" alt="Guillaume - Formateur réseaux sociaux">
+            <img src="team/guillaume.jpg?v=4" alt="Guillaume - Formateur réseaux sociaux">
           </div>
           <h3 class="team-name">Guillaume</h3>
           <p class="team-role">Réseaux</p>
@@ -2094,7 +2097,7 @@
 
         <div class="team-member">
           <div class="team-photo">
-            <img src="team/kemar.jpg?v=3" alt="Kemar - Formateur jeu d'acteur">
+            <img src="team/kemar.jpg?v=4" alt="Kemar - Formateur jeu d'acteur">
           </div>
           <h3 class="team-name">Kemar</h3>
           <p class="team-role">Jeu</p>
@@ -2103,7 +2106,7 @@
 
         <div class="team-member">
           <div class="team-photo">
-            <img src="team/babor.jpg?v=3" alt="Babor - Formateur écriture scénario">
+            <img src="team/babor.jpg?v=4" alt="Babor - Formateur écriture scénario">
           </div>
           <h3 class="team-name">Babor</h3>
           <p class="team-role">Écriture</p>
@@ -2112,7 +2115,7 @@
 
         <div class="team-member">
           <div class="team-photo pierre">
-            <img src="team/pierre.jpg?v=3" alt="Pierre - Créateur Court ou Crève">
+            <img src="team/pierre.jpg?v=4" alt="Pierre - Créateur Court ou Crève">
           </div>
           <h3 class="team-name">Pierre</h3>
           <p class="team-role">Créateur</p>
@@ -2121,7 +2124,7 @@
 
         <div class="team-member">
           <div class="team-photo ludoc">
-            <img src="team/ludoc.jpg?v=3" alt="Ludoc - Formateur technique">
+            <img src="team/ludoc.jpg?v=4" alt="Ludoc - Formateur technique">
           </div>
           <h3 class="team-name">Ludoc</h3>
           <p class="team-role">Technique</p>
@@ -2130,7 +2133,7 @@
 
         <div class="team-member">
           <div class="team-photo jr">
-            <img src="team/jr.jpg?v=3" alt="Jhon Rachid - Acteur">
+            <img src="team/jr.jpg?v=4" alt="Jhon Rachid - Acteur">
           </div>
           <h3 class="team-name">Jhon Rachid</h3>
           <p class="team-role">Acteur</p>
