@@ -720,31 +720,26 @@
       box-shadow: 0 10px 40px rgba(185, 28, 28, 0.6);
     }
 
-    .urgency-container {
-      margin-top: 30px;
+    .cta-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
     }
 
-    .places-badge {
-      display: inline-flex;
+    .cta-urgency {
+      display: flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 18px;
-      background: rgba(185, 28, 28, 0.2);
-      border: 1px solid var(--red);
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--red-light);
-      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--gray);
     }
 
     .pulse-dot {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       background: var(--red);
       border-radius: 50%;
       animation: pulseDot 1.5s ease-in-out infinite;
@@ -755,50 +750,35 @@
       50% { opacity: 0.5; transform: scale(1.3); }
     }
 
-    .session-badge {
-      padding: 6px 16px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--gray);
-    }
-
-    .session-badge span {
-      color: var(--white);
-      font-weight: 600;
-    }
-
     .countdown {
       display: flex;
-      gap: 15px;
+      gap: 8px;
+      margin-top: 20px;
     }
 
     .countdown-item {
       text-align: center;
-      min-width: 50px;
     }
 
     .countdown-item span {
       display: block;
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px;
+      font-size: 22px;
       color: var(--white);
       line-height: 1;
     }
 
     .countdown-item small {
       font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
       color: var(--gray);
     }
 
     .countdown-ended {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 24px;
+      font-size: 20px;
       color: var(--red);
       letter-spacing: 2px;
-      animation: pulse 1s ease-in-out infinite;
+      margin-top: 20px;
     }
 
     /* Mobile: stack vertically */
@@ -977,30 +957,6 @@
     .manifesto-sound-btn svg {
       width: 24px;
       height: 24px;
-    }
-
-    /* About section */
-    .about {
-      background: var(--black-light);
-      max-width: none;
-      padding: 120px 20px;
-    }
-
-    .about-content {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .about-text {
-      font-size: 18px;
-      line-height: 1.8;
-      color: var(--gray);
-      margin-bottom: 30px;
-    }
-
-    .about-text strong {
-      color: var(--white);
     }
 
     /* Team section - compact horizontal */
@@ -1820,25 +1776,22 @@
           Réalise ton <strong>court-métrage</strong> avec des pros.<br>Projection finale <strong>au cinéma</strong>.
         </p>
 
-        <a href="#inscription" class="cta-button">
-          Je m'inscris
-          <span>→</span>
-        </a>
-
-        <div class="urgency-container">
-          <div class="places-badge">
+        <div class="cta-container">
+          <a href="#inscription" class="cta-button">
+            Je m'inscris
+            <span>→</span>
+          </a>
+          <div class="cta-urgency">
             <span class="pulse-dot"></span>
-            Places limitées
+            Places limitées — Saison 2 : Mars 2026
           </div>
-          <div class="session-badge">
-            Saison 2 : <span>Mars 2026</span>
-          </div>
-          <div class="countdown" id="countdown">
-            <div class="countdown-item"><span id="days">--</span><small>jours</small></div>
-            <div class="countdown-item"><span id="hours">--</span><small>heures</small></div>
-            <div class="countdown-item"><span id="mins">--</span><small>min</small></div>
-            <div class="countdown-item"><span id="secs">--</span><small>sec</small></div>
-          </div>
+        </div>
+
+        <div class="countdown" id="countdown">
+          <div class="countdown-item"><span id="days">--</span><small>j</small></div>
+          <div class="countdown-item"><span id="hours">--</span><small>h</small></div>
+          <div class="countdown-item"><span id="mins">--</span><small>m</small></div>
+          <div class="countdown-item"><span id="secs">--</span><small>s</small></div>
         </div>
       </div>
 
@@ -1853,20 +1806,6 @@
           <p class="hero-video-text"><span>COURT</span> OU <span>CRÈVE</span></p>
           <p class="hero-video-sub">Le meilleur gagne. Les autres, on les bute.</p>
         </div>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section class="about" id="concept">
-      <h2 class="section-title">L'<span>ADN</span></h2>
-
-      <div class="about-content">
-        <p class="about-text">
-          Une équipe de choc (<strong>Kemar</strong>, <strong>Ludovik</strong>, <strong>Ludoc</strong>...) t'accompagne de A à Z : écriture, tournage, montage. Tes créations finissent <strong>au cinéma</strong>.
-        </p>
-        <p class="about-text" style="margin-top: 30px; font-style: italic; color: var(--cream);">
-          "Le meilleur gagne. Les autres, on les bute."
-        </p>
       </div>
     </section>
 
