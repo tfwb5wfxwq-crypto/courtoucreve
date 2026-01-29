@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Court ou Crève | Masterclass Réalisation Vidéo</title>
   <meta name="description" content="Maîtrise la réalisation vidéo et le format court avec Ludovik. Formation immersive pour créer ton court-métrage. Éligible AFDAS.">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Creepster&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -403,9 +404,47 @@
     }
 
     .hero-logo-img {
-      width: clamp(250px, 40vw, 400px);
+      width: clamp(280px, 45vw, 450px);
       height: auto;
-      filter: drop-shadow(0 0 40px rgba(185, 28, 28, 0.3));
+      filter: drop-shadow(0 0 50px rgba(185, 28, 28, 0.4));
+      animation: heroLogoFloat 4s ease-in-out infinite, heroLogoGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes heroLogoFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    @keyframes heroLogoGlow {
+      0%, 100% { filter: drop-shadow(0 0 50px rgba(185, 28, 28, 0.4)); }
+      50% { filter: drop-shadow(0 0 80px rgba(185, 28, 28, 0.7)) drop-shadow(0 0 120px rgba(185, 28, 28, 0.3)); }
+    }
+
+    .hero-logo-img:hover {
+      animation: heroLogoFloat 4s ease-in-out infinite, heroLogoGlitch 0.5s ease;
+    }
+
+    @keyframes heroLogoGlitch {
+      0%, 100% {
+        filter: drop-shadow(0 0 50px rgba(185, 28, 28, 0.4));
+        transform: translateY(0);
+      }
+      20% {
+        filter: drop-shadow(5px 0 0 cyan) drop-shadow(-5px 0 0 red);
+        transform: translateX(-3px) skewX(-1deg);
+      }
+      40% {
+        filter: drop-shadow(-5px 0 0 cyan) drop-shadow(5px 0 0 red);
+        transform: translateX(3px) skewX(1deg);
+      }
+      60% {
+        filter: drop-shadow(3px 0 0 cyan) drop-shadow(-3px 0 0 red);
+        transform: translateX(-2px);
+      }
+      80% {
+        filter: drop-shadow(-3px 0 0 cyan) drop-shadow(3px 0 0 red);
+        transform: translateX(2px);
+      }
     }
 
     .hero-subtitle {
@@ -1203,7 +1242,7 @@
       <div class="hero-bg"></div>
 
       <div class="hero-logo">
-        <img src="logo.png" alt="Court ou Crève" class="hero-logo-img">
+        <img src="logo.svg" alt="Court ou Crève" class="hero-logo-img">
       </div>
 
       <p class="hero-subtitle">Masterclass Réalisation Vidéo</p>
@@ -1221,9 +1260,6 @@
         Saison 2 : <span>Mars - Avril 2026</span>
       </div>
 
-      <div class="scroll-indicator">
-        Découvrir
-      </div>
     </section>
 
     <!-- About -->
