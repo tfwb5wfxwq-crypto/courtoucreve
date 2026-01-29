@@ -1921,7 +1921,7 @@
 
       <div class="testimonial">
         <blockquote>
-          "Avant j'étais livreur Uber Eats. Maintenant je suis toujours livreur Uber Eats mais avec un Oscar sur mon vélo."
+          "Avant Court ou Crève ma vie était nulle. Maintenant je suis un homme riche et fort."
         </blockquote>
         <cite>— Pierre, vainqueur Saison 1</cite>
       </div>
@@ -2273,7 +2273,10 @@
           video.currentTime = 0;
         });
 
-        galleryMain.addEventListener('click', () => {
+        galleryMain.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          video.pause();
           const videoSrc = galleryMain.dataset.video;
           modalVideo.src = videoSrc;
           videoModal.classList.add('active');
