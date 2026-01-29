@@ -750,55 +750,55 @@
       50% { opacity: 0.5; transform: scale(1.3); }
     }
 
-    .countdown {
-      display: inline-flex;
-      align-items: center;
-      gap: 0;
-      margin-top: 15px;
-      background: rgba(185, 28, 28, 0.15);
-      border: 1px solid rgba(185, 28, 28, 0.3);
-      border-radius: 6px;
-      padding: 8px 16px;
-    }
-
-    .countdown-item {
-      display: flex;
-      align-items: baseline;
-      gap: 2px;
-    }
-
-    .countdown-item::after {
-      content: ':';
-      color: var(--red);
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px;
-      margin: 0 8px;
-      opacity: 0.6;
-    }
-
-    .countdown-item:last-child::after {
-      display: none;
-    }
-
-    .countdown-item span {
+    .season-reveal {
+      margin-top: 20px;
       font-family: 'Bebas Neue', sans-serif;
       font-size: 20px;
-      color: var(--white);
-      min-width: 24px;
-      text-align: center;
+      letter-spacing: 3px;
     }
 
-    .countdown-item small {
-      font-size: 10px;
+    .season-reveal .label {
       color: var(--gray);
-      text-transform: uppercase;
     }
 
-    .countdown-ended {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px;
+    .season-reveal .date {
+      display: inline-block;
       color: var(--red);
-      letter-spacing: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .season-reveal .date::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent 0%, var(--black) 50%);
+      animation: revealDate 2s ease-out forwards;
+      animation-delay: 1s;
+    }
+
+    @keyframes revealDate {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .season-reveal .status {
+      display: inline-block;
+      background: var(--red);
+      color: white;
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-left: 10px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
     }
 
     /* Mobile: stack vertically */
@@ -1575,89 +1575,173 @@
       color: var(--gray);
     }
 
-    /* ========== MEDIA GALLERY (Videos + Photos) ========== */
-    .media-section {
-      background: var(--black);
+    /* ========== SAISON 1 REVIEW ========== */
+    .season-review {
+      background: var(--black-light);
       padding: 80px 20px;
+      text-align: center;
     }
 
-    .media-grid {
+    .season-header {
+      margin-bottom: 40px;
+    }
+
+    .season-badge {
+      display: inline-block;
+      background: var(--red);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 15px;
+    }
+
+    .season-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 6vw, 50px);
+      letter-spacing: 3px;
+      color: var(--white);
+    }
+
+    .season-title span {
+      color: var(--red);
+    }
+
+    .season-gallery {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: 2fr 1fr;
       gap: 10px;
-      max-width: 1000px;
-      margin: 0 auto;
+      max-width: 900px;
+      margin: 0 auto 50px;
     }
 
-    .media-item {
+    .gallery-main {
       position: relative;
-      aspect-ratio: 1;
+      border-radius: 12px;
       overflow: hidden;
       cursor: pointer;
-      border-radius: 8px;
     }
 
-    .media-item.video {
-      grid-row: span 2;
-      aspect-ratio: auto;
-    }
-
-    .media-item video,
-    .media-item img {
+    .gallery-main video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: grayscale(30%);
+      filter: brightness(0.8);
       transition: all 0.4s ease;
     }
 
-    .media-item:hover video,
-    .media-item:hover img {
-      filter: grayscale(0%);
-      transform: scale(1.05);
+    .gallery-main:hover video {
+      filter: brightness(1);
+      transform: scale(1.02);
     }
 
-    .media-overlay {
+    .gallery-play {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.3s ease;
-    }
-
-    .media-item:hover .media-overlay {
-      background: rgba(0,0,0,0.1);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     .play-btn {
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
       background: var(--red);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.3s ease;
-      box-shadow: 0 10px 30px rgba(185, 28, 28, 0.4);
+      box-shadow: 0 10px 40px rgba(185, 28, 28, 0.5);
     }
 
     .play-btn::after {
       content: '';
       width: 0;
       height: 0;
-      border-left: 16px solid white;
-      border-top: 10px solid transparent;
-      border-bottom: 10px solid transparent;
-      margin-left: 4px;
+      border-left: 18px solid white;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      margin-left: 5px;
     }
 
-    .media-item:hover .play-btn {
+    .gallery-main:hover .play-btn {
       transform: scale(1.1);
+    }
+
+    .gallery-side {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .gallery-thumb {
+      flex: 1;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .gallery-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(40%) brightness(0.8);
+      transition: all 0.4s ease;
+    }
+
+    .gallery-thumb:hover img {
+      filter: grayscale(0%) brightness(1);
+      transform: scale(1.05);
+    }
+
+    .testimonial {
+      max-width: 700px;
+      margin: 0 auto 40px;
+    }
+
+    .testimonial blockquote {
+      font-size: clamp(18px, 3vw, 24px);
+      font-style: italic;
+      color: var(--cream);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .testimonial cite {
+      font-size: 14px;
+      color: var(--gray);
+      font-style: normal;
+    }
+
+    .season-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      border: 2px solid var(--red);
+      color: var(--white);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 2px;
+      padding: 14px 35px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .season-cta:hover {
+      background: var(--red);
+      transform: translateY(-2px);
+    }
+
+    .season-cta span {
+      transition: transform 0.3s ease;
+    }
+
+    .season-cta:hover span {
+      transform: translateX(5px);
     }
 
     /* Video Modal */
@@ -1718,14 +1802,16 @@
     }
 
     @media (max-width: 768px) {
-      .media-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .season-gallery {
+        grid-template-columns: 1fr;
       }
 
-      .media-item.video {
-        grid-column: span 2;
-        grid-row: span 1;
-        aspect-ratio: 9/16;
+      .gallery-side {
+        flex-direction: row;
+      }
+
+      .testimonial blockquote {
+        font-size: 18px;
       }
     }
 
@@ -1807,11 +1893,10 @@
           </div>
         </div>
 
-        <div class="countdown" id="countdown">
-          <div class="countdown-item"><span id="days">--</span><small>j</small></div>
-          <div class="countdown-item"><span id="hours">--</span><small>h</small></div>
-          <div class="countdown-item"><span id="mins">--</span><small>m</small></div>
-          <div class="countdown-item"><span id="secs">--</span><small>s</small></div>
+        <div class="season-reveal">
+          <span class="label">SAISON 2</span>
+          <span class="date">MARS 2026</span>
+          <span class="status">OUVERTE</span>
         </div>
       </div>
 
@@ -1829,28 +1914,44 @@
       </div>
     </section>
 
-    <!-- Videos -->
-    <!-- Media Gallery: Videos + Photos mixed -->
-    <section class="media-section" id="media">
-      <h2 class="section-title">Saison <span>1</span></h2>
+    <!-- Saison 1 Review -->
+    <section class="season-review" id="saison1">
+      <div class="season-header">
+        <span class="season-badge">SAISON 1</span>
+        <h2 class="season-title">C'était <span>ça</span></h2>
+      </div>
 
-      <div class="media-grid">
-        <div class="media-item video" data-video="video-preview.mp4">
+      <div class="season-gallery">
+        <div class="gallery-main" data-video="video-preview.mp4">
           <video src="video-preview.mp4" muted loop playsinline preload="metadata"></video>
-          <div class="media-overlay">
+          <div class="gallery-play">
             <div class="play-btn"></div>
           </div>
         </div>
-        <div class="media-item photo">
-          <img src="gallery/projo-1.jpg" alt="Public lors de la projection des courts-métrages au cinéma">
-        </div>
-        <div class="media-item photo">
-          <img src="gallery/projo-4.jpg" alt="Gagnants de la masterclass Court ou Crève saison 1">
-        </div>
-        <div class="media-item photo">
-          <img src="gallery/projo-6.jpg" alt="Projection des courts-métrages au cinéma - formation réalisation">
+        <div class="gallery-side">
+          <div class="gallery-thumb">
+            <img src="gallery/projo-1.jpg" alt="Public lors de la projection des courts-métrages au cinéma">
+          </div>
+          <div class="gallery-thumb">
+            <img src="gallery/projo-4.jpg" alt="Gagnants de la masterclass Court ou Crève saison 1">
+          </div>
+          <div class="gallery-thumb">
+            <img src="gallery/projo-6.jpg" alt="Projection des courts-métrages au cinéma">
+          </div>
         </div>
       </div>
+
+      <div class="testimonial">
+        <blockquote>
+          "J'suis arrivé avec une idée floue et j'suis reparti avec mon court au cinéma. L'équipe te pousse à donner le meilleur, pas de bullshit."
+        </blockquote>
+        <cite>— Maxime, participant Saison 1</cite>
+      </div>
+
+      <a href="#inscription" class="season-cta">
+        Je veux faire la Saison 2
+        <span>→</span>
+      </a>
     </section>
 
     <!-- Video Modal -->
@@ -2175,36 +2276,34 @@
       });
     });
 
-    // Media items - hover to preview videos, click to open modal
-    const mediaItems = document.querySelectorAll('.media-item');
+    // Gallery main video - hover to preview, click to open modal
+    const galleryMain = document.querySelector('.gallery-main');
     const videoModal = document.getElementById('videoModal');
     const modalVideo = document.getElementById('modalVideo');
     const modalClose = document.getElementById('modalClose');
 
-    mediaItems.forEach(item => {
-      const video = item.querySelector('video');
+    if (galleryMain) {
+      const video = galleryMain.querySelector('video');
 
       if (video) {
-        // Hover: play muted preview
-        item.addEventListener('mouseenter', () => {
+        galleryMain.addEventListener('mouseenter', () => {
           video.play();
         });
 
-        item.addEventListener('mouseleave', () => {
+        galleryMain.addEventListener('mouseleave', () => {
           video.pause();
           video.currentTime = 0;
         });
 
-        // Click: open modal with full video
-        item.addEventListener('click', () => {
-          const videoSrc = item.dataset.video;
+        galleryMain.addEventListener('click', () => {
+          const videoSrc = galleryMain.dataset.video;
           modalVideo.src = videoSrc;
           videoModal.classList.add('active');
           modalVideo.play();
           document.body.style.overflow = 'hidden';
         });
       }
-    });
+    }
 
     // Close modal
     function closeVideoModal() {
@@ -2250,33 +2349,6 @@
     setTimeout(() => {
       heroVideoSub.classList.add('visible');
     }, 1200);
-
-    // Countdown timer - Saison 2 Mars 2026
-    const targetDate = new Date('2026-03-01T00:00:00').getTime();
-    const countdownEl = document.getElementById('countdown');
-
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const diff = targetDate - now;
-
-      if (diff <= 0) {
-        countdownEl.innerHTML = '<div class="countdown-ended">C\'est parti ! 🎬</div>';
-        return;
-      }
-
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const secs = Math.floor((diff % (1000 * 60)) / 1000);
-
-      document.getElementById('days').textContent = days;
-      document.getElementById('hours').textContent = hours;
-      document.getElementById('mins').textContent = mins;
-      document.getElementById('secs').textContent = secs;
-    }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
 
     // Form submission with animation
     const inscriptionForm = document.querySelector('.inscription-form');
