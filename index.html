@@ -1653,6 +1653,10 @@
       transform: scale(1.1);
     }
 
+    .gallery-main.playing video {
+      filter: brightness(1);
+    }
+
     .gallery-side {
       display: flex;
       flex-direction: column;
@@ -2049,7 +2053,7 @@
           </div>
           <h3 class="team-name">Ludoc</h3>
           <p class="team-role">Technique</p>
-          <p class="team-desc">Si t'as vu une belle image un jour, c'était lui</p>
+          <p class="team-desc">Si t'as vu une belle réal un jour, c'était sûrement lui</p>
         </div>
 
         <div class="team-member">
@@ -2318,34 +2322,41 @@
       });
     });
 
-    // Gallery main video - hover to preview, click to open modal
+    // Gallery main video - click to play inline
     const galleryMain = document.querySelector('.gallery-main');
-    const videoModal = document.getElementById('videoModal');
-    const modalVideo = document.getElementById('modalVideo');
-    const modalClose = document.getElementById('modalClose');
+    const galleryPlay = document.querySelector('.gallery-play');
 
     if (galleryMain) {
       const video = galleryMain.querySelector('video');
 
       if (video) {
-        galleryMain.addEventListener('mouseenter', () => {
-          video.play();
-        });
-
-        galleryMain.addEventListener('mouseleave', () => {
-          video.pause();
-          video.currentTime = 0;
-        });
-
         galleryMain.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          video.pause();
-          const videoSrc = galleryMain.dataset.video;
-          modalVideo.src = videoSrc;
-          videoModal.classList.add('active');
-          modalVideo.play();
-          document.body.style.overflow = 'hidden';
+
+          if (video.paused) {
+            video.controls = true;
+            video.muted = false;
+            video.play();
+            galleryPlay.style.display = 'none';
+            galleryMain.classList.add('playing');
+          }
+        });
+
+        video.addEventListener('ended', () => {
+          video.controls = false;
+          video.muted = true;
+          galleryPlay.style.display = 'block';
+          galleryMain.classList.remove('playing');
+        });
+
+        video.addEventListener('pause', () => {
+          if (video.currentTime === video.duration || video.currentTime === 0) {
+            video.controls = false;
+            video.muted = true;
+            galleryPlay.style.display = 'block';
+            galleryMain.classList.remove('playing');
+          }
         });
       }
     }
