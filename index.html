@@ -759,27 +759,34 @@
       color: var(--white);
     }
 
-    /* Team section */
+    /* Team section - compact horizontal */
+    .team-section {
+      padding: 80px 20px;
+    }
+
     .team-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 40px;
-      margin-top: 60px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 40px;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .team-member {
       text-align: center;
-      position: relative;
+      width: 120px;
     }
 
     .team-photo {
-      width: 200px;
-      height: 200px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
-      margin: 0 auto 20px;
+      margin: 0 auto 12px;
       overflow: hidden;
-      position: relative;
-      border: 3px solid var(--black-light);
+      border: 2px solid var(--black-light);
       transition: all 0.4s ease;
     }
 
@@ -793,6 +800,7 @@
 
     .team-member:hover .team-photo {
       border-color: var(--red);
+      transform: scale(1.1);
     }
 
     .team-member:hover .team-photo img {
@@ -801,17 +809,81 @@
 
     .team-name {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px;
+      font-size: 18px;
       color: var(--white);
-      letter-spacing: 2px;
-      margin-bottom: 5px;
+      letter-spacing: 1px;
+      margin-bottom: 3px;
     }
 
     .team-role {
-      font-size: 14px;
+      font-size: 10px;
       color: var(--red);
       text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Form success animation */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .form-success.show {
+      display: block;
+      animation: fadeInUp 0.6s ease;
+    }
+
+    .form-success-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 30px;
+      animation: successPop 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .form-success-icon svg {
+      width: 40px;
+      height: 40px;
+      stroke: white;
+      stroke-width: 3;
+    }
+
+    .form-success h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
       letter-spacing: 2px;
+      margin-bottom: 15px;
+    }
+
+    .form-success p {
+      color: var(--gray);
+      font-size: 16px;
+    }
+
+    @keyframes successPop {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .inscription-form.hidden {
+      display: none;
     }
 
     /* FAQ section */
@@ -1497,7 +1569,7 @@
     </div>
 
     <!-- Team -->
-    <section id="equipe">
+    <section class="team-section" id="equipe">
       <h2 class="section-title">L'<span>Équipe</span></h2>
 
       <div class="team-grid">
@@ -1506,15 +1578,15 @@
             <img src="team/ludovik.jpg" alt="Ludovik">
           </div>
           <h3 class="team-name">Ludovik</h3>
-          <p class="team-role">Production & Tournage</p>
+          <p class="team-role">Production</p>
         </div>
 
         <div class="team-member">
           <div class="team-photo">
             <img src="team/guillaume.jpg" alt="Guillaume Matas">
           </div>
-          <h3 class="team-name">Guillaume Matas</h3>
-          <p class="team-role">Réseaux & Format Court</p>
+          <h3 class="team-name">Guillaume</h3>
+          <p class="team-role">Réseaux</p>
         </div>
 
         <div class="team-member">
@@ -1522,7 +1594,7 @@
             <img src="team/kemar.jpg" alt="Kemar">
           </div>
           <h3 class="team-name">Kemar</h3>
-          <p class="team-role">Jeu & Face Caméra</p>
+          <p class="team-role">Jeu</p>
         </div>
 
         <div class="team-member">
@@ -1535,10 +1607,18 @@
 
         <div class="team-member">
           <div class="team-photo">
+            <img src="team/pierre.jpg" alt="Pierre">
+          </div>
+          <h3 class="team-name">Pierre</h3>
+          <p class="team-role">Montage</p>
+        </div>
+
+        <div class="team-member">
+          <div class="team-photo">
             <img src="team/ludoc.jpg" alt="Ludoc">
           </div>
           <h3 class="team-name">Ludoc</h3>
-          <p class="team-role">Technique & Tournage</p>
+          <p class="team-role">Technique</p>
         </div>
 
         <div class="team-member">
@@ -1546,7 +1626,7 @@
             <img src="team/jr.jpg" alt="Jhon Rachid">
           </div>
           <h3 class="team-name">Jhon Rachid</h3>
-          <p class="team-role">Conseils & Écriture</p>
+          <p class="team-role">Conseils</p>
         </div>
       </div>
     </section>
@@ -1675,6 +1755,17 @@
         </form>
 
         <p class="form-note">Formation éligible au <strong>financement AFDAS</strong> pour les intermittents.</p>
+
+        <!-- Success message -->
+        <div class="form-success" id="formSuccess">
+          <div class="form-success-icon">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Message envoyé !</h3>
+          <p>On te recontacte très vite.</p>
+        </div>
       </div>
     </section>
 
@@ -1690,10 +1781,8 @@
       </div>
 
       <div class="footer-links">
-        <a href="#">Mentions légales</a>
-        <a href="#">Politique de cookies</a>
-        <a href="#">Confidentialité</a>
-        <a href="#">CGU</a>
+        <a href="cgu.html">CGU</a>
+        <a href="confidentialite.html">Confidentialité</a>
       </div>
 
       <p class="footer-copy">© 2026 Court ou Crève. Tous droits réservés.</p>
@@ -1886,6 +1975,50 @@
           <path d="M11 5L6 9H2v6h4l5 4V5z"/>
           <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
         </svg>`;
+      }
+    });
+
+    // Form submission with animation
+    const inscriptionForm = document.querySelector('.inscription-form');
+    const formSuccess = document.getElementById('formSuccess');
+    const formIntro = document.querySelector('.form-intro');
+    const formNote = document.querySelector('.form-note');
+
+    inscriptionForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(inscriptionForm);
+      const submitBtn = inscriptionForm.querySelector('.submit-btn');
+
+      // Disable button and show loading
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Envoi en cours...</span>';
+
+      try {
+        const response = await fetch(inscriptionForm.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          // Hide form, show success
+          inscriptionForm.classList.add('hidden');
+          formIntro.style.display = 'none';
+          formNote.style.display = 'none';
+          formSuccess.classList.add('show');
+        } else {
+          throw new Error('Erreur');
+        }
+      } catch (error) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<span>Réessayer</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>`;
+        alert('Erreur lors de l\'envoi. Réessaie !');
       }
     });
   </script>
