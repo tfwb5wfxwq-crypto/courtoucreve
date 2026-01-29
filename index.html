@@ -1881,6 +1881,72 @@
         flex-direction: column;
         gap: 15px;
       }
+
+      .faq-question {
+        font-size: 14px;
+        padding: 18px 15px;
+      }
+
+      .faq-answer {
+        font-size: 13px;
+        padding: 0 15px;
+      }
+
+      .form-container {
+        padding: 30px 20px;
+      }
+
+      .form-input,
+      .form-textarea {
+        font-size: 16px; /* évite le zoom iOS */
+      }
+
+      .season-header .season-badge {
+        font-size: 10px;
+        padding: 5px 12px;
+      }
+
+      .season-title {
+        font-size: 32px;
+      }
+
+      .hero-video-text {
+        font-size: 24px;
+      }
+
+      .hero-video-sub {
+        font-size: 11px;
+      }
+    }
+
+    /* Very small screens */
+    @media (max-width: 480px) {
+      .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .team-photo {
+        width: 100px;
+        height: 100px;
+      }
+
+      .team-name {
+        font-size: 14px;
+      }
+
+      .team-desc {
+        font-size: 10px;
+      }
+
+      .gallery-side {
+        flex-direction: column;
+      }
+
+      .cta-button {
+        font-size: 14px;
+        padding: 12px 25px;
+      }
     }
   </style>
 </head>
