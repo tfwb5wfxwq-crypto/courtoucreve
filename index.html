@@ -191,31 +191,29 @@
       box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     }
 
-    .header-logo {
-      height: 70px;
-      width: auto;
+    .header-logo-link {
       opacity: 0;
-      transform: scale(2) translateY(100px);
-      transition: none;
-      filter: drop-shadow(0 0 20px rgba(185, 28, 28, 0.4));
+      transform: translateY(-20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
-    .header.scrolled .header-logo {
+    .header.scrolled .header-logo-link {
       opacity: 1;
-      transform: scale(1) translateY(0);
-      animation: headerLogoAppear 0.5s ease-out forwards;
+      transform: translateY(0);
     }
 
-    @keyframes headerLogoAppear {
-      0% {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    /* Header animated logo */
+    .header-version {
+      filter: drop-shadow(0 0 15px rgba(185, 28, 28, 0.3));
     }
+
+    .header-version .logo-row.court .logo-letter { height: 28px; }
+    .header-version .logo-row.ou .logo-letter { height: 9px; }
+    .header-version .logo-row.creve .logo-letter { height: 32px; }
+    .header-version .logo-row.court { gap: 1px; }
+    .header-version .logo-row.ou { gap: 0; margin: -4px 0; }
+    .header-version .logo-row.creve { gap: 1px; }
+    .header-version .logo-animated { gap: 2px; }
 
     .header-cta {
       position: absolute;
@@ -279,47 +277,22 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
     }
 
-    /* ===== LOGO REVEAL ===== */
-    .logo-reveal {
-      position: absolute;
+    /* ===== LOADER LOGO ===== */
+    .loader-logo {
       display: flex;
-      flex-direction: column;
       align-items: center;
+      justify-content: center;
+    }
+
+    .loader-version .logo-row.court .logo-letter { height: clamp(70px, 12vw, 120px); }
+    .loader-version .logo-row.ou .logo-letter { height: clamp(22px, 4vw, 40px); }
+    .loader-version .logo-row.creve .logo-letter { height: clamp(80px, 14vw, 140px); }
+    .loader-version .logo-row.ou { margin: -15px 0; }
+
+    /* Lettres visibles par défaut (pour header) */
+    .logo-letter.visible {
       opacity: 1;
-      transform: scale(1);
-    }
-
-    .flash-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: white;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 10;
-    }
-
-    .flash-overlay.animate {
-      animation: flashBang 0.6s ease-out;
-    }
-
-    @keyframes flashBang {
-      0% { opacity: 0.9; }
-      100% { opacity: 0; }
-    }
-
-    .logo-img {
-      width: clamp(280px, 50vw, 500px);
-      height: auto;
-      opacity: 0;
-      filter: drop-shadow(0 0 80px rgba(185, 28, 28, 0.5));
-    }
-
-    .logo-img.animate {
-      animation: logoEnter 1s cubic-bezier(0.16, 1, 0.3, 1) forwards, logoFloat 4s ease-in-out infinite, logoGlitch 5s infinite;
-      animation-delay: 0s, 1s, 3s;
+      transform: none;
     }
 
     @keyframes logoFloat {
@@ -2152,9 +2125,10 @@
         padding: 10px 15px;
       }
 
-      .header-logo {
-        height: 50px;
-      }
+      .header-version .logo-row.court .logo-letter { height: 20px; }
+      .header-version .logo-row.ou .logo-letter { height: 6px; }
+      .header-version .logo-row.creve .logo-letter { height: 22px; }
+      .header-version .logo-row.ou { margin: -3px 0; }
 
       .header-cta {
         right: 15px;
@@ -2221,17 +2195,53 @@
 
   <!-- Loading Screen -->
   <div class="loader" id="loader">
-    <div class="logo-reveal" id="logoReveal">
-      <div class="flash-overlay" id="flashOverlay"></div>
-      <img src="logo.png" alt="Court ou Crève - Formation réalisation vidéo Paris" class="logo-img" id="logoImg">
-      <div class="logo-tagline" id="logoTagline">MASTERCLASS RÉALISATION</div>
+    <div class="loader-logo" id="loaderLogo">
+      <div class="logo-animated loader-version" aria-label="Court ou Crève">
+        <div class="logo-row court">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-01.svg" alt="" class="logo-letter" data-group="court" data-delay="0">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-02.svg" alt="" class="logo-letter" data-group="court" data-delay="50">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-03.svg" alt="" class="logo-letter" data-group="court" data-delay="100">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-04.svg" alt="" class="logo-letter" data-group="court" data-delay="150">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-05.svg" alt="" class="logo-letter" data-group="court" data-delay="200">
+        </div>
+        <div class="logo-row ou">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-06.svg" alt="" class="logo-letter" data-group="ou" data-delay="350">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-07.svg" alt="" class="logo-letter" data-group="ou" data-delay="380">
+        </div>
+        <div class="logo-row creve">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-08.svg" alt="" class="logo-letter" data-group="creve" data-delay="550">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-09.svg" alt="" class="logo-letter" data-group="creve" data-delay="620">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-10.svg" alt="" class="logo-letter" data-group="creve" data-delay="690">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-11.svg" alt="" class="logo-letter" data-group="creve" data-delay="760">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-12.svg" alt="" class="logo-letter" data-group="creve" data-delay="830">
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Header -->
   <header class="header" id="header">
-    <a href="#">
-      <img src="logo.svg" alt="Court ou Crève - Masterclass court-métrage" class="header-logo">
+    <a href="#" class="header-logo-link">
+      <div class="logo-animated header-version">
+        <div class="logo-row court">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-01.svg" alt="" class="logo-letter visible">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-02.svg" alt="" class="logo-letter visible">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-03.svg" alt="" class="logo-letter visible">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-04.svg" alt="" class="logo-letter visible">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-05.svg" alt="" class="logo-letter visible">
+        </div>
+        <div class="logo-row ou">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-06.svg" alt="" class="logo-letter visible">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-07.svg" alt="" class="logo-letter visible">
+        </div>
+        <div class="logo-row creve">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-08.svg" alt="" class="logo-letter visible shake-loop">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-09.svg" alt="" class="logo-letter visible shake-loop">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-10.svg" alt="" class="logo-letter visible shake-loop">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-11.svg" alt="" class="logo-letter visible shake-loop">
+          <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-12.svg" alt="" class="logo-letter visible shake-loop">
+        </div>
+      </div>
     </a>
     <a href="#inscription" class="header-cta">S'inscrire</a>
   </header>
@@ -2607,22 +2617,22 @@
   </div>
 
   <script>
-    // Loading page disabled + Hero logo animation
+    // Loading page avec animation du logo
     window.addEventListener('load', () => {
-      document.getElementById('loader').style.display = 'none';
-      document.getElementById('mainContent').classList.add('visible');
+      const loader = document.getElementById('loader');
+      const mainContent = document.getElementById('mainContent');
 
-      // Animation des lettres du logo
-      const logoLetters = document.querySelectorAll('.logo-letter');
+      // Animer les lettres du loader
+      const loaderLetters = loader.querySelectorAll('.logo-letter[data-group]');
 
-      logoLetters.forEach(letter => {
+      loaderLetters.forEach(letter => {
         const group = letter.dataset.group;
         const delay = parseInt(letter.dataset.delay);
 
         setTimeout(() => {
           letter.classList.add(`animate-${group}`);
 
-          // Pour CRÈVE, ajouter le tremblement continu après l'animation d'entrée
+          // Pour CRÈVE, ajouter le tremblement après l'animation d'entrée
           if (group === 'creve') {
             setTimeout(() => {
               letter.classList.remove('animate-creve');
@@ -2631,8 +2641,25 @@
               letter.classList.add('shake-loop');
             }, 300);
           }
-        }, delay + 50);
+        }, delay + 100);
       });
+
+      // Après l'animation complète, transition vers le contenu
+      setTimeout(() => {
+        loader.classList.add('hidden');
+        mainContent.classList.add('visible');
+
+        // Animer les lettres du hero
+        const heroLetters = document.querySelectorAll('.hero-logo .logo-letter[data-group]');
+        heroLetters.forEach(letter => {
+          const group = letter.dataset.group;
+          letter.style.opacity = '1';
+          letter.style.transform = 'none';
+          if (group === 'creve') {
+            letter.classList.add('shake-loop');
+          }
+        });
+      }, 1800);
 
       // Shuffle marquee photos randomly
       const marqueeTrack = document.querySelector('.marquee-track');
