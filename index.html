@@ -2325,7 +2325,7 @@
           </div>
         </div>
         <div class="gallery-side">
-          <div class="gallery-thumb">
+          <div class="gallery-thumb active">
             <img src="gallery/pierre-gagnant.jpg?v=10" alt="Pierre, vainqueur Court ou Crève Saison 1 avec son trophée" style="object-position: top;">
           </div>
           <div class="gallery-thumb">
@@ -2810,17 +2810,20 @@
 
     // Mobile: slideshow des 3 photos avec fade
     if (isMobile) {
-      const galleryThumbs = document.querySelectorAll('.gallery-thumb');
-      if (galleryThumbs.length > 0) {
-        let currentSlide = 0;
-        galleryThumbs[0].classList.add('active');
+      // Attendre que le contenu soit visible
+      setTimeout(() => {
+        const galleryThumbs = document.querySelectorAll('.gallery-thumb');
+        if (galleryThumbs.length > 0) {
+          let currentSlide = 0;
+          galleryThumbs[0].classList.add('active');
 
-        setInterval(() => {
-          galleryThumbs[currentSlide].classList.remove('active');
-          currentSlide = (currentSlide + 1) % galleryThumbs.length;
-          galleryThumbs[currentSlide].classList.add('active');
-        }, 3000);
-      }
+          setInterval(() => {
+            galleryThumbs[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % galleryThumbs.length;
+            galleryThumbs[currentSlide].classList.add('active');
+          }, 3000);
+        }
+      }, 2000);
     }
 
     // Close modal
