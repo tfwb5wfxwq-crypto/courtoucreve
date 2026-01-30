@@ -1738,7 +1738,7 @@
       margin-left: calc(-50vw + 50%);
       overflow: hidden;
       padding: 40px 0;
-      background: linear-gradient(180deg, transparent, rgba(185, 28, 28, 0.05), transparent);
+      background: transparent;
     }
 
     .marquee-track {
@@ -2411,6 +2411,25 @@
         heroLogo.classList.remove('animate-enter');
         heroLogo.classList.add('animate-complete');
       }, 900);
+
+      // Shuffle marquee photos randomly
+      const marqueeTrack = document.querySelector('.marquee-track');
+      if (marqueeTrack) {
+        const images = Array.from(marqueeTrack.querySelectorAll('img'));
+        const half = images.length / 2;
+        const firstHalf = images.slice(0, half);
+
+        // Fisher-Yates shuffle
+        for (let i = firstHalf.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [firstHalf[i], firstHalf[j]] = [firstHalf[j], firstHalf[i]];
+        }
+
+        // Clear and rebuild track with shuffled images (duplicated for loop)
+        marqueeTrack.innerHTML = '';
+        firstHalf.forEach(img => marqueeTrack.appendChild(img.cloneNode(true)));
+        firstHalf.forEach(img => marqueeTrack.appendChild(img.cloneNode(true)));
+      }
     });
 
     // FAQ accordion
