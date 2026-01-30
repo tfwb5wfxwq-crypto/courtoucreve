@@ -1330,39 +1330,6 @@
     }
 
     /* Teaser vidéo Saison 2 - croppé pour cacher Vevo */
-    .teaser-video-container {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      width: 200px;
-      height: 100px;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      z-index: 100;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-
-    .teaser-video-container.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .teaser-video-container.hidden {
-      opacity: 0;
-      transform: translateY(20px);
-      pointer-events: none;
-    }
-
-    .teaser-video {
-      width: 115%;
-      height: 115%;
-      object-fit: cover;
-      object-position: top left;
-    }
-
     /* Contact/Inscription section */
     .inscription {
       background: linear-gradient(135deg, var(--black) 0%, #1a0a0a 100%);
@@ -1370,9 +1337,47 @@
       padding: 120px 20px;
     }
 
+    .inscription-wrapper {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 60px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
     .form-container {
       max-width: 500px;
-      margin: 0 auto;
+      flex: 1;
+    }
+
+    .teaser-video-container {
+      width: 280px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 15px 50px rgba(185, 28, 28, 0.3);
+      border: 2px solid rgba(185, 28, 28, 0.4);
+      margin-top: 60px;
+    }
+
+    .teaser-video {
+      width: 130%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      object-position: top left;
+    }
+
+    .teaser-label {
+      background: var(--red);
+      color: var(--white);
+      text-align: center;
+      padding: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
 
     .form-group {
@@ -2168,6 +2173,10 @@
       .header-version .logo-row.ou { margin: -1px 0; }
 
       /* Cacher teaser sur mobile - trop petit */
+      .inscription-wrapper {
+        flex-direction: column;
+      }
+
       .teaser-video-container {
         display: none;
       }
@@ -2548,16 +2557,12 @@
       </div>
     </section>
 
-    <!-- Teaser Saison 2 - fixe en bas à gauche -->
-    <div class="teaser-video-container" id="teaserContainer">
-      <video class="teaser-video" src="saison2-teaser.mp4" muted playsinline preload="auto" id="teaserVideo"></video>
-    </div>
-
     <!-- Inscription -->
     <section class="inscription" id="inscription">
       <h2 class="section-title">Je <span>m'inscris</span></h2>
 
-      <div class="form-container">
+      <div class="inscription-wrapper">
+        <div class="form-container">
         <p class="form-intro">Remplis ce formulaire et on te recontacte rapidement.</p>
 
         <form action="https://formspree.io/f/xyzgkqwl" method="POST" class="inscription-form">
@@ -2630,6 +2635,13 @@
           <h3>Oups, erreur !</h3>
           <p>Réessaie ou contacte-nous directement.</p>
           <button class="retry-btn" onclick="hideError()">Réessayer</button>
+        </div>
+      </div>
+
+        <!-- Teaser Saison 2 -->
+        <div class="teaser-video-container" id="teaserContainer">
+          <video class="teaser-video" src="saison2-teaser.mp4" muted playsinline preload="auto" loop id="teaserVideo"></video>
+          <div class="teaser-label">Teaser Saison 2</div>
         </div>
       </div>
     </section>
@@ -2918,31 +2930,22 @@
 
     teamMembers.forEach(member => teamObserver.observe(member));
 
-    // Teaser video - apparaît quand on arrive sur inscription, disparaît après
+    // Teaser video - joue quand visible
     const teaserVideo = document.getElementById('teaserVideo');
     const teaserContainer = document.getElementById('teaserContainer');
-    const inscriptionSection = document.getElementById('inscription');
 
-    if (teaserVideo && teaserContainer && inscriptionSection) {
-      let teaserShown = false;
-
+    if (teaserVideo && teaserContainer) {
       const teaserObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting && !teaserShown) {
-            teaserContainer.classList.add('visible');
+          if (entry.isIntersecting) {
             teaserVideo.play();
-            teaserShown = true;
+          } else {
+            teaserVideo.pause();
           }
         });
       }, { threshold: 0.3 });
 
-      teaserObserver.observe(inscriptionSection);
-
-      // Cacher après la fin de la vidéo
-      teaserVideo.addEventListener('ended', () => {
-        teaserContainer.classList.remove('visible');
-        teaserContainer.classList.add('hidden');
-      });
+      teaserObserver.observe(teaserContainer);
     }
 
     // Hero video text animation on load
