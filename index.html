@@ -1329,13 +1329,14 @@
       padding: 0 30px 25px 30px;
     }
 
-    /* Teaser vidéo Saison 2 - petit sur le côté */
+    /* Teaser vidéo Saison 2 - croppé pour cacher Vevo */
     .teaser-video-container {
       position: fixed;
       bottom: 20px;
       left: 20px;
-      width: 180px;
-      border-radius: 10px;
+      width: 200px;
+      height: 100px;
+      border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       z-index: 100;
@@ -1356,20 +1357,10 @@
     }
 
     .teaser-video {
-      width: 100%;
-      display: block;
-    }
-
-    /* Masque pour cacher le logo Vevo */
-    .teaser-video-container::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 60px;
-      height: 25px;
-      background: linear-gradient(135deg, transparent 0%, rgba(10,10,10,0.95) 50%);
-      pointer-events: none;
+      width: 115%;
+      height: 115%;
+      object-fit: cover;
+      object-position: top left;
     }
 
     /* Contact/Inscription section */
