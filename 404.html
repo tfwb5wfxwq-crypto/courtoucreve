@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page introuvable | Court ou Crève</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --red: #B91C1C;
+      --red-light: #DC2626;
+      --gray: #888;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    /* Film grain effect */
+    .grain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.03;
+      z-index: 1000;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    .vignette {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.6) 100%);
+      z-index: 999;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1001;
+    }
+
+    .error-code {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(120px, 25vw, 250px);
+      color: var(--red);
+      line-height: 1;
+      text-shadow: 0 0 60px rgba(185, 28, 28, 0.5);
+      animation: glitch 3s infinite;
+      position: relative;
+    }
+
+    .error-code::before,
+    .error-code::after {
+      content: '404';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .error-code::before {
+      animation: glitch-1 0.3s infinite;
+      color: cyan;
+      z-index: -1;
+      clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    }
+
+    .error-code::after {
+      animation: glitch-2 0.3s infinite;
+      color: magenta;
+      z-index: -1;
+      clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+    }
+
+    @keyframes glitch {
+      0%, 90%, 100% { transform: translate(0); }
+      92% { transform: translate(-5px, 2px); }
+      94% { transform: translate(5px, -2px); }
+      96% { transform: translate(-3px, 1px); }
+      98% { transform: translate(3px, -1px); }
+    }
+
+    @keyframes glitch-1 {
+      0%, 100% { transform: translate(0); opacity: 0; }
+      20% { transform: translate(-3px, 2px); opacity: 0.8; }
+      40% { transform: translate(3px, -2px); opacity: 0; }
+      60% { transform: translate(-2px, 1px); opacity: 0.8; }
+      80% { transform: translate(2px, -1px); opacity: 0; }
+    }
+
+    @keyframes glitch-2 {
+      0%, 100% { transform: translate(0); opacity: 0; }
+      25% { transform: translate(3px, -2px); opacity: 0.8; }
+      50% { transform: translate(-3px, 2px); opacity: 0; }
+      75% { transform: translate(2px, -1px); opacity: 0.8; }
+    }
+
+    .error-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(24px, 5vw, 40px);
+      letter-spacing: 4px;
+      margin-top: 20px;
+      color: var(--white);
+    }
+
+    .error-text span {
+      color: var(--red);
+    }
+
+    .error-sub {
+      font-size: 16px;
+      color: var(--gray);
+      margin-top: 15px;
+      max-width: 400px;
+    }
+
+    .skull {
+      font-size: 60px;
+      margin: 30px 0;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 40px;
+      padding: 15px 35px;
+      background: transparent;
+      border: 2px solid var(--red);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: var(--red);
+      box-shadow: 0 10px 40px rgba(185, 28, 28, 0.4);
+      transform: translateY(-3px);
+    }
+
+    .back-btn span {
+      transition: transform 0.3s ease;
+    }
+
+    .back-btn:hover span {
+      transform: translateX(-5px);
+    }
+
+    /* Easter egg - konami style */
+    .secret-msg {
+      position: fixed;
+      bottom: 20px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 768px) {
+      .grain {
+        display: none;
+      }
+
+      .skull {
+        font-size: 40px;
+      }
+
+      .error-sub {
+        font-size: 14px;
+        padding: 0 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+  <div class="vignette"></div>
+
+  <div class="content">
+    <div class="error-code">404</div>
+    <h1 class="error-text">Cette page a <span>crevé</span></h1>
+    <p class="error-sub">Comme les perdants de la masterclass. Sauf que cette page, elle reviendra pas.</p>
+
+    <div class="skull">💀</div>
+
+    <a href="/" class="back-btn">
+      <span>←</span>
+      Retour à l'accueil
+    </a>
+  </div>
+
+  <p class="secret-msg">Le meilleur gagne. Les autres, on les bute.</p>
+</body>
+</html>
