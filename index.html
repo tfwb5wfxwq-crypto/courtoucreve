@@ -2515,7 +2515,10 @@
       <div class="form-container">
         <p class="form-intro">Remplis ce formulaire et on te recontacte rapidement.</p>
 
-        <form action="https://formspree.io/f/xyzgkqwl" method="POST" class="inscription-form">
+        <form action="https://api.web3forms.com/submit" method="POST" class="inscription-form">
+          <input type="hidden" name="access_key" value="405da5a1-7e88-40df-8449-35719083dde9">
+          <input type="hidden" name="subject" value="Nouvelle inscription Court ou Crève">
+          <input type="hidden" name="from_name" value="Court ou Crève">
           <div class="form-row">
             <div class="form-group">
               <input type="text" name="name" class="form-input" placeholder="Prénom et Nom" required>
