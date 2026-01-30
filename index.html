@@ -616,40 +616,106 @@
       margin-bottom: 30px;
     }
 
-    .hero-logo-img {
-      width: clamp(200px, 30vw, 350px);
+    /* Logo animé avec lettres individuelles */
+    .logo-animated {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      filter: drop-shadow(0 0 30px rgba(185, 28, 28, 0.3));
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .logo-row.court { gap: 2px; }
+    .logo-row.ou { gap: 1px; margin: -10px 0; }
+    .logo-row.creve { gap: 2px; }
+
+    .logo-letter {
       height: auto;
       opacity: 0;
-      transform: scale(0.9);
+      transform: translateY(30px);
     }
 
-    .hero-logo-img.animate-enter {
-      animation: logoFadeIn 0.8s ease-out forwards;
+    .logo-row.court .logo-letter { height: clamp(50px, 8vw, 80px); }
+    .logo-row.ou .logo-letter { height: clamp(16px, 2.5vw, 26px); }
+    .logo-row.creve .logo-letter { height: clamp(55px, 9vw, 90px); }
+
+    /* Animation COURT - slide in de gauche */
+    .logo-letter.animate-court {
+      animation: letterSlideIn 0.4s ease-out forwards;
     }
 
-    .hero-logo-img.animate-complete {
-      opacity: 1;
-      transform: scale(1);
-      filter: drop-shadow(0 0 40px rgba(185, 28, 28, 0.3));
-      animation: heroLogoFloat 6s ease-in-out infinite;
+    /* Animation OU - fade in */
+    .logo-letter.animate-ou {
+      animation: letterFadeIn 0.3s ease-out forwards;
     }
 
-    @keyframes logoFadeIn {
+    /* Animation CRÈVE - arrive en tremblant */
+    .logo-letter.animate-creve {
+      animation: letterShakeIn 0.5s ease-out forwards;
+    }
+
+    /* CRÈVE continue de trembler légèrement */
+    .logo-letter.shake-loop {
+      animation: letterShakeLoop 0.15s ease-in-out infinite;
+    }
+
+    @keyframes letterSlideIn {
       0% {
         opacity: 0;
-        transform: scale(0.95);
-        filter: blur(5px);
+        transform: translateX(-40px) translateY(0);
       }
       100% {
         opacity: 1;
-        transform: scale(1);
-        filter: blur(0) drop-shadow(0 0 40px rgba(185, 28, 28, 0.3));
+        transform: translateX(0) translateY(0);
       }
     }
 
-    @keyframes heroLogoFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+    @keyframes letterFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes letterShakeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(40px) rotate(-5deg);
+      }
+      25% {
+        transform: translateY(-5px) rotate(3deg);
+      }
+      50% {
+        transform: translateY(3px) rotate(-2deg);
+      }
+      75% {
+        transform: translateY(-2px) rotate(1deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) rotate(0);
+      }
+    }
+
+    @keyframes letterShakeLoop {
+      0%, 100% { transform: translateX(0) rotate(0); }
+      25% { transform: translateX(-1px) rotate(-0.5deg); }
+      75% { transform: translateX(1px) rotate(0.5deg); }
+    }
+
+    /* Fallback pour l'ancienne image */
+    .hero-logo-img {
+      display: none;
     }
 
     .hero-subtitle {
@@ -1910,9 +1976,11 @@
         border-radius: 8px;
       }
 
-      .hero-logo-img {
-        max-width: 280px;
-      }
+      /* Logo animé mobile */
+      .logo-row.court .logo-letter { height: 45px; }
+      .logo-row.ou .logo-letter { height: 14px; }
+      .logo-row.creve .logo-letter { height: 50px; }
+      .logo-row.ou { margin: -8px 0; }
 
       .hero-tagline {
         font-size: 14px;
@@ -2159,7 +2227,27 @@
       <!-- Left: Logo & Info -->
       <div class="hero-left">
         <div class="hero-logo">
-          <img src="logo.svg" alt="Court ou Crève - Formation réalisation vidéo et court-métrage à Paris" class="hero-logo-img">
+          <!-- Logo animé lettre par lettre -->
+          <div class="logo-animated" aria-label="Court ou Crève - Formation réalisation vidéo et court-métrage à Paris">
+            <div class="logo-row court">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-01.svg" alt="" class="logo-letter" data-group="court" data-delay="0">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-02.svg" alt="" class="logo-letter" data-group="court" data-delay="80">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-03.svg" alt="" class="logo-letter" data-group="court" data-delay="160">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-04.svg" alt="" class="logo-letter" data-group="court" data-delay="240">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-05.svg" alt="" class="logo-letter" data-group="court" data-delay="320">
+            </div>
+            <div class="logo-row ou">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-06.svg" alt="" class="logo-letter" data-group="ou" data-delay="500">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-07.svg" alt="" class="logo-letter" data-group="ou" data-delay="550">
+            </div>
+            <div class="logo-row creve">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-08.svg" alt="" class="logo-letter" data-group="creve" data-delay="700">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-09.svg" alt="" class="logo-letter" data-group="creve" data-delay="780">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-10.svg" alt="" class="logo-letter" data-group="creve" data-delay="860">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-11.svg" alt="" class="logo-letter" data-group="creve" data-delay="940">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-12.svg" alt="" class="logo-letter" data-group="creve" data-delay="1020">
+            </div>
+          </div>
         </div>
 
         <h1 class="hero-subtitle">Formation Réalisation Vidéo & Court-Métrage à Paris</h1>
@@ -2507,19 +2595,27 @@
       document.getElementById('loader').style.display = 'none';
       document.getElementById('mainContent').classList.add('visible');
 
-      // Animation fluide du logo hero
-      const heroLogo = document.querySelector('.hero-logo-img');
+      // Animation des lettres du logo
+      const logoLetters = document.querySelectorAll('.logo-letter');
 
-      // Entrée douce
-      setTimeout(() => {
-        heroLogo.classList.add('animate-enter');
-      }, 100);
+      logoLetters.forEach(letter => {
+        const group = letter.dataset.group;
+        const delay = parseInt(letter.dataset.delay);
 
-      // Puis flottement continu
-      setTimeout(() => {
-        heroLogo.classList.remove('animate-enter');
-        heroLogo.classList.add('animate-complete');
-      }, 900);
+        setTimeout(() => {
+          letter.classList.add(`animate-${group}`);
+
+          // Pour CRÈVE, ajouter le tremblement continu après l'animation d'entrée
+          if (group === 'creve') {
+            setTimeout(() => {
+              letter.classList.remove('animate-creve');
+              letter.style.opacity = '1';
+              letter.style.transform = 'translateY(0)';
+              letter.classList.add('shake-loop');
+            }, 500);
+          }
+        }, delay + 100);
+      });
 
       // Shuffle marquee photos randomly
       const marqueeTrack = document.querySelector('.marquee-track');
@@ -2570,7 +2666,7 @@
 
     // Header scroll effect + Logo morphing
     const header = document.getElementById('header');
-    const heroLogo = document.querySelector('.hero-logo-img');
+    const logoAnimated = document.querySelector('.logo-animated');
     const heroSection = document.querySelector('.hero');
 
     window.addEventListener('scroll', () => {
@@ -2584,16 +2680,16 @@
         header.classList.remove('scrolled');
       }
 
-      // Logo hero shrink + fade pendant le scroll
-      if (heroLogo.classList.contains('animate-complete')) {
+      // Logo shrink + fade pendant le scroll
+      if (logoAnimated) {
         const progress = Math.min(scrollY / (heroHeight * 0.4), 1);
         const scale = 1 - (progress * 0.5);
         const opacity = 1 - (progress * 1.5);
         const blur = progress * 10;
 
-        heroLogo.style.transform = `translateY(${scrollY * 0.4}px) scale(${Math.max(scale, 0.5)})`;
-        heroLogo.style.opacity = Math.max(opacity, 0);
-        heroLogo.style.filter = `drop-shadow(0 0 50px rgba(185, 28, 28, 0.4)) blur(${blur}px)`;
+        logoAnimated.style.transform = `translateY(${scrollY * 0.4}px) scale(${Math.max(scale, 0.5)})`;
+        logoAnimated.style.opacity = Math.max(opacity, 0);
+        logoAnimated.style.filter = `drop-shadow(0 0 30px rgba(185, 28, 28, 0.3)) blur(${blur}px)`;
       }
     });
 
