@@ -216,10 +216,10 @@
     .header-version .logo-row.court .logo-letter { height: 28px; }
     .header-version .logo-row.ou .logo-letter { height: 9px; }
     .header-version .logo-row.creve .logo-letter { height: 32px; }
-    .header-version .logo-row.court { gap: 1px; }
-    .header-version .logo-row.ou { gap: 0; margin: -1px 0; }
-    .header-version .logo-row.creve { gap: 1px; }
-    .header-version .logo-animated { gap: 2px; }
+    .header-version .logo-row.court { gap: 0; }
+    .header-version .logo-row.ou { gap: 0; margin: -3px 0; }
+    .header-version .logo-row.creve { gap: 0; }
+    .header-version .logo-animated { gap: 1px; }
 
     .header-cta {
       position: absolute;
@@ -293,7 +293,7 @@
     .loader-version .logo-row.court .logo-letter { height: clamp(70px, 12vw, 120px); }
     .loader-version .logo-row.ou .logo-letter { height: clamp(22px, 4vw, 40px); }
     .loader-version .logo-row.creve .logo-letter { height: clamp(80px, 14vw, 140px); }
-    .loader-version .logo-row.ou { margin: -5px 0; }
+    .loader-version .logo-row.ou { margin: -10px 0; }
 
     /* Lettres visibles par défaut (pour header) */
     .logo-letter.visible {
@@ -610,9 +610,9 @@
       justify-content: center;
     }
 
-    .logo-row.court { gap: 2px; }
-    .logo-row.ou { gap: 1px; margin: -3px 0; }
-    .logo-row.creve { gap: 2px; }
+    .logo-row.court { gap: 1px; }
+    .logo-row.ou { gap: 0; margin: -6px 0; }
+    .logo-row.creve { gap: 1px; }
 
     .logo-letter {
       height: auto;
@@ -1329,6 +1329,33 @@
       padding: 0 30px 25px 30px;
     }
 
+    /* Teaser vidéo Saison 2 */
+    .teaser-video-container {
+      max-width: 700px;
+      margin: 0 auto 50px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 20px 60px rgba(185, 28, 28, 0.3);
+    }
+
+    .teaser-video {
+      width: 100%;
+      display: block;
+    }
+
+    /* Masque pour cacher le logo Vevo en bas à droite */
+    .teaser-video-container::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 120px;
+      height: 50px;
+      background: linear-gradient(135deg, transparent 0%, rgba(10,10,10,0.95) 50%);
+      pointer-events: none;
+    }
+
     /* Contact/Inscription section */
     .inscription {
       background: linear-gradient(135deg, var(--black) 0%, #1a0a0a 100%);
@@ -1953,7 +1980,7 @@
       .logo-row.court .logo-letter { height: 45px; }
       .logo-row.ou .logo-letter { height: 14px; }
       .logo-row.creve .logo-letter { height: 50px; }
-      .logo-row.ou { margin: -3px 0; }
+      .logo-row.ou { margin: -5px 0; }
 
       .hero-tagline {
         font-size: 14px;
@@ -2513,6 +2540,11 @@
     <section class="inscription" id="inscription">
       <h2 class="section-title">Je <span>m'inscris</span></h2>
 
+      <!-- Teaser Saison 2 -->
+      <div class="teaser-video-container">
+        <video class="teaser-video" src="saison2-teaser.mp4" muted playsinline preload="auto" id="teaserVideo"></video>
+      </div>
+
       <div class="form-container">
         <p class="form-intro">Remplis ce formulaire et on te recontacte rapidement.</p>
 
@@ -2873,6 +2905,22 @@
     }, { threshold: 0.2 });
 
     teamMembers.forEach(member => teamObserver.observe(member));
+
+    // Teaser video - play once when visible
+    const teaserVideo = document.getElementById('teaserVideo');
+    if (teaserVideo) {
+      let teaserPlayed = false;
+      const teaserObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !teaserPlayed) {
+            teaserVideo.play();
+            teaserPlayed = true;
+            teaserObserver.disconnect();
+          }
+        });
+      }, { threshold: 0.5 });
+      teaserObserver.observe(teaserVideo);
+    }
 
     // Hero video text animation on load
     const heroVideoText = document.querySelector('.hero-video-text');
