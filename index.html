@@ -1123,7 +1123,7 @@
       margin: 0 auto;
     }
 
-    /* Form success animation */
+    /* Form success animation - Cinema Clap */
     .form-success {
       display: none;
       text-align: center;
@@ -1134,61 +1134,45 @@
       display: block;
     }
 
-    .form-success-icon {
-      width: 100px;
+    .form-success-icon.clap-icon {
+      width: 120px;
       height: 100px;
       margin: 0 auto 30px;
-      position: relative;
     }
 
-    .form-success-icon svg {
-      width: 100px;
+    .clap-svg {
+      width: 120px;
       height: 100px;
     }
 
-    .form-success-icon .circle {
-      stroke: var(--red);
-      stroke-width: 3;
-      fill: none;
-      stroke-dasharray: 300;
-      stroke-dashoffset: 300;
-      animation: drawCircle 0.6s ease forwards;
+    .clap-top {
+      transform-origin: 10px 15px;
+      animation: clapAnimation 0.6s ease forwards;
     }
 
-    .form-success-icon .check {
-      stroke: var(--red);
-      stroke-width: 4;
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 50;
-      stroke-dashoffset: 50;
-      animation: drawCheck 0.4s ease forwards 0.5s;
-    }
-
-    @keyframes drawCircle {
-      to { stroke-dashoffset: 0; }
-    }
-
-    @keyframes drawCheck {
-      to { stroke-dashoffset: 0; }
+    @keyframes clapAnimation {
+      0% { transform: rotate(-30deg); }
+      40% { transform: rotate(0deg); }
+      50% { transform: rotate(-5deg); }
+      60% { transform: rotate(0deg); }
+      100% { transform: rotate(0deg); }
     }
 
     .form-success h3 {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 42px;
-      letter-spacing: 3px;
+      font-size: 48px;
+      letter-spacing: 4px;
       margin-bottom: 15px;
       opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 0.5s ease forwards 0.7s;
+      transform: translateY(20px) scale(0.8);
+      animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.5s;
     }
 
     .form-success p {
       color: var(--gray);
       font-size: 18px;
       opacity: 0;
-      animation: fadeUp 0.5s ease forwards 0.9s;
+      animation: fadeUp 0.5s ease forwards 0.8s;
     }
 
     .form-success .subtext {
@@ -1198,7 +1182,14 @@
       letter-spacing: 2px;
       margin-top: 20px;
       opacity: 0;
-      animation: fadeUp 0.5s ease forwards 1.1s;
+      animation: fadeUp 0.5s ease forwards 1s;
+    }
+
+    @keyframes popUp {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     @keyframes fadeUp {
@@ -2557,12 +2548,9 @@
       <div class="form-container">
         <p class="form-intro">Remplis ce formulaire et on te recontacte rapidement.</p>
 
-        <form action="https://api.web3forms.com/submit" method="POST" class="inscription-form">
-          <input type="hidden" name="access_key" value="405da5a1-7e88-40df-8449-35719083dde9">
-          <input type="hidden" name="subject" value="🎬 Demande depuis courtoucreve.com">
-          <input type="hidden" name="from_name" value="Site Court ou Crève">
+        <form class="inscription-form" id="inscriptionForm">
           <!-- Honeypot anti-spam -->
-          <input type="checkbox" name="botcheck" style="display:none !important" tabindex="-1" autocomplete="off">
+          <input type="text" name="website" style="display:none !important" tabindex="-1" autocomplete="off">
           <div class="form-row">
             <div class="form-group">
               <input type="text" name="Nom" class="form-input" placeholder="Prénom et Nom" required>
@@ -2590,12 +2578,12 @@
 
           <div class="form-checkboxes">
             <label class="custom-checkbox">
-              <input type="checkbox" name="Statut intermittent" value="Oui, je suis ou j'ai été intermittent">
+              <input type="checkbox" name="intermittent" id="intermittent">
               <span class="checkmark"></span>
               <span class="checkbox-text">Je suis <strong>intermittent(e)</strong> ou je l'ai été</span>
             </label>
             <label class="custom-checkbox">
-              <input type="checkbox" name="AFDAS disponible" value="Oui, pas de formation AFDAS cette année">
+              <input type="checkbox" name="afdas" id="afdas">
               <span class="checkmark"></span>
               <span class="checkbox-text">Je n'ai <strong>pas fait</strong> de formation AFDAS cette année</span>
             </label>
@@ -2613,15 +2601,25 @@
 
         <!-- Success message -->
         <div class="form-success" id="formSuccess">
-          <div class="form-success-icon">
-            <svg viewBox="0 0 100 100">
-              <circle class="circle" cx="50" cy="50" r="45"/>
-              <path class="check" d="M30 50 L45 65 L70 35"/>
+          <div class="form-success-icon clap-icon">
+            <svg viewBox="0 0 100 80" class="clap-svg">
+              <!-- Clap top part (moving) -->
+              <g class="clap-top">
+                <rect x="10" y="0" width="80" height="15" rx="2" fill="#c41e3a"/>
+                <line x1="20" y1="3" x2="20" y2="12" stroke="#fff" stroke-width="2"/>
+                <line x1="35" y1="3" x2="35" y2="12" stroke="#fff" stroke-width="2"/>
+                <line x1="50" y1="3" x2="50" y2="12" stroke="#fff" stroke-width="2"/>
+                <line x1="65" y1="3" x2="65" y2="12" stroke="#fff" stroke-width="2"/>
+                <line x1="80" y1="3" x2="80" y2="12" stroke="#fff" stroke-width="2"/>
+              </g>
+              <!-- Clap bottom part -->
+              <rect x="10" y="18" width="80" height="55" rx="3" fill="#1a1a1a" stroke="#c41e3a" stroke-width="2"/>
+              <text x="50" y="52" text-anchor="middle" fill="#fff" font-size="14" font-family="Bebas Neue, sans-serif" letter-spacing="2">ACTION</text>
             </svg>
           </div>
-          <h3>C'EST ENVOYÉ</h3>
-          <p>On a bien reçu ta demande.</p>
-          <div class="subtext">À très vite peut-être !</div>
+          <h3>ET... ACTION !</h3>
+          <p>Ta demande est partie</p>
+          <div class="subtext">On te recontacte vite 🎬</div>
         </div>
 
         <!-- Error message -->
@@ -2973,13 +2971,17 @@
     inscriptionForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const formData = new FormData(inscriptionForm);
+      // Honeypot check
+      if (inscriptionForm.querySelector('[name="website"]').value) {
+        return; // Bot detected
+      }
+
       const submitBtn = inscriptionForm.querySelector('.submit-btn');
 
       // Rate limit: max 3 envois par heure
       const now = Date.now();
       const submissions = JSON.parse(localStorage.getItem('coc_submissions') || '[]');
-      const recentSubmissions = submissions.filter(t => now - t < 3600000); // dernière heure
+      const recentSubmissions = submissions.filter(t => now - t < 3600000);
 
       if (recentSubmissions.length >= 3) {
         alert('Tu as déjà envoyé plusieurs demandes. Réessaie dans 1h ou écris à courtoucreve@gmail.com');
@@ -2990,13 +2992,23 @@
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span>Envoi en cours...</span>';
 
+      // Collect form data
+      const data = {
+        nom: inscriptionForm.querySelector('[name="Nom"]').value,
+        email: inscriptionForm.querySelector('[name="Email"]').value,
+        telephone: inscriptionForm.querySelector('[name="Téléphone"]').value,
+        motivation: inscriptionForm.querySelector('[name="Motivation"]').value,
+        intermittent: inscriptionForm.querySelector('#intermittent').checked,
+        afdas: inscriptionForm.querySelector('#afdas').checked
+      };
+
       try {
-        const response = await fetch(inscriptionForm.action, {
+        const response = await fetch('https://xhpsdbmajanmoztijbnx.supabase.co/functions/v1/courtoucreve-contact', {
           method: 'POST',
-          body: formData,
           headers: {
-            'Accept': 'application/json'
-          }
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
         });
 
         const result = await response.json();
