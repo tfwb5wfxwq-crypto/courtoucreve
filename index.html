@@ -2519,6 +2519,8 @@
           <input type="hidden" name="access_key" value="405da5a1-7e88-40df-8449-35719083dde9">
           <input type="hidden" name="subject" value="Nouvelle inscription Court ou Crève">
           <input type="hidden" name="from_name" value="Court ou Crève">
+          <!-- Honeypot anti-spam -->
+          <input type="checkbox" name="botcheck" style="display:none !important" tabindex="-1" autocomplete="off">
           <div class="form-row">
             <div class="form-group">
               <input type="text" name="name" class="form-input" placeholder="Prénom et Nom" required>
@@ -2930,6 +2932,16 @@
       const formData = new FormData(inscriptionForm);
       const submitBtn = inscriptionForm.querySelector('.submit-btn');
 
+      // Rate limit: max 3 envois par heure
+      const now = Date.now();
+      const submissions = JSON.parse(localStorage.getItem('coc_submissions') || '[]');
+      const recentSubmissions = submissions.filter(t => now - t < 3600000); // dernière heure
+
+      if (recentSubmissions.length >= 3) {
+        alert('Tu as déjà envoyé plusieurs demandes. Réessaie dans 1h ou écris à courtoucreve@gmail.com');
+        return;
+      }
+
       // Disable button and show loading
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span>Envoi en cours...</span>';
@@ -2946,6 +2958,10 @@
         const result = await response.json();
 
         if (result.success) {
+          // Sauvegarder le timestamp pour rate limit
+          recentSubmissions.push(now);
+          localStorage.setItem('coc_submissions', JSON.stringify(recentSubmissions));
+
           // Hide form, show success
           inscriptionForm.classList.add('hidden');
           formIntro.style.display = 'none';
