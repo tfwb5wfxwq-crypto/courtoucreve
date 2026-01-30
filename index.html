@@ -1732,6 +1732,45 @@
       font-style: normal;
     }
 
+    /* Bandeau photos défilant */
+    .photos-marquee {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      overflow: hidden;
+      padding: 40px 0;
+      background: linear-gradient(180deg, transparent, rgba(185, 28, 28, 0.05), transparent);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 20px;
+      animation: marquee 40s linear infinite;
+      width: max-content;
+    }
+
+    .marquee-track img {
+      height: 200px;
+      width: auto;
+      border-radius: 10px;
+      object-fit: cover;
+      filter: grayscale(30%);
+      transition: all 0.3s ease;
+    }
+
+    .marquee-track img:hover {
+      filter: grayscale(0%);
+      transform: scale(1.05);
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .photos-marquee:hover .marquee-track {
+      animation-play-state: paused;
+    }
+
     .season-cta {
       display: inline-flex;
       align-items: center;
@@ -2071,6 +2110,29 @@
           <div class="gallery-thumb">
             <img src="gallery/groupe-saison1.jpg?v=10" alt="Tous les participants Court ou Crève Saison 1">
           </div>
+        </div>
+      </div>
+
+      <!-- Bandeau photos défilant -->
+      <div class="photos-marquee">
+        <div class="marquee-track">
+          <img src="gallery/saison1/cours-groupe.jpg" alt="Court ou Crève - Participants attentifs pendant le cours">
+          <img src="gallery/saison1/participant-rire.jpg" alt="Court ou Crève - Bonne ambiance entre participants">
+          <img src="gallery/saison1/participante-adidas.jpg" alt="Court ou Crève - Participante concentrée">
+          <img src="gallery/saison1/masterclass-ludovik.jpg" alt="Court ou Crève - Masterclass avec Ludovik">
+          <img src="gallery/saison1/babor-presentation.jpg" alt="Court ou Crève - Babor en présentation">
+          <img src="gallery/saison1/ludoc-tableau.jpg" alt="Court ou Crève - Ludoc au tableau">
+          <img src="gallery/saison1/photocall-trophee.jpg" alt="Court ou Crève - Gagnants avec le trophée">
+          <img src="gallery/saison1/cinema-applaudissements.jpg" alt="Court ou Crève - Projection cinéma applaudissements">
+          <!-- Duplicate for seamless loop -->
+          <img src="gallery/saison1/cours-groupe.jpg" alt="Court ou Crève - Participants attentifs pendant le cours">
+          <img src="gallery/saison1/participant-rire.jpg" alt="Court ou Crève - Bonne ambiance entre participants">
+          <img src="gallery/saison1/participante-adidas.jpg" alt="Court ou Crève - Participante concentrée">
+          <img src="gallery/saison1/masterclass-ludovik.jpg" alt="Court ou Crève - Masterclass avec Ludovik">
+          <img src="gallery/saison1/babor-presentation.jpg" alt="Court ou Crève - Babor en présentation">
+          <img src="gallery/saison1/ludoc-tableau.jpg" alt="Court ou Crève - Ludoc au tableau">
+          <img src="gallery/saison1/photocall-trophee.jpg" alt="Court ou Crève - Gagnants avec le trophée">
+          <img src="gallery/saison1/cinema-applaudissements.jpg" alt="Court ou Crève - Projection cinéma applaudissements">
         </div>
       </div>
 
