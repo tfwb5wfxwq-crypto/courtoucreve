@@ -2005,13 +2005,33 @@
         gap: 8px;
       }
 
+      /* Slideshow des 3 photos sur mobile */
       .gallery-side {
-        flex-direction: row;
-        gap: 8px;
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4/3;
+        overflow: hidden;
+        border-radius: 12px;
       }
 
       .gallery-thumb {
-        aspect-ratio: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out;
+      }
+
+      .gallery-thumb.active {
+        opacity: 1;
+      }
+
+      .gallery-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
 
       .play-btn {
@@ -2761,6 +2781,21 @@
             resetVideo();
           }
         });
+      }
+    }
+
+    // Mobile: slideshow des 3 photos avec fade
+    if (isMobile) {
+      const galleryThumbs = document.querySelectorAll('.gallery-thumb');
+      if (galleryThumbs.length > 0) {
+        let currentSlide = 0;
+        galleryThumbs[0].classList.add('active');
+
+        setInterval(() => {
+          galleryThumbs[currentSlide].classList.remove('active');
+          currentSlide = (currentSlide + 1) % galleryThumbs.length;
+          galleryThumbs[currentSlide].classList.add('active');
+        }, 3000);
       }
     }
 
