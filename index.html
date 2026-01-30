@@ -645,72 +645,69 @@
     .logo-row.ou .logo-letter { height: clamp(16px, 2.5vw, 26px); }
     .logo-row.creve .logo-letter { height: clamp(55px, 9vw, 90px); }
 
-    /* Animation COURT - slide in de gauche */
+    /* Animation COURT - pop rapide, sec, impact */
     .logo-letter.animate-court {
-      animation: letterSlideIn 0.4s ease-out forwards;
+      animation: courtPop 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
 
-    /* Animation OU - fade in */
+    /* Animation OU - fade in doux */
     .logo-letter.animate-ou {
-      animation: letterFadeIn 0.3s ease-out forwards;
+      animation: ouFade 0.4s ease-out forwards;
     }
 
-    /* Animation CRÈVE - arrive en tremblant */
+    /* Animation CRÈVE - entrée flippante */
     .logo-letter.animate-creve {
-      animation: letterShakeIn 0.5s ease-out forwards;
+      animation: creveSlam 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     }
 
-    /* CRÈVE continue de trembler légèrement */
+    /* CRÈVE tremble en continu - effet creepy */
     .logo-letter.shake-loop {
-      animation: letterShakeLoop 0.15s ease-in-out infinite;
+      animation: creveShake 0.08s linear infinite;
     }
 
-    @keyframes letterSlideIn {
+    @keyframes courtPop {
       0% {
         opacity: 0;
-        transform: translateX(-40px) translateY(0);
+        transform: translateY(-20px) scale(1.3);
       }
       100% {
         opacity: 1;
-        transform: translateX(0) translateY(0);
+        transform: translateY(0) scale(1);
       }
     }
 
-    @keyframes letterFadeIn {
+    @keyframes ouFade {
       0% {
         opacity: 0;
-        transform: translateY(10px);
+        transform: scale(0.8);
       }
       100% {
         opacity: 1;
-        transform: translateY(0);
+        transform: scale(1);
       }
     }
 
-    @keyframes letterShakeIn {
+    @keyframes creveSlam {
       0% {
         opacity: 0;
-        transform: translateY(40px) rotate(-5deg);
+        transform: translateY(-50px) scaleY(1.5);
       }
-      25% {
-        transform: translateY(-5px) rotate(3deg);
-      }
-      50% {
-        transform: translateY(3px) rotate(-2deg);
-      }
-      75% {
-        transform: translateY(-2px) rotate(1deg);
+      60% {
+        opacity: 1;
+        transform: translateY(5px) scaleY(0.9);
       }
       100% {
         opacity: 1;
-        transform: translateY(0) rotate(0);
+        transform: translateY(0) scaleY(1);
       }
     }
 
-    @keyframes letterShakeLoop {
-      0%, 100% { transform: translateX(0) rotate(0); }
-      25% { transform: translateX(-1px) rotate(-0.5deg); }
-      75% { transform: translateX(1px) rotate(0.5deg); }
+    @keyframes creveShake {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(-1px, 0.5px) rotate(-0.3deg); }
+      50% { transform: translate(1px, -0.5px) rotate(0.3deg); }
+      75% { transform: translate(-0.5px, 0) rotate(-0.2deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
     }
 
     /* Fallback pour l'ancienne image */
@@ -2251,21 +2248,21 @@
           <div class="logo-animated" aria-label="Court ou Crève - Formation réalisation vidéo et court-métrage à Paris">
             <div class="logo-row court">
               <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-01.svg" alt="" class="logo-letter" data-group="court" data-delay="0">
-              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-02.svg" alt="" class="logo-letter" data-group="court" data-delay="80">
-              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-03.svg" alt="" class="logo-letter" data-group="court" data-delay="160">
-              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-04.svg" alt="" class="logo-letter" data-group="court" data-delay="240">
-              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-05.svg" alt="" class="logo-letter" data-group="court" data-delay="320">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-02.svg" alt="" class="logo-letter" data-group="court" data-delay="50">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-03.svg" alt="" class="logo-letter" data-group="court" data-delay="100">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-04.svg" alt="" class="logo-letter" data-group="court" data-delay="150">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-05.svg" alt="" class="logo-letter" data-group="court" data-delay="200">
             </div>
             <div class="logo-row ou">
-              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-06.svg" alt="" class="logo-letter" data-group="ou" data-delay="500">
-              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-07.svg" alt="" class="logo-letter" data-group="ou" data-delay="550">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-06.svg" alt="" class="logo-letter" data-group="ou" data-delay="350">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-07.svg" alt="" class="logo-letter" data-group="ou" data-delay="380">
             </div>
             <div class="logo-row creve">
-              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-08.svg" alt="" class="logo-letter" data-group="creve" data-delay="700">
-              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-09.svg" alt="" class="logo-letter" data-group="creve" data-delay="780">
-              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-10.svg" alt="" class="logo-letter" data-group="creve" data-delay="860">
-              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-11.svg" alt="" class="logo-letter" data-group="creve" data-delay="940">
-              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-12.svg" alt="" class="logo-letter" data-group="creve" data-delay="1020">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-08.svg" alt="" class="logo-letter" data-group="creve" data-delay="550">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-09.svg" alt="" class="logo-letter" data-group="creve" data-delay="620">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-10.svg" alt="" class="logo-letter" data-group="creve" data-delay="690">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-11.svg" alt="" class="logo-letter" data-group="creve" data-delay="760">
+              <img src="logo-letters/Courtoucreve_Site_Logo_Lettre-12.svg" alt="" class="logo-letter" data-group="creve" data-delay="830">
             </div>
           </div>
         </div>
@@ -2630,11 +2627,11 @@
             setTimeout(() => {
               letter.classList.remove('animate-creve');
               letter.style.opacity = '1';
-              letter.style.transform = 'translateY(0)';
+              letter.style.transform = 'translateY(0) scaleY(1)';
               letter.classList.add('shake-loop');
-            }, 500);
+            }, 300);
           }
-        }, delay + 100);
+        }, delay + 50);
       });
 
       // Shuffle marquee photos randomly
