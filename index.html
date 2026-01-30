@@ -1947,6 +1947,33 @@
         border-bottom-width: 9px;
       }
 
+      /* Video plus accessible sur mobile */
+      .gallery-main {
+        min-height: 300px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .gallery-main.playing::after {
+        content: 'Tap pour pause';
+        position: absolute;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.7);
+        color: white;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 12px;
+        opacity: 0;
+        animation: fadeHint 3s forwards;
+      }
+
+      @keyframes fadeHint {
+        0%, 70% { opacity: 0.9; }
+        100% { opacity: 0; }
+      }
+
       .testimonial blockquote {
         font-size: 16px;
         padding: 0 10px;
@@ -2535,50 +2562,58 @@
     // Gallery main video - click to play inline
     const galleryMain = document.querySelector('.gallery-main');
     const galleryPlay = document.querySelector('.gallery-play');
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     if (galleryMain) {
       const video = galleryMain.querySelector('video');
 
       if (video) {
+        // Fonction pour reset la vidéo
+        function resetVideo() {
+          video.pause();
+          video.controls = false;
+          video.muted = true;
+          galleryPlay.style.display = 'block';
+          galleryMain.classList.remove('playing');
+        }
+
         // Click to play/pause
         galleryMain.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
 
           if (video.paused) {
-            video.controls = true;
+            // Sur mobile: pas de contrôles, juste play/pause simple
+            video.controls = !isMobile;
             video.muted = false;
             video.play();
             galleryPlay.style.display = 'none';
             galleryMain.classList.add('playing');
           } else {
-            video.pause();
+            resetVideo();
           }
         });
 
         // Reset when ended
         video.addEventListener('ended', () => {
-          video.controls = false;
-          video.muted = true;
           video.currentTime = 0;
-          galleryPlay.style.display = 'block';
-          galleryMain.classList.remove('playing');
+          resetVideo();
         });
 
-        // Pause when not visible (mobile battery saver)
+        // Pause when scrolling away (threshold bas pour réagir vite)
         const videoObserver = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (!entry.isIntersecting && !video.paused) {
-              video.pause();
+              resetVideo();
             }
           });
-        }, { threshold: 0.3 });
+        }, { threshold: 0.5 });
         videoObserver.observe(galleryMain);
 
         // Pause when tab hidden
         document.addEventListener('visibilitychange', () => {
           if (document.hidden && !video.paused) {
-            video.pause();
+            resetVideo();
           }
         });
       }
