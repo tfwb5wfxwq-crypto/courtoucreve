@@ -1,0 +1,9 @@
+# robots.txt - Court ou Crève
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://courtoucreve.com/sitemap.xml
+
+# Bloquer les fichiers non pertinents
+Disallow: /*.mp4$

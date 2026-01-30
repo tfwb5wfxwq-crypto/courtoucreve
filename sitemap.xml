@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Page principale -->
+  <url>
+    <loc>https://courtoucreve.com/</loc>
+    <lastmod>2026-01-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+
+    <!-- Images pour Google Images -->
+    <image:image>
+      <image:loc>https://courtoucreve.com/og-image.jpg</image:loc>
+      <image:title>Court ou Crève - Formation Réalisation Vidéo Paris</image:title>
+      <image:caption>Masterclass réalisation vidéo et court-métrage avec Kemar, Ludovik et Ludoc</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/team/court-ou-creve-kemar-formateur-jeu-acteur.jpg</image:loc>
+      <image:title>Kemar - Formateur jeu d'acteur Court ou Crève</image:title>
+      <image:caption>Kemar, formateur jeu d'acteur dans la formation Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/team/court-ou-creve-ludovik-formateur-production.jpg</image:loc>
+      <image:title>Ludovik - Formateur production vidéo Court ou Crève</image:title>
+      <image:caption>Ludovik, formateur production dans la formation Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/team/court-ou-creve-ludoc-formateur-technique.jpg</image:loc>
+      <image:title>Ludoc - Formateur technique vidéo Court ou Crève</image:title>
+      <image:caption>Ludoc, formateur technique dans la formation Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/team/court-ou-creve-babor-formateur-scenario.jpg</image:loc>
+      <image:title>Babor - Formateur écriture scénario Court ou Crève</image:title>
+      <image:caption>Babor, formateur écriture et scénario dans la formation Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/team/court-ou-creve-guillaume-formateur-reseaux.jpg</image:loc>
+      <image:title>Guillaume - Formateur réseaux sociaux Court ou Crève</image:title>
+      <image:caption>Guillaume Matas, formateur réseaux sociaux dans la formation Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/team/court-ou-creve-pierre-createur.jpg</image:loc>
+      <image:title>Pierre - Créateur de Court ou Crève</image:title>
+      <image:caption>Pierre, créateur et directeur de la formation Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/team/court-ou-creve-jhon-rachid-acteur.jpg</image:loc>
+      <image:title>Jhon Rachid - Acteur Court ou Crève</image:title>
+      <image:caption>Jhon Rachid, acteur et coach dans la formation Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/pierre-gagnant.jpg</image:loc>
+      <image:title>Pierre vainqueur Court ou Crève Saison 1</image:title>
+      <image:caption>Pierre, vainqueur de la Saison 1 de Court ou Crève avec son trophée</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/groupe-saison1.jpg</image:loc>
+      <image:title>Participants Court ou Crève Saison 1</image:title>
+      <image:caption>Photo de groupe des participants de la Saison 1 de Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/projo-1.jpg</image:loc>
+      <image:title>Projection cinéma Court ou Crève</image:title>
+      <image:caption>Public lors de la projection des courts-métrages au cinéma</image:caption>
+    </image:image>
+
+    <!-- Images marquee masterclass -->
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/saison1/court-ou-creve-masterclass-1.jpg</image:loc>
+      <image:title>Court ou Crève - Masterclass formation réalisation vidéo Paris</image:title>
+      <image:caption>Session de masterclass formation réalisation vidéo à Paris</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/saison1/court-ou-creve-masterclass-2.jpg</image:loc>
+      <image:title>Court ou Crève - Masterclass court-métrage ambiance</image:title>
+      <image:caption>Ambiance de la masterclass court-métrage Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/saison1/court-ou-creve-masterclass-3.jpg</image:loc>
+      <image:title>Court ou Crève - Masterclass formation audiovisuelle</image:title>
+      <image:caption>Formation audiovisuelle lors de la masterclass Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/saison1/court-ou-creve-formateur-1.jpg</image:loc>
+      <image:title>Court ou Crève - Formateur production vidéo en action</image:title>
+      <image:caption>Formateur production vidéo pendant une session Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/saison1/court-ou-creve-formateur-2.jpg</image:loc>
+      <image:title>Court ou Crève - Formateur écriture scénario en action</image:title>
+      <image:caption>Formateur écriture et scénario pendant une session Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/saison1/court-ou-creve-formateur-3.jpg</image:loc>
+      <image:title>Court ou Crève - Formateur technique cinéma en action</image:title>
+      <image:caption>Formateur technique cinéma pendant une session Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/saison1/court-ou-creve-projection-1.jpg</image:loc>
+      <image:title>Court ou Crève - Projection cinéma Saison 1</image:title>
+      <image:caption>Projection des courts-métrages au cinéma lors du gala Saison 1</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/saison1/court-ou-creve-projection-2.jpg</image:loc>
+      <image:title>Court ou Crève - Projection courts-métrages gala</image:title>
+      <image:caption>Gala de projection des courts-métrages Court ou Crève</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Pages légales -->
+  <url>
+    <loc>https://courtoucreve.com/cgu.html</loc>
+    <lastmod>2026-01-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://courtoucreve.com/confidentialite.html</loc>
+    <lastmod>2026-01-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>
