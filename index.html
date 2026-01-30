@@ -1329,7 +1329,6 @@
       padding: 0 30px 25px 30px;
     }
 
-    /* Teaser vidéo Saison 2 - croppé pour cacher Vevo */
     /* Contact/Inscription section */
     .inscription {
       background: linear-gradient(135deg, var(--black) 0%, #1a0a0a 100%);
@@ -1337,47 +1336,9 @@
       padding: 120px 20px;
     }
 
-    .inscription-wrapper {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 60px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
     .form-container {
       max-width: 500px;
-      flex: 1;
-    }
-
-    .teaser-video-container {
-      width: 280px;
-      flex-shrink: 0;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 15px 50px rgba(185, 28, 28, 0.3);
-      border: 2px solid rgba(185, 28, 28, 0.4);
-      margin-top: 60px;
-    }
-
-    .teaser-video {
-      width: 130%;
-      height: auto;
-      display: block;
-      object-fit: cover;
-      object-position: top left;
-    }
-
-    .teaser-label {
-      background: var(--red);
-      color: var(--white);
-      text-align: center;
-      padding: 8px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 2px;
+      margin: 0 auto;
     }
 
     .form-group {
@@ -2172,15 +2133,6 @@
       .header-version .logo-row.creve .logo-letter { height: 22px; }
       .header-version .logo-row.ou { margin: -1px 0; }
 
-      /* Cacher teaser sur mobile - trop petit */
-      .inscription-wrapper {
-        flex-direction: column;
-      }
-
-      .teaser-video-container {
-        display: none;
-      }
-
       .header-cta {
         right: 15px;
         padding: 10px 18px;
@@ -2561,8 +2513,7 @@
     <section class="inscription" id="inscription">
       <h2 class="section-title">Je <span>m'inscris</span></h2>
 
-      <div class="inscription-wrapper">
-        <div class="form-container">
+      <div class="form-container">
         <p class="form-intro">Remplis ce formulaire et on te recontacte rapidement.</p>
 
         <form action="https://formspree.io/f/xyzgkqwl" method="POST" class="inscription-form">
@@ -2637,13 +2588,6 @@
           <button class="retry-btn" onclick="hideError()">Réessayer</button>
         </div>
       </div>
-
-        <!-- Teaser Saison 2 -->
-        <div class="teaser-video-container" id="teaserContainer">
-          <video class="teaser-video" src="saison2-teaser.mp4" muted playsinline preload="auto" loop id="teaserVideo"></video>
-          <div class="teaser-label">Teaser Saison 2</div>
-        </div>
-      </div>
     </section>
 
     <!-- Footer -->
@@ -2676,10 +2620,32 @@
   </div>
 
   <script>
-    // Loading page avec animation du logo
+    // Loading page avec animation du logo (une seule fois par session)
     window.addEventListener('load', () => {
       const loader = document.getElementById('loader');
       const mainContent = document.getElementById('mainContent');
+      const hasSeenLoader = sessionStorage.getItem('courtoucreve_loader_seen');
+
+      // Si déjà vu cette session, skip le loader
+      if (hasSeenLoader) {
+        loader.style.display = 'none';
+        mainContent.classList.add('visible');
+
+        // Activer directement les animations du hero
+        const heroLetters = document.querySelectorAll('.hero-logo .logo-letter[data-group]');
+        heroLetters.forEach(letter => {
+          const group = letter.dataset.group;
+          letter.style.opacity = '1';
+          letter.style.transform = 'none';
+          if (group === 'creve') {
+            letter.classList.add('shake-loop');
+          }
+        });
+        return;
+      }
+
+      // Marquer comme vu
+      sessionStorage.setItem('courtoucreve_loader_seen', 'true');
 
       // Animer les lettres du loader
       const loaderLetters = loader.querySelectorAll('.logo-letter[data-group]');
@@ -2929,24 +2895,6 @@
     }, { threshold: 0.2 });
 
     teamMembers.forEach(member => teamObserver.observe(member));
-
-    // Teaser video - joue quand visible
-    const teaserVideo = document.getElementById('teaserVideo');
-    const teaserContainer = document.getElementById('teaserContainer');
-
-    if (teaserVideo && teaserContainer) {
-      const teaserObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            teaserVideo.play();
-          } else {
-            teaserVideo.pause();
-          }
-        });
-      }, { threshold: 0.3 });
-
-      teaserObserver.observe(teaserContainer);
-    }
 
     // Hero video text animation on load
     const heroVideoText = document.querySelector('.hero-video-text');
