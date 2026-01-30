@@ -1609,15 +1609,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(255,255,255,0.2);
-      color: var(--white);
+      color: var(--gray);
       text-decoration: none;
       transition: all 0.3s ease;
     }
 
     .social-links a:hover {
-      border-color: var(--red);
       color: var(--red);
+      transform: scale(1.1);
     }
 
     .footer-links {
@@ -2580,11 +2579,11 @@
         <div class="form-error" id="formError">
           <div class="form-error-icon">
             <svg viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
-          <h3>Oups, erreur !</h3>
-          <p>Réessaie ou contacte-nous directement.</p>
+          <h3>Petit souci technique</h3>
+          <p>Écris-nous direct à courtoucreve@gmail.com</p>
           <button class="retry-btn" onclick="hideError()">Réessayer</button>
         </div>
       </div>
