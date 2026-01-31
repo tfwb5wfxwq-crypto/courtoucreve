@@ -1513,25 +1513,16 @@
       width: 100%;
     }
 
-    /* Validation custom */
-    .form-input.invalid {
-      border-color: var(--red) !important;
-    }
+    /* Validation custom - shake effect */
     .form-input.invalid ~ .input-line {
       width: 100%;
       background: var(--red);
+      animation: shake 0.4s ease;
     }
-    .form-group .error-msg {
-      color: var(--red);
-      font-size: 11px;
-      margin-top: 8px;
-      text-decoration: none !important;
-      font-style: italic;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .form-group .error-msg.show {
-      opacity: 0.8;
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
     }
 
     .form-textarea {
@@ -3004,27 +2995,16 @@
 
     function showError(input) {
       input.classList.add('invalid');
-      let errorMsg = input.parentElement.querySelector('.error-msg');
-      if (!errorMsg) {
-        errorMsg = document.createElement('div');
-        errorMsg.className = 'error-msg';
-        input.parentElement.appendChild(errorMsg);
+      // Re-trigger animation
+      const line = input.parentElement.querySelector('.input-line');
+      if (line) {
+        line.style.animation = 'none';
+        setTimeout(() => line.style.animation = '', 10);
       }
-      // Champ vide = "Champ requis", email mal formaté = "Email invalide"
-      if (!input.value.trim()) {
-        errorMsg.textContent = 'Champ requis';
-      } else if (input.type === 'email' && !input.validity.valid) {
-        errorMsg.textContent = 'Email invalide';
-      } else {
-        errorMsg.textContent = 'Champ requis';
-      }
-      setTimeout(() => errorMsg.classList.add('show'), 10);
     }
 
     function hideInputError(input) {
       input.classList.remove('invalid');
-      const errorMsg = input.parentElement.querySelector('.error-msg');
-      if (errorMsg) errorMsg.classList.remove('show');
     }
 
     inscriptionForm.addEventListener('submit', async (e) => {
