@@ -734,6 +734,30 @@
       transition: all 0.4s ease;
       box-shadow: 0 4px 25px rgba(185, 28, 28, 0.5);
       animation: pulse 2s ease-in-out infinite;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Shine effect on text */
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+      );
+      animation: shine 3s ease-in-out infinite;
+    }
+
+    @keyframes shine {
+      0% { left: -100%; }
+      50%, 100% { left: 100%; }
     }
 
     @keyframes pulse {
@@ -745,6 +769,10 @@
       background: var(--red-light);
       transform: translateY(-3px);
       box-shadow: 0 10px 40px rgba(185, 28, 28, 0.6);
+    }
+
+    .cta-button:hover::before {
+      animation: none;
     }
 
     .cta-container {
