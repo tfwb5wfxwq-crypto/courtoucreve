@@ -3170,40 +3170,48 @@
     });
   </script>
 
-  <!-- Tracking Court ou Crève - Avancé -->
+  <!-- Tracking Court ou Crève - Récap Complet -->
   <script>
   (function() {
     const TRACKING_URL = 'https://xhpsdbmajanmoztijbnx.supabase.co/functions/v1/courtoucreve-tracking';
 
-    // Générer ou récupérer visitor ID
     let visitorId = localStorage.getItem('coc_visitor_id');
     if (!visitorId) {
       visitorId = 'coc_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
       localStorage.setItem('coc_visitor_id', visitorId);
     }
 
-    // === DONNÉES D'ENGAGEMENT AVANCÉES ===
-    const engagementData = {
+    // === DONNÉES COMPLÈTES DU PARCOURS ===
+    const journey = {
       startTime: Date.now(),
       scrollDepth: 0,
       timeOnPage: 0,
-      exitType: 'left',
-      // Tracking avancé
-      sectionTimes: {},
+
+      // Analyse lecture
       readingPauses: 0,
       scrollBackCount: 0,
-      avgScrollSpeed: 0,
       readingScore: 0,
-      // Court ou Crève spécifique
-      videoPlayed: false,
+
+      // Sections visitées avec temps
+      sectionTimes: {},
+      sectionsOrder: [],
+
+      // Interactions
+      videoMainPlayed: false,
+      videoMainProgress: 0,
+      photosViewed: 0,
+      teamHovered: [],
+
+      // Formulaire
       formViewed: false,
-      ctaClicked: false
+      formScrolledTo: false,
+      ctaClicks: 0,
+      formStarted: false,
+      formSubmitted: false,
+      fieldsInteracted: []
     };
 
-    let sentEvents = new Set();
-    let videoProgress = { 25: false, 50: false, 75: false, 100: false };
-
-    // Variables pour tracking avancé
+    // Variables tracking
     let lastScrollY = 0;
     let lastScrollTime = Date.now();
     let scrollSpeeds = [];
@@ -3212,10 +3220,6 @@
     let sectionStartTime = null;
 
     function track(event, extra = {}) {
-      const key = event + JSON.stringify(extra);
-      if (sentEvents.has(key) && !['engagement'].includes(event)) return;
-      sentEvents.add(key);
-
       fetch(TRACKING_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -3230,36 +3234,26 @@
       }).catch(() => {});
     }
 
-    // Visit
+    // === VISIT INITIALE ===
     track('visit');
 
-    // Détecter les pauses de scroll (>2s = lecture)
+    // === SCROLL & LECTURE ===
     function detectPause() {
-      engagementData.readingPauses++;
+      journey.readingPauses++;
     }
 
-    // Scroll tracking avancé
-    function handleScroll() {
+    window.addEventListener('scroll', () => {
       const now = Date.now();
       const scrollY = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const scrollPct = Math.round((scrollY / docHeight) * 100);
 
-      // Scroll depth max
-      if (scrollPct > engagementData.scrollDepth) {
-        engagementData.scrollDepth = scrollPct;
-      }
+      if (scrollPct > journey.scrollDepth) journey.scrollDepth = scrollPct;
+      if (scrollY < lastScrollY - 100) journey.scrollBackCount++;
 
-      // Détecter retour en arrière
-      if (scrollY < lastScrollY - 100) {
-        engagementData.scrollBackCount++;
-      }
-
-      // Calculer vitesse de scroll
       const timeDiff = now - lastScrollTime;
       if (timeDiff > 50) {
-        const distance = Math.abs(scrollY - lastScrollY);
-        const speed = distance / timeDiff * 1000;
+        const speed = Math.abs(scrollY - lastScrollY) / timeDiff * 1000;
         scrollSpeeds.push(speed);
         if (scrollSpeeds.length > 20) scrollSpeeds.shift();
       }
@@ -3267,129 +3261,127 @@
       lastScrollY = scrollY;
       lastScrollTime = now;
 
-      // Reset pause timer
       clearTimeout(pauseTimer);
       pauseTimer = setTimeout(detectPause, 2000);
 
-      // Form view
+      // Form scroll detection
       const formSection = document.getElementById('inscription');
-      if (formSection) {
+      if (formSection && !journey.formScrolledTo) {
         const rect = formSection.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.8 && !engagementData.formViewed) {
-          engagementData.formViewed = true;
-          track('form_view');
+        if (rect.top < window.innerHeight * 0.8) {
+          journey.formScrolledTo = true;
+          journey.formViewed = true;
         }
       }
-    }
+    }, { passive: true });
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    // Track temps par section
+    // === SECTIONS VISITÉES ===
     const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        const sectionId = entry.target.id || entry.target.classList[0];
+        const sectionId = entry.target.id;
+        if (!sectionId) return;
+
         if (entry.isIntersecting) {
           if (currentSection && sectionStartTime) {
             const timeSpent = Math.round((Date.now() - sectionStartTime) / 1000);
-            engagementData.sectionTimes[currentSection] = (engagementData.sectionTimes[currentSection] || 0) + timeSpent;
+            journey.sectionTimes[currentSection] = (journey.sectionTimes[currentSection] || 0) + timeSpent;
           }
           currentSection = sectionId;
           sectionStartTime = Date.now();
+
+          if (!journey.sectionsOrder.includes(sectionId)) {
+            journey.sectionsOrder.push(sectionId);
+          }
         }
       });
     }, { threshold: 0.5 });
 
-    document.querySelectorAll('section[id]').forEach(section => {
-      sectionObserver.observe(section);
-    });
+    document.querySelectorAll('section[id]').forEach(s => sectionObserver.observe(s));
 
-    // Video tracking
-    const video = document.querySelector('video');
-    if (video) {
-      video.addEventListener('play', () => {
-        if (!engagementData.videoPlayed) {
-          engagementData.videoPlayed = true;
-          track('video_play');
+    // === VIDÉO PRINCIPALE ===
+    const mainVideo = document.querySelector('.gallery-main video, .hero video, video');
+    if (mainVideo) {
+      mainVideo.addEventListener('play', () => { journey.videoMainPlayed = true; });
+      mainVideo.addEventListener('timeupdate', () => {
+        if (mainVideo.duration) {
+          journey.videoMainProgress = Math.round((mainVideo.currentTime / mainVideo.duration) * 100);
         }
-      });
-
-      video.addEventListener('timeupdate', () => {
-        if (!video.duration) return;
-        const percent = (video.currentTime / video.duration) * 100;
-        [25, 50, 75, 100].forEach(threshold => {
-          if (percent >= threshold && !videoProgress[threshold]) {
-            videoProgress[threshold] = true;
-            track('video_' + threshold);
-          }
-        });
       });
     }
 
-    // CTA clicks - détection exitType
-    document.querySelectorAll('a[href="#inscription"], .header-cta, .hero-cta').forEach(el => {
-      el.addEventListener('click', () => {
-        engagementData.ctaClicked = true;
-        engagementData.exitType = 'form';
-        track('cta_click');
+    // === PHOTOS (carrousel/galerie) ===
+    document.querySelectorAll('.gallery-thumb, .marquee-track img, .photos-marquee img').forEach(img => {
+      img.addEventListener('mouseenter', () => { journey.photosViewed++; });
+      img.addEventListener('touchstart', () => { journey.photosViewed++; }, { passive: true });
+    });
+
+    // === ÉQUIPE (hover sur membres) ===
+    document.querySelectorAll('.team-member, .formateur, [class*="team"]').forEach(member => {
+      member.addEventListener('mouseenter', () => {
+        const name = member.querySelector('h3, .name, h4')?.textContent?.trim();
+        if (name && !journey.teamHovered.includes(name)) {
+          journey.teamHovered.push(name);
+        }
       });
     });
 
-    // Form interaction
+    // === CTA & FORMULAIRE ===
+    document.querySelectorAll('a[href="#inscription"], .header-cta, .hero-cta, .cta-button').forEach(el => {
+      el.addEventListener('click', () => { journey.ctaClicks++; });
+    });
+
     const form = document.getElementById('inscriptionForm');
     if (form) {
-      let formStarted = false;
-      form.querySelectorAll('input, textarea').forEach(input => {
+      form.querySelectorAll('input, textarea, select').forEach(input => {
         input.addEventListener('focus', () => {
-          if (!formStarted) {
-            formStarted = true;
-            track('form_start');
+          journey.formStarted = true;
+          const fieldName = input.name || input.id || input.placeholder;
+          if (fieldName && !journey.fieldsInteracted.includes(fieldName)) {
+            journey.fieldsInteracted.push(fieldName);
           }
         });
       });
 
       form.addEventListener('submit', () => {
-        track('form_submit');
+        journey.formSubmitted = true;
+        track('form_submit', { journey });
       });
     }
 
-    // Calculer le score de lecture
-    function calculateReadingScore() {
-      const timeOnPage = Math.round((Date.now() - engagementData.startTime) / 1000);
-      const avgSpeed = scrollSpeeds.length > 0 ? scrollSpeeds.reduce((a,b) => a+b, 0) / scrollSpeeds.length : 0;
-      engagementData.avgScrollSpeed = Math.round(avgSpeed);
-      engagementData.timeOnPage = timeOnPage;
+    // === CALCUL SCORE & ENVOI RÉCAP ===
+    function calculateScore() {
+      journey.timeOnPage = Math.round((Date.now() - journey.startTime) / 1000);
 
-      // Sauver temps de la section courante
       if (currentSection && sectionStartTime) {
         const timeSpent = Math.round((Date.now() - sectionStartTime) / 1000);
-        engagementData.sectionTimes[currentSection] = (engagementData.sectionTimes[currentSection] || 0) + timeSpent;
+        journey.sectionTimes[currentSection] = (journey.sectionTimes[currentSection] || 0) + timeSpent;
       }
 
-      // Score de lecture (0-100)
       let score = 0;
-      score += Math.min(30, timeOnPage / 4);
-      score += Math.min(30, engagementData.readingPauses * 5);
-      score += Math.max(0, 20 - avgSpeed / 50);
-      score += Math.min(20, engagementData.scrollBackCount * 5);
-      engagementData.readingScore = Math.round(Math.min(100, score));
+      score += Math.min(25, journey.timeOnPage / 5);
+      score += Math.min(25, journey.readingPauses * 4);
+      score += Math.min(15, journey.scrollBackCount * 3);
+      score += journey.videoMainPlayed ? 10 : 0;
+      score += Math.min(10, journey.photosViewed);
+      score += journey.teamHovered.length > 0 ? 5 : 0;
+      score += journey.formViewed ? 5 : 0;
+      score += journey.ctaClicks > 0 ? 5 : 0;
+      journey.readingScore = Math.round(Math.min(100, score));
     }
 
-    // Engagement on leave
-    let engagementSent = false;
-    function sendEngagement() {
-      if (engagementSent) return;
-      engagementSent = true;
-      calculateReadingScore();
-
-      if (engagementData.timeOnPage < 3) return;
-
-      track('engagement', { engagement: engagementData });
+    let sent = false;
+    function sendJourney() {
+      if (sent || journey.formSubmitted) return;
+      sent = true;
+      calculateScore();
+      if (journey.timeOnPage < 3) return;
+      track('engagement', { engagement: journey });
     }
 
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') sendEngagement();
+      if (document.visibilityState === 'hidden') sendJourney();
     });
-    window.addEventListener('beforeunload', sendEngagement);
+    window.addEventListener('beforeunload', sendJourney);
   })();
   </script>
 </body>
