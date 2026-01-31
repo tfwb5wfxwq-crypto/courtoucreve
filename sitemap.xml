@@ -128,15 +128,15 @@
 
   <!-- Pages légales -->
   <url>
-    <loc>https://courtoucreve.com/cgu.html</loc>
-    <lastmod>2026-01-29</lastmod>
+    <loc>https://courtoucreve.com/cgu/</loc>
+    <lastmod>2026-01-31</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
-    <loc>https://courtoucreve.com/confidentialite.html</loc>
-    <lastmod>2026-01-29</lastmod>
+    <loc>https://courtoucreve.com/confidentialite/</loc>
+    <lastmod>2026-01-31</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
