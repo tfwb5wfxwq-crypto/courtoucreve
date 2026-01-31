@@ -1513,6 +1513,27 @@
       width: 100%;
     }
 
+    /* Validation custom */
+    .form-input.invalid {
+      border-color: var(--red) !important;
+    }
+    .form-input.invalid ~ .input-line {
+      width: 100%;
+      background: var(--red);
+    }
+    .form-group .error-msg {
+      color: var(--red);
+      font-size: 12px;
+      margin-top: 5px;
+      opacity: 0;
+      transform: translateY(-5px);
+      transition: all 0.3s ease;
+    }
+    .form-group .error-msg.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .form-textarea {
       min-height: 100px;
       resize: none;
@@ -2967,8 +2988,50 @@
       formNote.style.display = '';
     }
 
+    // Validation personnalisée
+    const formInputs = inscriptionForm.querySelectorAll('.form-input[required]');
+    formInputs.forEach(input => {
+      // Désactiver la validation native
+      input.addEventListener('invalid', (e) => {
+        e.preventDefault();
+        showError(input);
+      });
+      // Enlever l'erreur quand on tape
+      input.addEventListener('input', () => {
+        hideInputError(input);
+      });
+    });
+
+    function showError(input) {
+      input.classList.add('invalid');
+      let errorMsg = input.parentElement.querySelector('.error-msg');
+      if (!errorMsg) {
+        errorMsg = document.createElement('div');
+        errorMsg.className = 'error-msg';
+        input.parentElement.appendChild(errorMsg);
+      }
+      errorMsg.textContent = input.type === 'email' ? 'Email invalide' : 'Champ requis';
+      setTimeout(() => errorMsg.classList.add('show'), 10);
+    }
+
+    function hideInputError(input) {
+      input.classList.remove('invalid');
+      const errorMsg = input.parentElement.querySelector('.error-msg');
+      if (errorMsg) errorMsg.classList.remove('show');
+    }
+
     inscriptionForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // Vérifier tous les champs requis
+      let hasError = false;
+      formInputs.forEach(input => {
+        if (!input.value.trim() || (input.type === 'email' && !input.validity.valid)) {
+          showError(input);
+          hasError = true;
+        }
+      });
+      if (hasError) return;
 
       // Honeypot check
       if (inscriptionForm.querySelector('[name="website"]').value) {
