@@ -1910,8 +1910,10 @@
     .marquee-track {
       display: flex;
       gap: 20px;
-      -webkit-animation: marquee 40s linear infinite;
-      animation: marquee 40s linear infinite;
+      -webkit-animation: marquee 25s linear infinite;
+      animation: marquee 25s linear infinite;
+      -webkit-animation-delay: -8s;
+      animation-delay: -8s;
       width: max-content;
       will-change: transform;
       -webkit-transform: translateZ(0);
@@ -1941,9 +1943,10 @@
       100% { transform: translateX(-50%); }
     }
 
-    .photos-marquee:hover .marquee-track {
-      -webkit-animation-play-state: paused;
-      animation-play-state: paused;
+    /* Animation toujours active */
+    .marquee-track {
+      -webkit-animation-play-state: running !important;
+      animation-play-state: running !important;
     }
 
     .season-cta {
@@ -2048,12 +2051,17 @@
 
       .marquee-track {
         gap: 12px;
+        -webkit-animation: marquee 18s linear infinite;
+        animation: marquee 18s linear infinite;
+        -webkit-animation-delay: -5s;
+        animation-delay: -5s;
       }
 
       .marquee-track img {
         height: 140px;
         border-radius: 8px;
       }
+
 
       /* Logo animé mobile */
       .logo-row.court .logo-letter { height: 45px; }
@@ -2234,10 +2242,16 @@
         padding: 10px 15px;
       }
 
-      .header-version .logo-row.court .logo-letter { height: 20px; }
-      .header-version .logo-row.ou .logo-letter { height: 6px; }
-      .header-version .logo-row.creve .logo-letter { height: 22px; }
-      .header-version .logo-row.ou { margin: -1px 0; }
+      .header-version .logo-row.court .logo-letter { height: 18px; }
+      .header-version .logo-row.ou .logo-letter { height: 4px; }
+      .header-version .logo-row.creve .logo-letter { height: 20px; }
+      .header-version .logo-animated {
+        gap: 0;
+        line-height: 0.7;
+      }
+      .header-version .logo-row.court { margin-bottom: -6px; }
+      .header-version .logo-row.ou { margin: -4px 0; }
+      .header-version .logo-row.creve { margin-top: -6px; }
 
       .header-cta {
         right: 15px;
@@ -3156,7 +3170,7 @@
     });
   </script>
 
-  <!-- Tracking Court ou Crève -->
+  <!-- Tracking Court ou Crève - Avancé -->
   <script>
   (function() {
     const TRACKING_URL = 'https://xhpsdbmajanmoztijbnx.supabase.co/functions/v1/courtoucreve-tracking';
@@ -3168,11 +3182,34 @@
       localStorage.setItem('coc_visitor_id', visitorId);
     }
 
-    const startTime = Date.now();
-    let maxScroll = 0;
+    // === DONNÉES D'ENGAGEMENT AVANCÉES ===
+    const engagementData = {
+      startTime: Date.now(),
+      scrollDepth: 0,
+      timeOnPage: 0,
+      exitType: 'left',
+      // Tracking avancé
+      sectionTimes: {},
+      readingPauses: 0,
+      scrollBackCount: 0,
+      avgScrollSpeed: 0,
+      readingScore: 0,
+      // Court ou Crève spécifique
+      videoPlayed: false,
+      formViewed: false,
+      ctaClicked: false
+    };
+
     let sentEvents = new Set();
-    let videoPlayed = false;
     let videoProgress = { 25: false, 50: false, 75: false, 100: false };
+
+    // Variables pour tracking avancé
+    let lastScrollY = 0;
+    let lastScrollTime = Date.now();
+    let scrollSpeeds = [];
+    let pauseTimer = null;
+    let currentSection = null;
+    let sectionStartTime = null;
 
     function track(event, extra = {}) {
       const key = event + JSON.stringify(extra);
@@ -3196,54 +3233,82 @@
     // Visit
     track('visit');
 
-    // Scroll tracking
-    const scrollThresholds = [25, 50, 75, 100];
-    let reachedThresholds = new Set();
+    // Détecter les pauses de scroll (>2s = lecture)
+    function detectPause() {
+      engagementData.readingPauses++;
+    }
 
-    function checkScroll() {
-      const scrollTop = window.scrollY;
+    // Scroll tracking avancé
+    function handleScroll() {
+      const now = Date.now();
+      const scrollY = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = Math.round((scrollTop / docHeight) * 100);
-      maxScroll = Math.max(maxScroll, scrollPercent);
+      const scrollPct = Math.round((scrollY / docHeight) * 100);
 
-      scrollThresholds.forEach(threshold => {
-        if (scrollPercent >= threshold && !reachedThresholds.has(threshold)) {
-          reachedThresholds.add(threshold);
-          track('scroll_' + threshold);
-        }
-      });
+      // Scroll depth max
+      if (scrollPct > engagementData.scrollDepth) {
+        engagementData.scrollDepth = scrollPct;
+      }
 
-      // Section views
-      document.querySelectorAll('section[id]').forEach(section => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.5 && rect.bottom > 0) {
-          const eventName = 'section_' + section.id;
-          if (!sentEvents.has(eventName)) {
-            sentEvents.add(eventName);
-            track('section_view', { section: section.id });
-          }
-        }
-      });
+      // Détecter retour en arrière
+      if (scrollY < lastScrollY - 100) {
+        engagementData.scrollBackCount++;
+      }
+
+      // Calculer vitesse de scroll
+      const timeDiff = now - lastScrollTime;
+      if (timeDiff > 50) {
+        const distance = Math.abs(scrollY - lastScrollY);
+        const speed = distance / timeDiff * 1000;
+        scrollSpeeds.push(speed);
+        if (scrollSpeeds.length > 20) scrollSpeeds.shift();
+      }
+
+      lastScrollY = scrollY;
+      lastScrollTime = now;
+
+      // Reset pause timer
+      clearTimeout(pauseTimer);
+      pauseTimer = setTimeout(detectPause, 2000);
 
       // Form view
       const formSection = document.getElementById('inscription');
       if (formSection) {
         const rect = formSection.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.8) {
+        if (rect.top < window.innerHeight * 0.8 && !engagementData.formViewed) {
+          engagementData.formViewed = true;
           track('form_view');
         }
       }
     }
 
-    window.addEventListener('scroll', checkScroll, { passive: true });
-    setTimeout(checkScroll, 1000);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Track temps par section
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const sectionId = entry.target.id || entry.target.classList[0];
+        if (entry.isIntersecting) {
+          if (currentSection && sectionStartTime) {
+            const timeSpent = Math.round((Date.now() - sectionStartTime) / 1000);
+            engagementData.sectionTimes[currentSection] = (engagementData.sectionTimes[currentSection] || 0) + timeSpent;
+          }
+          currentSection = sectionId;
+          sectionStartTime = Date.now();
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('section[id]').forEach(section => {
+      sectionObserver.observe(section);
+    });
 
     // Video tracking
     const video = document.querySelector('video');
     if (video) {
       video.addEventListener('play', () => {
-        if (!videoPlayed) {
-          videoPlayed = true;
+        if (!engagementData.videoPlayed) {
+          engagementData.videoPlayed = true;
           track('video_play');
         }
       });
@@ -3260,9 +3325,13 @@
       });
     }
 
-    // CTA clicks
+    // CTA clicks - détection exitType
     document.querySelectorAll('a[href="#inscription"], .header-cta, .hero-cta').forEach(el => {
-      el.addEventListener('click', () => track('cta_click'));
+      el.addEventListener('click', () => {
+        engagementData.ctaClicked = true;
+        engagementData.exitType = 'form';
+        track('cta_click');
+      });
     });
 
     // Form interaction
@@ -3283,18 +3352,38 @@
       });
     }
 
+    // Calculer le score de lecture
+    function calculateReadingScore() {
+      const timeOnPage = Math.round((Date.now() - engagementData.startTime) / 1000);
+      const avgSpeed = scrollSpeeds.length > 0 ? scrollSpeeds.reduce((a,b) => a+b, 0) / scrollSpeeds.length : 0;
+      engagementData.avgScrollSpeed = Math.round(avgSpeed);
+      engagementData.timeOnPage = timeOnPage;
+
+      // Sauver temps de la section courante
+      if (currentSection && sectionStartTime) {
+        const timeSpent = Math.round((Date.now() - sectionStartTime) / 1000);
+        engagementData.sectionTimes[currentSection] = (engagementData.sectionTimes[currentSection] || 0) + timeSpent;
+      }
+
+      // Score de lecture (0-100)
+      let score = 0;
+      score += Math.min(30, timeOnPage / 4);
+      score += Math.min(30, engagementData.readingPauses * 5);
+      score += Math.max(0, 20 - avgSpeed / 50);
+      score += Math.min(20, engagementData.scrollBackCount * 5);
+      engagementData.readingScore = Math.round(Math.min(100, score));
+    }
+
     // Engagement on leave
+    let engagementSent = false;
     function sendEngagement() {
-      const timeOnPage = Math.round((Date.now() - startTime) / 1000);
-      track('engagement', {
-        engagement: {
-          timeOnPage,
-          scrollDepth: maxScroll,
-          videoPlayed,
-          formViewed: sentEvents.has('form_view'),
-          ctaClicked: sentEvents.has('cta_click')
-        }
-      });
+      if (engagementSent) return;
+      engagementSent = true;
+      calculateReadingScore();
+
+      if (engagementData.timeOnPage < 3) return;
+
+      track('engagement', { engagement: engagementData });
     }
 
     document.addEventListener('visibilitychange', () => {
