@@ -7,15 +7,17 @@
   <meta name="description" content="Politique de confidentialité et protection des données personnelles - Court ou Crève.">
   <meta name="robots" content="noindex, follow">
   <meta name="theme-color" content="#B91C1C">
-  <link rel="canonical" href="https://courtoucreve.com/confidentialite.html">
-  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="canonical" href="https://courtoucreve.com/confidentialite/">
+  <link rel="icon" type="image/png" href="/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --red: #B91C1C;
       --black: #0a0a0a;
+      --black-light: #141414;
       --white: #f8f8f8;
       --gray: #888;
+      --gray-dark: #333;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,128 +27,269 @@
       background: var(--black);
       color: var(--white);
       line-height: 1.8;
+      min-height: 100vh;
     }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 80px 20px;
-    }
-
-    .back-link {
-      display: inline-flex;
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 8px;
+      background: linear-gradient(to bottom, var(--black) 0%, transparent 100%);
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--white);
+    }
+
+    .header-logo img {
+      height: 40px;
+      width: auto;
+    }
+
+    .header-logo span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 2px;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+
+    .header-logo:hover span {
+      opacity: 1;
+    }
+
+    .header-back {
       color: var(--gray);
       text-decoration: none;
       font-size: 14px;
-      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       transition: color 0.3s;
     }
 
-    .back-link:hover { color: var(--white); }
-
-    h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(40px, 8vw, 60px);
-      letter-spacing: 3px;
-      margin-bottom: 10px;
+    .header-back:hover {
+      color: var(--white);
     }
 
-    h1 span { color: var(--red); }
+    /* Content */
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 140px 24px 80px;
+    }
 
-    .update-date {
+    /* Hero section */
+    .page-hero {
+      margin-bottom: 60px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--gray-dark);
+    }
+
+    .page-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 10vw, 72px);
+      letter-spacing: 3px;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .page-hero h1 span {
+      color: var(--red);
+    }
+
+    .page-hero .meta {
       color: var(--gray);
       font-size: 14px;
-      margin-bottom: 50px;
     }
 
-    h2 {
+    /* Sections */
+    .section {
+      margin-bottom: 48px;
+    }
+
+    .section h2 {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px;
-      color: var(--red);
-      margin-top: 50px;
-      margin-bottom: 20px;
+      font-size: 24px;
       letter-spacing: 2px;
+      margin-bottom: 16px;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    p {
+    .section h2::before {
+      content: '';
+      width: 4px;
+      height: 24px;
+      background: var(--red);
+      border-radius: 2px;
+    }
+
+    .section p {
       color: var(--gray);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
+      font-size: 15px;
     }
 
-    ul {
+    .section ul {
       color: var(--gray);
       margin-left: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
+      font-size: 15px;
     }
 
-    li { margin-bottom: 10px; }
+    .section li {
+      margin-bottom: 8px;
+    }
 
-    strong { color: var(--white); }
+    .section strong {
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    /* Footer */
+    .page-footer {
+      margin-top: 80px;
+      padding-top: 40px;
+      border-top: 1px solid var(--gray-dark);
+      text-align: center;
+    }
+
+    .page-footer a {
+      color: var(--red);
+      text-decoration: none;
+      font-size: 14px;
+      transition: opacity 0.3s;
+    }
+
+    .page-footer a:hover {
+      opacity: 0.7;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .header {
+        padding: 16px 20px;
+      }
+
+      .header-logo span {
+        display: none;
+      }
+
+      .content {
+        padding: 120px 20px 60px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <a href="/" class="back-link">← Retour à l'accueil</a>
+  <header class="header">
+    <a href="/" class="header-logo">
+      <img src="/logo.png" alt="Court ou Crève">
+      <span>COURT OU CRÈVE</span>
+    </a>
+    <a href="/" class="header-back">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Retour
+    </a>
+  </header>
 
-    <h1>Politique de <span>Confidentialité</span></h1>
-    <p class="update-date">Dernière mise à jour : Janvier 2026</p>
+  <main class="content">
+    <div class="page-hero">
+      <h1>POLITIQUE DE <span>CONFIDENTIALITÉ</span></h1>
+      <p class="meta">Dernière mise à jour : Janvier 2026</p>
+    </div>
 
-    <h2>1. Introduction</h2>
-    <p>La protection de vos données personnelles est une priorité pour Court ou Crève. Cette politique de confidentialité vous informe sur la manière dont nous collectons, utilisons et protégeons vos informations lorsque vous utilisez notre site <strong>courtoucreve.com</strong>.</p>
+    <div class="section">
+      <h2>Introduction</h2>
+      <p>La protection de tes données personnelles est une priorité pour Court ou Crève. Cette politique de confidentialité t'informe sur la manière dont nous collectons, utilisons et protégeons tes informations lorsque tu utilises notre site <strong>courtoucreve.com</strong>.</p>
+    </div>
 
-    <h2>2. Données collectées</h2>
-    <p>Nous collectons les données suivantes lorsque vous remplissez le formulaire d'inscription :</p>
-    <ul>
-      <li><strong>Nom et prénom</strong></li>
-      <li><strong>Adresse e-mail</strong></li>
-      <li><strong>Numéro de téléphone</strong></li>
-      <li><strong>Votre motivation</strong> (texte libre)</li>
-      <li><strong>Statut d'intermittent</strong> (oui/non)</li>
-    </ul>
+    <div class="section">
+      <h2>Données collectées</h2>
+      <p>Nous collectons les données suivantes lorsque tu remplis le formulaire d'inscription :</p>
+      <ul>
+        <li><strong>Nom et prénom</strong></li>
+        <li><strong>Adresse e-mail</strong></li>
+        <li><strong>Numéro de téléphone</strong></li>
+        <li><strong>Ta motivation</strong> (texte libre)</li>
+        <li><strong>Statut d'intermittent</strong> (oui/non)</li>
+      </ul>
+    </div>
 
-    <h2>3. Utilisation des données</h2>
-    <p>Vos données sont utilisées exclusivement pour :</p>
-    <ul>
-      <li>Traiter votre demande d'inscription à la masterclass</li>
-      <li>Vous contacter concernant votre candidature</li>
-      <li>Vous informer des prochaines sessions (si vous avez donné votre accord)</li>
-    </ul>
-    <p>Vos données ne sont <strong>jamais vendues ni partagées</strong> avec des tiers à des fins commerciales.</p>
+    <div class="section">
+      <h2>Utilisation des données</h2>
+      <p>Tes données sont utilisées exclusivement pour :</p>
+      <ul>
+        <li>Traiter ta demande d'inscription à la masterclass</li>
+        <li>Te contacter concernant ta candidature</li>
+        <li>T'informer des prochaines sessions (si tu as donné ton accord)</li>
+      </ul>
+      <p>Tes données ne sont <strong>jamais vendues ni partagées</strong> avec des tiers à des fins commerciales.</p>
+    </div>
 
-    <h2>4. Durée de conservation</h2>
-    <p>Vos données sont conservées pendant une durée maximale de <strong>3 ans</strong> à compter de votre dernière interaction avec nous, ou jusqu'à votre demande de suppression.</p>
+    <div class="section">
+      <h2>Durée de conservation</h2>
+      <p>Tes données sont conservées pendant une durée maximale de <strong>3 ans</strong> à compter de ta dernière interaction avec nous, ou jusqu'à ta demande de suppression.</p>
+    </div>
 
-    <h2>5. Sécurité des données</h2>
-    <p>Nous mettons en œuvre des mesures de sécurité appropriées pour protéger vos données contre tout accès, modification, divulgation ou destruction non autorisés.</p>
-    <p>Le formulaire d'inscription est géré par <strong>Formspree</strong>, un service tiers conforme au RGPD.</p>
+    <div class="section">
+      <h2>Sécurité des données</h2>
+      <p>Nous mettons en œuvre des mesures de sécurité appropriées pour protéger tes données contre tout accès, modification, divulgation ou destruction non autorisés.</p>
+      <p>Le formulaire d'inscription est géré par <strong>Formspree</strong>, un service tiers conforme au RGPD.</p>
+    </div>
 
-    <h2>6. Vos droits</h2>
-    <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez des droits suivants :</p>
-    <ul>
-      <li><strong>Droit d'accès</strong> : obtenir une copie de vos données</li>
-      <li><strong>Droit de rectification</strong> : corriger vos données inexactes</li>
-      <li><strong>Droit à l'effacement</strong> : demander la suppression de vos données</li>
-      <li><strong>Droit à la portabilité</strong> : recevoir vos données dans un format structuré</li>
-      <li><strong>Droit d'opposition</strong> : vous opposer au traitement de vos données</li>
-    </ul>
-    <p>Pour exercer ces droits, contactez-nous à : <strong>contact@courtoucreve.com</strong></p>
+    <div class="section">
+      <h2>Tes droits</h2>
+      <p>Conformément au Règlement Général sur la Protection des Données (RGPD), tu disposes des droits suivants :</p>
+      <ul>
+        <li><strong>Droit d'accès</strong> : obtenir une copie de tes données</li>
+        <li><strong>Droit de rectification</strong> : corriger tes données inexactes</li>
+        <li><strong>Droit à l'effacement</strong> : demander la suppression de tes données</li>
+        <li><strong>Droit à la portabilité</strong> : recevoir tes données dans un format structuré</li>
+        <li><strong>Droit d'opposition</strong> : t'opposer au traitement de tes données</li>
+      </ul>
+      <p>Pour exercer ces droits, contacte-nous à : <strong>contact@courtoucreve.com</strong></p>
+    </div>
 
-    <h2>7. Cookies</h2>
-    <p>Le site courtoucreve.com n'utilise pas de cookies de tracking ou publicitaires. Seuls des cookies techniques essentiels au fonctionnement du site peuvent être utilisés.</p>
+    <div class="section">
+      <h2>Cookies</h2>
+      <p>Le site courtoucreve.com n'utilise pas de cookies de tracking ou publicitaires. Seuls des cookies techniques essentiels au fonctionnement du site peuvent être utilisés.</p>
+    </div>
 
-    <h2>8. Liens externes</h2>
-    <p>Notre site peut contenir des liens vers des sites externes (réseaux sociaux, partenaires). Nous ne sommes pas responsables des pratiques de confidentialité de ces sites tiers.</p>
+    <div class="section">
+      <h2>Liens externes</h2>
+      <p>Notre site peut contenir des liens vers des sites externes (réseaux sociaux, partenaires). Nous ne sommes pas responsables des pratiques de confidentialité de ces sites tiers.</p>
+    </div>
 
-    <h2>9. Modifications</h2>
-    <p>Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. La date de mise à jour en haut de cette page indique la dernière révision.</p>
+    <div class="section">
+      <h2>Modifications</h2>
+      <p>Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. La date de mise à jour en haut de cette page indique la dernière révision.</p>
+    </div>
 
-    <h2>10. Contact</h2>
-    <p>Pour toute question concernant cette politique de confidentialité ou vos données personnelles :</p>
-    <ul>
-      <li><strong>Email</strong> : contact@courtoucreve.com</li>
-    </ul>
-  </div>
+    <div class="section">
+      <h2>Contact</h2>
+      <p>Pour toute question concernant cette politique ou tes données personnelles, contacte-nous à <strong>contact@courtoucreve.com</strong></p>
+    </div>
+
+    <footer class="page-footer">
+      <a href="/cgu/">Conditions Générales d'Utilisation</a>
+    </footer>
+  </main>
 </body>
 </html>
