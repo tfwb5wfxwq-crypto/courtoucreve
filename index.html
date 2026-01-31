@@ -1523,15 +1523,15 @@
     }
     .form-group .error-msg {
       color: var(--red);
-      font-size: 12px;
-      margin-top: 5px;
+      font-size: 11px;
+      margin-top: 8px;
+      text-decoration: none !important;
+      font-style: italic;
       opacity: 0;
-      transform: translateY(-5px);
-      transition: all 0.3s ease;
+      transition: opacity 0.3s ease;
     }
     .form-group .error-msg.show {
-      opacity: 1;
-      transform: translateY(0);
+      opacity: 0.8;
     }
 
     .form-textarea {
@@ -3010,7 +3010,14 @@
         errorMsg.className = 'error-msg';
         input.parentElement.appendChild(errorMsg);
       }
-      errorMsg.textContent = input.type === 'email' ? 'Email invalide' : 'Champ requis';
+      // Champ vide = "Champ requis", email mal formaté = "Email invalide"
+      if (!input.value.trim()) {
+        errorMsg.textContent = 'Champ requis';
+      } else if (input.type === 'email' && !input.validity.valid) {
+        errorMsg.textContent = 'Email invalide';
+      } else {
+        errorMsg.textContent = 'Champ requis';
+      }
       setTimeout(() => errorMsg.classList.add('show'), 10);
     }
 
