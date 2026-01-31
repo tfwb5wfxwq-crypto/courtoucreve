@@ -1513,16 +1513,29 @@
       width: 100%;
     }
 
-    /* Validation custom - shake effect */
+    /* Validation custom - glow pulse */
+    .form-input.invalid {
+      color: var(--red) !important;
+    }
+    .form-input.invalid::placeholder {
+      color: var(--red);
+      opacity: 0.7;
+    }
     .form-input.invalid ~ .input-line {
       width: 100%;
       background: var(--red);
-      animation: shake 0.4s ease;
+      box-shadow: 0 0 15px var(--red), 0 0 30px rgba(196, 30, 58, 0.3);
+      animation: glow-pulse 1.5s ease-in-out infinite;
     }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-5px); }
-      40%, 80% { transform: translateX(5px); }
+    @keyframes glow-pulse {
+      0%, 100% {
+        box-shadow: 0 0 10px var(--red), 0 0 20px rgba(196, 30, 58, 0.2);
+        opacity: 1;
+      }
+      50% {
+        box-shadow: 0 0 20px var(--red), 0 0 40px rgba(196, 30, 58, 0.4);
+        opacity: 0.8;
+      }
     }
 
     .form-textarea {
