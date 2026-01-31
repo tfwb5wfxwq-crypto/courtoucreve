@@ -3155,5 +3155,153 @@
       }
     });
   </script>
+
+  <!-- Tracking Court ou Crève -->
+  <script>
+  (function() {
+    const TRACKING_URL = 'https://xhpsdbmajanmoztijbnx.supabase.co/functions/v1/courtoucreve-tracking';
+
+    // Générer ou récupérer visitor ID
+    let visitorId = localStorage.getItem('coc_visitor_id');
+    if (!visitorId) {
+      visitorId = 'coc_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+      localStorage.setItem('coc_visitor_id', visitorId);
+    }
+
+    const startTime = Date.now();
+    let maxScroll = 0;
+    let sentEvents = new Set();
+    let videoPlayed = false;
+    let videoProgress = { 25: false, 50: false, 75: false, 100: false };
+
+    function track(event, extra = {}) {
+      const key = event + JSON.stringify(extra);
+      if (sentEvents.has(key) && !['engagement'].includes(event)) return;
+      sentEvents.add(key);
+
+      fetch(TRACKING_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event,
+          page: location.pathname,
+          visitorId,
+          userAgent: navigator.userAgent,
+          referrer: document.referrer,
+          ...extra
+        })
+      }).catch(() => {});
+    }
+
+    // Visit
+    track('visit');
+
+    // Scroll tracking
+    const scrollThresholds = [25, 50, 75, 100];
+    let reachedThresholds = new Set();
+
+    function checkScroll() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = Math.round((scrollTop / docHeight) * 100);
+      maxScroll = Math.max(maxScroll, scrollPercent);
+
+      scrollThresholds.forEach(threshold => {
+        if (scrollPercent >= threshold && !reachedThresholds.has(threshold)) {
+          reachedThresholds.add(threshold);
+          track('scroll_' + threshold);
+        }
+      });
+
+      // Section views
+      document.querySelectorAll('section[id]').forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.5 && rect.bottom > 0) {
+          const eventName = 'section_' + section.id;
+          if (!sentEvents.has(eventName)) {
+            sentEvents.add(eventName);
+            track('section_view', { section: section.id });
+          }
+        }
+      });
+
+      // Form view
+      const formSection = document.getElementById('inscription');
+      if (formSection) {
+        const rect = formSection.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.8) {
+          track('form_view');
+        }
+      }
+    }
+
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    setTimeout(checkScroll, 1000);
+
+    // Video tracking
+    const video = document.querySelector('video');
+    if (video) {
+      video.addEventListener('play', () => {
+        if (!videoPlayed) {
+          videoPlayed = true;
+          track('video_play');
+        }
+      });
+
+      video.addEventListener('timeupdate', () => {
+        if (!video.duration) return;
+        const percent = (video.currentTime / video.duration) * 100;
+        [25, 50, 75, 100].forEach(threshold => {
+          if (percent >= threshold && !videoProgress[threshold]) {
+            videoProgress[threshold] = true;
+            track('video_' + threshold);
+          }
+        });
+      });
+    }
+
+    // CTA clicks
+    document.querySelectorAll('a[href="#inscription"], .header-cta, .hero-cta').forEach(el => {
+      el.addEventListener('click', () => track('cta_click'));
+    });
+
+    // Form interaction
+    const form = document.getElementById('inscriptionForm');
+    if (form) {
+      let formStarted = false;
+      form.querySelectorAll('input, textarea').forEach(input => {
+        input.addEventListener('focus', () => {
+          if (!formStarted) {
+            formStarted = true;
+            track('form_start');
+          }
+        });
+      });
+
+      form.addEventListener('submit', () => {
+        track('form_submit');
+      });
+    }
+
+    // Engagement on leave
+    function sendEngagement() {
+      const timeOnPage = Math.round((Date.now() - startTime) / 1000);
+      track('engagement', {
+        engagement: {
+          timeOnPage,
+          scrollDepth: maxScroll,
+          videoPlayed,
+          formViewed: sentEvents.has('form_view'),
+          ctaClicked: sentEvents.has('cta_click')
+        }
+      });
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') sendEngagement();
+    });
+    window.addEventListener('beforeunload', sendEngagement);
+  })();
+  </script>
 </body>
 </html>
