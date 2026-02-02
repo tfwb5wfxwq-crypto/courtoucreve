@@ -884,7 +884,7 @@
 
     /* Section styles */
     section {
-      padding: 120px 20px;
+      padding: 80px 20px;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -2373,7 +2373,7 @@
   <div class="main-content" id="mainContent">
 
     <!-- Hero Split Screen -->
-    <section class="hero">
+    <section class="hero" id="hero">
       <!-- Left: Logo & Info -->
       <div class="hero-left">
         <div class="hero-logo">
@@ -3187,24 +3187,34 @@
       scrollDepth: 0,
       timeOnPage: 0,
 
-      // Analyse lecture
-      readingPauses: 0,
-      scrollBackCount: 0,
-      readingScore: 0,
-
       // Sections visitées avec temps
       sectionTimes: {},
       sectionsOrder: [],
 
-      // Interactions
+      // Vidéo
       videoMainPlayed: false,
       videoMainProgress: 0,
-      photosViewed: 0,
+
+      // Équipe
       teamHovered: [],
+      teamClicked: [],
+
+      // Photos
+      photosViewed: 0,
+
+      // FAQ
+      faqOpened: [],
+
+      // Témoignages
+      testimonialClicked: false,
+
+      // Liens
+      cguClicked: false,
+      mentionsClicked: false,
+      externalLinksClicked: [],
 
       // Formulaire
       formViewed: false,
-      formScrolledTo: false,
       ctaClicks: 0,
       formStarted: false,
       formSubmitted: false,
@@ -3213,63 +3223,48 @@
 
     // Variables tracking
     let lastScrollY = 0;
-    let lastScrollTime = Date.now();
-    let scrollSpeeds = [];
-    let pauseTimer = null;
     let currentSection = null;
     let sectionStartTime = null;
 
-    function track(event, extra = {}) {
-      fetch(TRACKING_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          event,
-          page: location.pathname,
-          visitorId,
-          userAgent: navigator.userAgent,
-          referrer: document.referrer,
-          ...extra
-        })
-      }).catch(() => {});
+    function track(event, extra = {}, useBeacon = false) {
+      const payload = JSON.stringify({
+        event,
+        page: location.pathname,
+        visitorId,
+        userAgent: navigator.userAgent,
+        referrer: document.referrer,
+        ...extra
+      });
+
+      if (useBeacon && navigator.sendBeacon) {
+        navigator.sendBeacon(TRACKING_URL, payload);
+      } else {
+        fetch(TRACKING_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: payload,
+          keepalive: true
+        }).catch(() => {});
+      }
     }
 
     // === VISIT INITIALE ===
     track('visit');
 
-    // === SCROLL & LECTURE ===
-    function detectPause() {
-      journey.readingPauses++;
-    }
-
+    // === SCROLL ===
     window.addEventListener('scroll', () => {
-      const now = Date.now();
       const scrollY = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const scrollPct = Math.round((scrollY / docHeight) * 100);
 
       if (scrollPct > journey.scrollDepth) journey.scrollDepth = scrollPct;
-      if (scrollY < lastScrollY - 100) journey.scrollBackCount++;
-
-      const timeDiff = now - lastScrollTime;
-      if (timeDiff > 50) {
-        const speed = Math.abs(scrollY - lastScrollY) / timeDiff * 1000;
-        scrollSpeeds.push(speed);
-        if (scrollSpeeds.length > 20) scrollSpeeds.shift();
-      }
-
       lastScrollY = scrollY;
-      lastScrollTime = now;
 
-      clearTimeout(pauseTimer);
-      pauseTimer = setTimeout(detectPause, 2000);
-
-      // Form scroll detection
+      // Form visibility
       const formSection = document.getElementById('inscription');
-      if (formSection && !journey.formScrolledTo) {
+      if (formSection && !journey.formViewed) {
         const rect = formSection.getBoundingClientRect();
         if (rect.top < window.innerHeight * 0.8) {
-          journey.formScrolledTo = true;
           journey.formViewed = true;
         }
       }
@@ -3315,12 +3310,51 @@
       img.addEventListener('touchstart', () => { journey.photosViewed++; }, { passive: true });
     });
 
-    // === ÉQUIPE (hover sur membres) ===
+    // === ÉQUIPE (hover + click sur membres) ===
     document.querySelectorAll('.team-member, .formateur, [class*="team"]').forEach(member => {
       member.addEventListener('mouseenter', () => {
         const name = member.querySelector('h3, .name, h4')?.textContent?.trim();
         if (name && !journey.teamHovered.includes(name)) {
           journey.teamHovered.push(name);
+        }
+      });
+      member.addEventListener('click', () => {
+        const name = member.querySelector('h3, .name, h4')?.textContent?.trim();
+        if (name && !journey.teamClicked.includes(name)) {
+          journey.teamClicked.push(name);
+        }
+      });
+    });
+
+    // === FAQ (questions ouvertes) ===
+    document.querySelectorAll('.faq-item, details, [class*="accordion"]').forEach(item => {
+      item.addEventListener('click', () => {
+        const question = item.querySelector('summary, .faq-question, h3, button')?.textContent?.trim()?.slice(0, 30);
+        if (question && !journey.faqOpened.includes(question)) {
+          journey.faqOpened.push(question);
+        }
+      });
+    });
+
+    // === TÉMOIGNAGES ===
+    document.querySelectorAll('.testimonial, .temoignage, [class*="testimonial"]').forEach(el => {
+      el.addEventListener('click', () => { journey.testimonialClicked = true; });
+    });
+
+    // === LIENS LÉGAUX ===
+    document.querySelectorAll('a[href*="cgu"], a[href*="conditions"]').forEach(el => {
+      el.addEventListener('click', () => { journey.cguClicked = true; });
+    });
+    document.querySelectorAll('a[href*="mentions"], a[href*="legal"]').forEach(el => {
+      el.addEventListener('click', () => { journey.mentionsClicked = true; });
+    });
+
+    // === LIENS EXTERNES ===
+    document.querySelectorAll('a[href^="http"]:not([href*="courtoucreve"])').forEach(el => {
+      el.addEventListener('click', () => {
+        const text = el.textContent?.trim()?.slice(0, 20) || new URL(el.href).hostname;
+        if (!journey.externalLinksClicked.includes(text)) {
+          journey.externalLinksClicked.push(text);
         }
       });
     });
@@ -3348,40 +3382,41 @@
       });
     }
 
-    // === CALCUL SCORE & ENVOI RÉCAP ===
-    function calculateScore() {
-      journey.timeOnPage = Math.round((Date.now() - journey.startTime) / 1000);
+    // === ENVOI RÉCAP ===
+    let sent = false;
+    let leaveTimer = null;
 
+    function prepareJourney() {
+      journey.timeOnPage = Math.round((Date.now() - journey.startTime) / 1000);
       if (currentSection && sectionStartTime) {
         const timeSpent = Math.round((Date.now() - sectionStartTime) / 1000);
         journey.sectionTimes[currentSection] = (journey.sectionTimes[currentSection] || 0) + timeSpent;
       }
-
-      let score = 0;
-      score += Math.min(25, journey.timeOnPage / 5);
-      score += Math.min(25, journey.readingPauses * 4);
-      score += Math.min(15, journey.scrollBackCount * 3);
-      score += journey.videoMainPlayed ? 10 : 0;
-      score += Math.min(10, journey.photosViewed);
-      score += journey.teamHovered.length > 0 ? 5 : 0;
-      score += journey.formViewed ? 5 : 0;
-      score += journey.ctaClicks > 0 ? 5 : 0;
-      journey.readingScore = Math.round(Math.min(100, score));
     }
 
-    let sent = false;
-    function sendJourney() {
+    function sendJourney(useBeacon = false) {
       if (sent || journey.formSubmitted) return;
       sent = true;
-      calculateScore();
+      prepareJourney();
+
       if (journey.timeOnPage < 3) return;
-      track('engagement', { engagement: journey });
+      track('engagement', { engagement: journey }, useBeacon);
     }
 
+    // Attendre 30s avant d'envoyer (changement d'onglet)
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') sendJourney();
+      if (document.visibilityState === 'hidden') {
+        leaveTimer = setTimeout(() => sendJourney(false), 30000);
+      } else {
+        if (leaveTimer) {
+          clearTimeout(leaveTimer);
+          leaveTimer = null;
+        }
+      }
     });
-    window.addEventListener('beforeunload', sendJourney);
+
+    // Fermeture navigateur = sendBeacon immédiat
+    window.addEventListener('beforeunload', () => sendJourney(true));
   })();
   </script>
 </body>
