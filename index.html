@@ -3420,6 +3420,7 @@
         }
       });
       member.addEventListener('click', () => {
+        haptic.trigger('buzz'); // 💥 Vibration intense clic participant
         const name = member.querySelector('h3, .name, h4')?.textContent?.trim();
         if (name && !journey.teamClicked.includes(name)) {
           journey.teamClicked.push(name);
