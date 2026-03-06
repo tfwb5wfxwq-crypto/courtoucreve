@@ -2766,6 +2766,57 @@
   </div>
 
   <script>
+    // ===== HAPTIC FEEDBACK SYSTEM =====
+    const haptic = (() => {
+      const presets = {
+        success: [100, 30, 100],           // Double tap
+        error: [200, 50, 200, 50, 200],   // Triple tap
+        nudge: [50, 50, 50],              // Tap léger
+        buzz: [500]                        // Buzz long
+      };
+
+      const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+
+      // iOS : créer checkbox + label et cliquer (iOS 17.4+)
+      function triggerIOSHaptic(count = 1, delay = 80) {
+        for (let i = 0; i < count; i++) {
+          setTimeout(() => {
+            const id = 'haptic-' + Date.now() + '-' + Math.random();
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = id;
+            checkbox.setAttribute('switch', ''); // iOS 17.4+ haptic
+            checkbox.style.cssText = 'position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;left:-9999px';
+            const label = document.createElement('label');
+            label.htmlFor = id;
+            label.style.cssText = 'position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;left:-9999px';
+            document.body.appendChild(checkbox);
+            document.body.appendChild(label);
+            label.click(); // Clic sur le label déclenche haptic iOS
+            setTimeout(() => { checkbox.remove(); label.remove(); }, 10);
+          }, i * delay);
+        }
+      }
+
+      return {
+        trigger(type) {
+          const pattern = typeof type === 'string' ? presets[type] : type;
+          if (!pattern) return;
+
+          // iOS : créer/toggle/supprimer checkbox
+          if (isIOS) {
+            const count = type === 'success' ? 2 : type === 'error' ? 3 : type === 'buzz' ? 4 : 1;
+            const delay = type === 'buzz' ? 50 : 80;
+            triggerIOSHaptic(count, delay);
+          }
+          // Android/autres : Vibration API
+          else if (navigator.vibrate) {
+            navigator.vibrate(pattern);
+          }
+        }
+      };
+    })();
+
     // Loading page avec animation du logo (une seule fois par session)
     window.addEventListener('load', () => {
       const loader = document.getElementById('loader');
@@ -2792,6 +2843,9 @@
 
       // Marquer comme vu
       sessionStorage.setItem('courtoucreve_loader_seen', 'true');
+
+      // 🔥 VIBRATION INTENSE pendant le loading
+      setTimeout(() => haptic.trigger('buzz'), 300);
 
       // Animer les lettres du loader
       const loaderLetters = loader.querySelectorAll('.logo-letter[data-group]');
@@ -2864,6 +2918,9 @@
         // Open clicked if wasn't open
         if (!isOpen) {
           item.classList.add('open');
+          haptic.trigger('success'); // Vibration ouverture FAQ
+        } else {
+          haptic.trigger('nudge'); // Vibration fermeture
         }
       });
     });
@@ -2912,6 +2969,7 @@
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
+        haptic.trigger('nudge'); // Vibration clic navigation
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
           target.scrollIntoView({ behavior: 'smooth' });
@@ -2930,6 +2988,7 @@
       if (video) {
         // Fonction pour reset la vidéo
         function resetVideo() {
+          haptic.trigger('nudge'); // Vibration stop video
           video.pause();
           video.controls = false;
           video.muted = true;
@@ -2943,6 +3002,7 @@
           e.stopPropagation();
 
           if (video.paused) {
+            haptic.trigger('success'); // Vibration play video
             // Sur mobile: pas de contrôles, juste play/pause simple
             video.controls = !isMobile;
             video.muted = false;
@@ -3112,7 +3172,10 @@
           hasError = true;
         }
       });
-      if (hasError) return;
+      if (hasError) {
+        haptic.trigger('error'); // Vibration erreur validation
+        return;
+      }
 
       // Honeypot check
       if (inscriptionForm.querySelector('[name="website"]').value) {
@@ -3127,6 +3190,7 @@
       const recentSubmissions = submissions.filter(t => now - t < 3600000);
 
       if (recentSubmissions.length >= 3) {
+        haptic.trigger('error'); // Vibration rate limit
         alert('Tu as déjà envoyé plusieurs demandes. Réessaie dans 1h ou écris à courtoucreve@gmail.com');
         return;
       }
@@ -3158,6 +3222,7 @@
         const result = await response.json();
 
         if (result.success) {
+          haptic.trigger('success'); // Vibration succès inscription
           // Sauvegarder le timestamp pour rate limit
           recentSubmissions.push(now);
           localStorage.setItem('coc_submissions', JSON.stringify(recentSubmissions));
@@ -3171,6 +3236,7 @@
           throw new Error(result.message || 'Erreur');
         }
       } catch (error) {
+        haptic.trigger('error'); // Vibration erreur envoi
         console.error('Form error:', error);
         // Hide form, show error
         inscriptionForm.classList.add('hidden');
