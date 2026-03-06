@@ -3161,6 +3161,22 @@
       input.classList.remove('invalid');
     }
 
+    // Vibrations sur les checkboxes
+    const intermittentCheckbox = document.getElementById('intermittent');
+    const afdasCheckbox = document.getElementById('afdas');
+
+    if (intermittentCheckbox) {
+      intermittentCheckbox.addEventListener('change', () => {
+        haptic.trigger('buzz'); // 💥 Vibration intense checkbox intermittent
+      });
+    }
+
+    if (afdasCheckbox) {
+      afdasCheckbox.addEventListener('change', () => {
+        haptic.trigger('buzz'); // 💥 Vibration intense checkbox AFDAS
+      });
+    }
+
     inscriptionForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       haptic.trigger('buzz'); // 💥 Vibration INTENSE au clic envoi
