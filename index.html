@@ -11,6 +11,15 @@
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()">
 
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5TS0QBS0MJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-5TS0QBS0MJ');
+  </script>
+
   <title>Formation Réalisation Vidéo & Court-Métrage à Paris | Court ou Crève - AFDAS</title>
   <meta name="description" content="Formation réalisation vidéo à Paris avec Kemar, Ludovik et Ludoc. Masterclass court-métrage de l'écriture au montage. Diffusion au cinéma. Éligible financement AFDAS pour intermittents du spectacle.">
 
@@ -3217,7 +3226,12 @@
 
       if (recentSubmissions.length >= 3) {
         haptic.trigger('error'); // Vibration rate limit
-        alert('Tu as déjà envoyé plusieurs demandes. Réessaie dans 1h ou écris à courtoucreve@gmail.com');
+        inscriptionForm.classList.add('hidden');
+        formIntro.style.display = 'none';
+        formNote.style.display = 'none';
+        formError.classList.add('show');
+        formError.querySelector('h3').textContent = 'Trop rapide !';
+        formError.querySelector('p').innerHTML = 'Tu as déjà envoyé plusieurs demandes.<br>Réessaie dans 1h ou écris-nous direct.';
         return;
       }
 
@@ -3239,7 +3253,13 @@
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(data.email)) {
         haptic.trigger('error');
-        alert('Adresse email invalide. Vérifie ton email.');
+        const emailInput = inscriptionForm.querySelector('[name="Email"]');
+        emailInput.style.borderBottom = '2px solid var(--red)';
+        emailInput.style.color = 'var(--red)';
+        setTimeout(() => {
+          emailInput.style.borderBottom = '';
+          emailInput.style.color = '';
+        }, 3000);
         submitBtn.disabled = false;
         submitBtn.innerHTML = `<span>Ça part !</span>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -3253,7 +3273,13 @@
         const phoneRegex = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
         if (!phoneRegex.test(data.telephone.replace(/\s/g, ''))) {
           haptic.trigger('error');
-          alert('Numéro de téléphone invalide. Format attendu: 06 12 34 56 78');
+          const phoneInput = inscriptionForm.querySelector('[name="Téléphone"]');
+          phoneInput.style.borderBottom = '2px solid var(--red)';
+          phoneInput.style.color = 'var(--red)';
+          setTimeout(() => {
+            phoneInput.style.borderBottom = '';
+            phoneInput.style.color = '';
+          }, 3000);
           submitBtn.disabled = false;
           submitBtn.innerHTML = `<span>Ça part !</span>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -3277,6 +3303,15 @@
 
         if (result.success) {
           haptic.trigger('success'); // Vibration succès inscription
+
+          // Google Analytics - Conversion
+          if (typeof gtag === 'function') {
+            gtag('event', 'form_submit', {
+              event_category: 'engagement',
+              event_label: 'inscription_courtoucreve'
+            });
+          }
+
           // Sauvegarder le timestamp pour rate limit
           recentSubmissions.push(now);
           localStorage.setItem('coc_submissions', JSON.stringify(recentSubmissions));
