@@ -5,7 +5,7 @@
   <!-- Page principale -->
   <url>
     <loc>https://courtoucreve.com/</loc>
-    <lastmod>2026-01-30</lastmod>
+    <lastmod>2026-03-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
 
@@ -71,9 +71,39 @@
     </image:image>
 
     <image:image>
-      <image:loc>https://courtoucreve.com/gallery/projo-1.jpg</image:loc>
-      <image:title>Projection cinéma Court ou Crève</image:title>
-      <image:caption>Public lors de la projection des courts-métrages au cinéma</image:caption>
+      <image:loc>https://courtoucreve.com/gallery/projection-cinema-court-ou-creve-public-gala.jpg</image:loc>
+      <image:title>Projection cinéma Court ou Crève - Public au gala</image:title>
+      <image:caption>Public lors de la projection des courts-métrages au cinéma lors du gala Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/projection-cinema-court-ou-creve-salle-1.jpg</image:loc>
+      <image:title>Projection cinéma Court ou Crève - Salle de cinéma</image:title>
+      <image:caption>Salle de cinéma lors de la projection Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/projection-cinema-court-ou-creve-salle-2.jpg</image:loc>
+      <image:title>Projection cinéma Court ou Crève - Ambiance salle</image:title>
+      <image:caption>Ambiance de la salle lors de la projection des courts-métrages Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/projection-cinema-court-ou-creve-salle-3.jpg</image:loc>
+      <image:title>Projection cinéma Court ou Crève - Public engagé</image:title>
+      <image:caption>Public engagé lors de la projection cinéma Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/projection-cinema-court-ou-creve-salle-4.jpg</image:loc>
+      <image:title>Projection cinéma Court ou Crève - Gala final</image:title>
+      <image:caption>Gala final de projection des courts-métrages Court ou Crève</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://courtoucreve.com/gallery/projection-cinema-court-ou-creve-salle-5.jpg</image:loc>
+      <image:title>Projection cinéma Court ou Crève - Soirée de clôture</image:title>
+      <image:caption>Soirée de clôture avec projection des courts-métrages au cinéma</image:caption>
     </image:image>
 
     <!-- Images marquee masterclass -->
