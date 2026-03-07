@@ -3,6 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Security Headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://xhpsdbmajanmoztijbnx.supabase.co https://www.google-analytics.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://xhpsdbmajanmoztijbnx.supabase.co;">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()">
+
   <title>Formation Réalisation Vidéo & Court-Métrage à Paris | Court ou Crève - AFDAS</title>
   <meta name="description" content="Formation réalisation vidéo à Paris avec Kemar, Ludovik et Ludoc. Masterclass court-métrage de l'écriture au montage. Diffusion au cinéma. Éligible financement AFDAS pour intermittents du spectacle.">
 
@@ -3226,6 +3234,34 @@
         intermittent: inscriptionForm.querySelector('#intermittent').checked,
         afdas: inscriptionForm.querySelector('#afdas').checked
       };
+
+      // Validation email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(data.email)) {
+        haptic.trigger('error');
+        alert('Adresse email invalide. Vérifie ton email.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<span>Ça part !</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>`;
+        return;
+      }
+
+      // Validation téléphone (si fourni)
+      if (data.telephone && data.telephone.trim()) {
+        const phoneRegex = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
+        if (!phoneRegex.test(data.telephone.replace(/\s/g, ''))) {
+          haptic.trigger('error');
+          alert('Numéro de téléphone invalide. Format attendu: 06 12 34 56 78');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<span>Ça part !</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>`;
+          return;
+        }
+      }
 
       try {
         const response = await fetch('https://xhpsdbmajanmoztijbnx.supabase.co/functions/v1/courtoucreve-contact', {
