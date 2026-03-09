@@ -548,14 +548,11 @@
 
     .hero-video {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      min-width: 100%;
-      min-height: 100%;
-      width: auto;
-      height: auto;
-      object-fit: cover;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
       opacity: 0.5;
     }
 
@@ -565,12 +562,52 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(
-        135deg,
-        rgba(10,10,10,0.8) 0%,
-        rgba(10,10,10,0.4) 50%,
-        rgba(10,10,10,0.6) 100%
-      );
+      background:
+        /* Vignettage */
+        radial-gradient(ellipse at center, transparent 0%, transparent 40%, rgba(0,0,0,0.5) 100%),
+        /* Scanlines (effet télé) */
+        repeating-linear-gradient(
+          0deg,
+          rgba(0,0,0,0) 0px,
+          rgba(0,0,0,0) 2px,
+          rgba(0,0,0,0.15) 2px,
+          rgba(0,0,0,0.15) 4px
+        ),
+        /* Overlay sombre */
+        linear-gradient(
+          135deg,
+          rgba(10,10,10,0.7) 0%,
+          rgba(10,10,10,0.3) 50%,
+          rgba(10,10,10,0.5) 100%
+        );
+      pointer-events: none;
+    }
+
+    /* Effet grain/noise télé */
+    .hero-video-overlay::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
+      opacity: 0.3;
+      animation: grain 1s steps(10) infinite;
+      pointer-events: none;
+    }
+
+    @keyframes grain {
+      0%, 100% { transform: translate(0, 0); }
+      10% { transform: translate(-5%, -5%); }
+      20% { transform: translate(5%, 5%); }
+      30% { transform: translate(-5%, 5%); }
+      40% { transform: translate(5%, -5%); }
+      50% { transform: translate(-2%, -2%); }
+      60% { transform: translate(2%, 2%); }
+      70% { transform: translate(-2%, 2%); }
+      80% { transform: translate(2%, -2%); }
+      90% { transform: translate(1%, 1%); }
     }
 
     .hero-video-content {
