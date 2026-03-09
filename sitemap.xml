@@ -156,6 +156,35 @@
     </image:image>
   </url>
 
+  <!-- Sections importantes du one-page (pour sitelinks Google) -->
+  <url>
+    <loc>https://courtoucreve.com/#equipe</loc>
+    <lastmod>2026-03-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://courtoucreve.com/#faq</loc>
+    <lastmod>2026-03-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://courtoucreve.com/#inscription</loc>
+    <lastmod>2026-03-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://courtoucreve.com/#saison1</loc>
+    <lastmod>2026-03-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Pages légales -->
   <url>
     <loc>https://courtoucreve.com/cgu/</loc>
