@@ -205,6 +205,68 @@
         padding: 0 20px;
       }
     }
+  
+    /* Social Buttons */
+    .social-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 6px;
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .social-btn svg {
+      width: 20px;
+      height: 20px;
+      transition: all 0.3s ease;
+    }
+
+    /* Instagram */
+    .social-btn.instagram:hover {
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      border-color: transparent;
+    }
+
+    .social-btn.instagram:hover svg {
+      transform: scale(1.1);
+    }
+
+    /* Facebook */
+    .social-btn.facebook:hover {
+      background: #1877F2;
+      border-color: #1877F2;
+    }
+
+    .social-btn.facebook:hover svg {
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 480px) {
+      .social-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .social-btn {
+        width: 100%;
+        max-width: 280px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -225,5 +287,19 @@
   </div>
 
   <p class="secret-msg">Le meilleur gagne. Les autres, on les bute.</p>
+<script>
+    // Instagram: ouvre l'app sur mobile
+    const instaBtn = document.getElementById('instaBtn');
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      instaBtn.href = 'instagram://user?username=courtoucreve';
+      instaBtn.onclick = (e) => {
+        setTimeout(() => {
+          window.location.href = 'https://instagram.com/courtoucreve';
+        }, 500);
+      };
+    }
+  </script>
 </body>
 </html>
