@@ -319,7 +319,7 @@
     const playButton = document.getElementById('playButton');
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    // ===== ALERTE VISITE PAGE TEASER =====
+    // ===== ALERTE TELEGRAM VISITE PAGE TEASER =====
     (async function sendTeaserAlert() {
       try {
         // Récupérer IP et localisation
@@ -335,24 +335,41 @@
         const location = `${city}${region ? ', ' + region : ''}, ${country}`;
         const timestamp = new Date().toLocaleString('fr-FR', {
           timeZone: 'Europe/Paris',
-          dateStyle: 'short',
-          timeStyle: 'short'
+          dateStyle: 'full',
+          timeStyle: 'medium'
         });
 
-        // Envoyer alerte via ntfy.sh
-        await fetch('https://ntfy.sh/courtoucreve-teaser-s2-alert', {
+        // Détection device
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const isTablet = /iPad|Android.*Tablet/i.test(navigator.userAgent);
+        const device = isTablet ? '📱 Tablette' : (isMobile ? '📱 Mobile' : '💻 Desktop');
+
+        // Message Telegram
+        const message = `🚨 *ALERTE TEASER SAISON 2*\n\n` +
+          `📍 *Localisation:* ${location}\n` +
+          `🌐 *IP:* \`${ip}\`\n` +
+          `📡 *ISP:* ${org}\n` +
+          `${device}\n` +
+          `🕐 ${timestamp}\n\n` +
+          `_${navigator.userAgent.substring(0, 100)}_`;
+
+        // Envoyer via Telegram Bot API
+        const BOT_TOKEN = '8499455083:AAHGSEIsvQUuOSnaQhj-PpcIX5lUzWXEkt8';
+        const CHAT_ID = '5305215400';
+
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
           method: 'POST',
-          headers: {
-            'Title': '🚨 ALERTE TEASER SAISON 2 CONSULTÉ',
-            'Priority': 'high',
-            'Tags': 'warning,eyes'
-          },
-          body: `📍 ${location}\n🌐 IP: ${ip}\n📡 ${org}\n🕐 ${timestamp}\n\n${navigator.userAgent}`
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message,
+            parse_mode: 'Markdown'
+          })
         });
 
-        console.log('Alerte teaser envoyée');
+        console.log('Alerte Telegram envoyée');
       } catch (error) {
-        console.error('Erreur alerte teaser:', error);
+        console.error('Erreur alerte Telegram:', error);
       }
     })();
 
