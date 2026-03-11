@@ -321,18 +321,11 @@
 
     // ===== ALERTE TELEGRAM VISITE PAGE TEASER =====
     (async function sendTeaserAlert() {
+      const BOT_TOKEN = '8499455083:AAHGSEIsvQUuOSnaQhj-PpcIX5lUzWXEkt8';
+      const CHAT_ID = '5305215400';
+
       try {
-        // Récupérer IP et localisation
-        const response = await fetch('https://ipapi.co/json/');
-        const data = await response.json();
-
-        const ip = data.ip || 'IP inconnue';
-        const city = data.city || 'Ville inconnue';
-        const region = data.region || '';
-        const country = data.country_name || 'Pays inconnu';
-        const org = data.org || 'ISP inconnu';
-
-        const location = `${city}${region ? ', ' + region : ''}, ${country}`;
+        // Timestamp immédiat
         const timestamp = new Date().toLocaleString('fr-FR', {
           timeZone: 'Europe/Paris',
           dateStyle: 'full',
@@ -344,6 +337,31 @@
         const isTablet = /iPad|Android.*Tablet/i.test(navigator.userAgent);
         const device = isTablet ? '📱 Tablette' : (isMobile ? '📱 Mobile' : '💻 Desktop');
 
+        // Tenter de récupérer IP et localisation (avec timeout)
+        let ip = 'Récupération...';
+        let location = 'Récupération...';
+        let org = 'Récupération...';
+
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 3000); // 3s timeout
+
+          const response = await fetch('https://ipapi.co/json/', {
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
+
+          const data = await response.json();
+          ip = data.ip || 'IP inconnue';
+          const city = data.city || 'Ville inconnue';
+          const region = data.region || '';
+          const country = data.country_name || 'Pays inconnu';
+          org = data.org || 'ISP inconnu';
+          location = `${city}${region ? ', ' + region : ''}, ${country}`;
+        } catch (geoError) {
+          console.log('Impossible de récupérer la géolocalisation:', geoError);
+        }
+
         // Message Telegram
         const message = `🚨 *ALERTE TEASER SAISON 2*\n\n` +
           `📍 *Localisation:* ${location}\n` +
@@ -354,10 +372,7 @@
           `_${navigator.userAgent.substring(0, 100)}_`;
 
         // Envoyer via Telegram Bot API
-        const BOT_TOKEN = '8499455083:AAHGSEIsvQUuOSnaQhj-PpcIX5lUzWXEkt8';
-        const CHAT_ID = '5305215400';
-
-        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        const telegramResponse = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -367,9 +382,30 @@
           })
         });
 
-        console.log('Alerte Telegram envoyée');
+        const result = await telegramResponse.json();
+
+        if (result.ok) {
+          console.log('✅ Alerte Telegram envoyée avec succès');
+        } else {
+          console.error('❌ Erreur Telegram API:', result);
+        }
       } catch (error) {
-        console.error('Erreur alerte Telegram:', error);
+        console.error('❌ Erreur alerte Telegram:', error);
+
+        // Fallback: envoyer alerte minimale
+        try {
+          await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: CHAT_ID,
+              text: `🚨 *VISITE TEASER SAISON 2*\n\nQuelqu'un a visité la page teaser !\n${new Date().toLocaleString('fr-FR')}`
+            })
+          });
+          console.log('✅ Alerte fallback envoyée');
+        } catch (fallbackError) {
+          console.error('❌ Même le fallback a échoué:', fallbackError);
+        }
       }
     })();
 
