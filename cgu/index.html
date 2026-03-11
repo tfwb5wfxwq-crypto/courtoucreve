@@ -222,11 +222,10 @@
       outline: none;
     }
 
-            /* Tooltips bulles (à droite) */
+                /* Tooltips bulles */
     .social-btn::before {
       position: absolute;
       top: 50%;
-      left: calc(100% + 15px);
       transform: translateY(-50%) translateX(-8px) scale(0.95);
       padding: 8px 14px;
       border-radius: 20px;
@@ -243,7 +242,6 @@
       content: '';
       position: absolute;
       top: 50%;
-      left: calc(100% + 7px);
       transform: translateY(-50%) translateX(-8px) scale(0.95);
       width: 0;
       height: 0;
@@ -254,32 +252,48 @@
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .social-btn:hover::before,
+    /* Animation shake agressive */
+    @keyframes shake {
+      0%, 100% { transform: translateY(-50%) translateX(0) scale(1); }
+      10%, 30%, 50%, 70%, 90% { transform: translateY(-50%) translateX(-3px) scale(1.02); }
+      20%, 40%, 60%, 80% { transform: translateY(-50%) translateX(3px) scale(1.02); }
+    }
+
+    .social-btn:hover::before {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0) scale(1);
+      animation: shake 0.35s infinite;
+    }
+
     .social-btn:hover::after {
       opacity: 1;
       transform: translateY(-50%) translateX(0) scale(1);
     }
 
-    /* Instagram bubble */
+    /* Instagram bubble (À GAUCHE) */
     .social-btn.instagram::before {
-      content: 'Follow sur Insta 💥';
+      content: 'Suis-nous bordel ! 💥';
       background: linear-gradient(135deg, #f09433 0%, #dc2743 100%);
       color: white;
+      right: calc(100% + 12px);
     }
 
     .social-btn.instagram::after {
-      border-right: 7px solid #dc2743;
+      border-left: 7px solid #dc2743;
+      right: calc(100% + 5px);
     }
 
-    /* Facebook bubble */
+    /* Facebook bubble (À DROITE) */
     .social-btn.facebook::before {
-      content: 'Rejoins-nous sur FB 🔥';
+      content: 'Suis-nous bordel ! 🔥';
       background: #1877F2;
       color: white;
+      left: calc(100% + 12px);
     }
 
     .social-btn.facebook::after {
       border-right: 7px solid #1877F2;
+      left: calc(100% + 5px);
     }
 
     .social-btn svg {
