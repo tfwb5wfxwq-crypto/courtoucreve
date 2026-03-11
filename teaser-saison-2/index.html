@@ -319,6 +319,43 @@
     const playButton = document.getElementById('playButton');
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
+    // ===== ALERTE VISITE PAGE TEASER =====
+    (async function sendTeaserAlert() {
+      try {
+        // Récupérer IP et localisation
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+
+        const ip = data.ip || 'IP inconnue';
+        const city = data.city || 'Ville inconnue';
+        const region = data.region || '';
+        const country = data.country_name || 'Pays inconnu';
+        const org = data.org || 'ISP inconnu';
+
+        const location = `${city}${region ? ', ' + region : ''}, ${country}`;
+        const timestamp = new Date().toLocaleString('fr-FR', {
+          timeZone: 'Europe/Paris',
+          dateStyle: 'short',
+          timeStyle: 'short'
+        });
+
+        // Envoyer alerte via ntfy.sh
+        await fetch('https://ntfy.sh/courtoucreve-teaser-s2-alert', {
+          method: 'POST',
+          headers: {
+            'Title': '🚨 ALERTE TEASER SAISON 2 CONSULTÉ',
+            'Priority': 'high',
+            'Tags': 'warning,eyes'
+          },
+          body: `📍 ${location}\n🌐 IP: ${ip}\n📡 ${org}\n🕐 ${timestamp}\n\n${navigator.userAgent}`
+        });
+
+        console.log('Alerte teaser envoyée');
+      } catch (error) {
+        console.error('Erreur alerte teaser:', error);
+      }
+    })();
+
     // Fonction pour reset la vidéo
     function resetVideo() {
       video.pause();
