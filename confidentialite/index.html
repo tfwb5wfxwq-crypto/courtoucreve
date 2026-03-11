@@ -222,48 +222,64 @@
       outline: none;
     }
 
-    /* Tooltip bulle */
-    .social-btn.instagram::before {
-      content: 'Suis-nous sur Insta bordel !';
+        /* Tooltips bulles */
+    .social-btn::before {
       position: absolute;
-      bottom: 70px;
+      bottom: 65px;
       left: 50%;
-      transform: translateX(-50%) translateY(10px);
-      background: var(--black-light);
-      color: var(--white);
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-size: 13px;
+      transform: translateX(-50%) translateY(8px) scale(0.95);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 12px;
       font-weight: 600;
       white-space: nowrap;
       opacity: 0;
       pointer-events: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
 
-    /* Petite flèche du tooltip */
-    .social-btn.instagram::after {
+    .social-btn::after {
       content: '';
       position: absolute;
-      bottom: 60px;
+      bottom: 56px;
       left: 50%;
-      transform: translateX(-50%) translateY(10px);
+      transform: translateX(-50%) translateY(8px) scale(0.95);
       width: 0;
       height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 8px solid var(--black-light);
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
       opacity: 0;
       pointer-events: none;
-      transition: all 0.3s ease;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .social-btn.instagram:hover::before,
-    .social-btn.instagram:hover::after {
+    .social-btn:hover::before,
+    .social-btn:hover::after {
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+    /* Instagram bubble */
+    .social-btn.instagram::before {
+      content: 'Follow sur Insta 💥';
+      background: linear-gradient(135deg, #f09433 0%, #dc2743 100%);
+      color: white;
+    }
+
+    .social-btn.instagram::after {
+      border-top: 7px solid #dc2743;
+    }
+
+    /* Facebook bubble */
+    .social-btn.facebook::before {
+      content: 'Rejoins-nous sur FB 🔥';
+      background: #1877F2;
+      color: white;
+    }
+
+    .social-btn.facebook::after {
+      border-top: 7px solid #1877F2;
     }
 
     .social-btn svg {
