@@ -252,22 +252,18 @@
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Animation shake agressive */
+    /* Animation shake agressive (ralentie pour lisibilité) */
     @keyframes shake {
       0%, 100% { transform: translateY(-50%) translateX(0) scale(1); }
-      10%, 30%, 50%, 70%, 90% { transform: translateY(-50%) translateX(-3px) scale(1.02); }
-      20%, 40%, 60%, 80% { transform: translateY(-50%) translateX(3px) scale(1.02); }
+      10%, 30%, 50%, 70%, 90% { transform: translateY(-50%) translateX(-2px) scale(1.01); }
+      20%, 40%, 60%, 80% { transform: translateY(-50%) translateX(2px) scale(1.01); }
     }
 
-    .social-btn:hover::before {
-      opacity: 1;
-      transform: translateY(-50%) translateX(0) scale(1);
-      animation: shake 0.35s infinite;
-    }
-
+    .social-btn:hover::before,
     .social-btn:hover::after {
       opacity: 1;
       transform: translateY(-50%) translateX(0) scale(1);
+      animation: shake 0.6s infinite;
     }
 
     /* Instagram bubble (À GAUCHE) */
