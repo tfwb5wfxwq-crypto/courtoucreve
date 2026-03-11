@@ -1782,8 +1782,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 50px;
-      height: 50px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       border: none;
       color: var(--white);
@@ -1797,79 +1797,9 @@
       outline: none;
     }
 
-        /* Tooltips bulles */
-    .social-btn::before {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%) translateX(-8px) scale(0.95);
-      padding: 8px 14px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-    }
-
-    .social-btn::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%) translateX(-8px) scale(0.95);
-      width: 0;
-      height: 0;
-      border-top: 6px solid transparent;
-      border-bottom: 6px solid transparent;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* Animation shake agressive (ralentie pour lisibilité) */
-    @keyframes shake {
-      0%, 100% { transform: translateY(-50%) translateX(0) scale(1); }
-      10%, 30%, 50%, 70%, 90% { transform: translateY(-50%) translateX(-2px) scale(1.01); }
-      20%, 40%, 60%, 80% { transform: translateY(-50%) translateX(2px) scale(1.01); }
-    }
-
-    .social-btn:hover::before,
-    .social-btn:hover::after {
-      opacity: 1;
-      transform: translateY(-50%) translateX(0) scale(1);
-      animation: shake 0.6s infinite;
-    }
-
-    /* Instagram bubble (À GAUCHE) */
-    .social-btn.instagram::before {
-      content: 'Suis-nous bordel ! 💥';
-      background: linear-gradient(135deg, #f09433 0%, #dc2743 100%);
-      color: white;
-      right: calc(100% + 12px);
-    }
-
-    .social-btn.instagram::after {
-      border-left: 7px solid #dc2743;
-      right: calc(100% + 5px);
-    }
-
-    /* Facebook bubble (À DROITE) */
-    .social-btn.facebook::before {
-      content: 'Suis-nous bordel ! 🔥';
-      background: #1877F2;
-      color: white;
-      left: calc(100% + 12px);
-    }
-
-    .social-btn.facebook::after {
-      border-right: 7px solid #1877F2;
-      left: calc(100% + 5px);
-    }
-
     .social-btn svg {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       transition: transform 0.3s ease;
     }
 
@@ -1897,13 +1827,13 @@
       }
 
       .social-btn {
-        width: 48px;
-        height: 48px;
+        width: 40px;
+        height: 40px;
       }
 
       .social-btn svg {
-        width: 22px;
-        height: 22px;
+        width: 18px;
+        height: 18px;
       }
     }
 
@@ -2326,6 +2256,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        transform: none !important; /* Reset scale sur mobile pour éviter recadrage */
       }
 
       .play-btn {
