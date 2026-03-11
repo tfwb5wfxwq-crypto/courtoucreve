@@ -1790,10 +1790,55 @@
       text-decoration: none;
       transition: all 0.3s ease;
       outline: none;
+      position: relative;
     }
 
     .social-btn:focus {
       outline: none;
+    }
+
+    /* Tooltip bulle */
+    .social-btn.instagram::before {
+      content: 'Suis-nous sur Insta bordel !';
+      position: absolute;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: var(--black-light);
+      color: var(--white);
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* Petite flèche du tooltip */
+    .social-btn.instagram::after {
+      content: '';
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid var(--black-light);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .social-btn.instagram:hover::before,
+    .social-btn.instagram:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
     .social-btn svg {
