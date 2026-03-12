@@ -2314,6 +2314,11 @@
         -webkit-tap-highlight-color: transparent;
       }
 
+      /* Dé-zoom sur mobile pour voir les noms */
+      .gallery-main video {
+        object-fit: contain;
+      }
+
       .gallery-main.playing::after {
         content: 'Tap pour pause';
         position: absolute;
