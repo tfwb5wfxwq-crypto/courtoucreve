@@ -1910,7 +1910,42 @@
       border-radius: 12px;
       overflow: hidden;
       cursor: pointer;
-      aspect-ratio: 2 / 3; /* Format poster Florian et Mathis (1024x1536) */
+      aspect-ratio: 9 / 16; /* Format poster et vidéo identiques (9:16 portrait) */
+    }
+
+    /* Effet Film/Cinéma sur le poster (avant play) */
+    .gallery-main:not(.playing)::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      z-index: 1;
+
+      /* Vignette + Grain + Scanlines */
+      background:
+        /* Vignette radiale */
+        radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.3) 100%),
+        /* Scanlines horizontales */
+        repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.03),
+          rgba(0, 0, 0, 0.03) 1px,
+          transparent 1px,
+          transparent 2px
+        ),
+        /* Grain de film (pattern) */
+        repeating-conic-gradient(from 0deg, transparent 0deg 90deg, rgba(255,255,255,0.02) 90deg 180deg) 0 0 / 3px 3px;
+
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+
+    /* Effet disparaît quand vidéo joue */
+    .gallery-main.playing::before {
+      opacity: 0;
     }
 
     .gallery-main video {
