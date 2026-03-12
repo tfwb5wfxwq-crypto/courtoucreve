@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test Video Carousel - Court ou Crève</title>
+  <title>Carousel Vidéo + Photos - Court ou Crève</title>
   <style>
     * {
       margin: 0;
@@ -11,70 +11,116 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --black: #0a0a0a;
+      --red: #DC2626;
+      --red-dark: #B91C1C;
+      --white: #fff;
+      --gray: #a0a0a0;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0a0a0a;
-      color: #fff;
-      padding: 40px 20px;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* Hero Split Screen - comme la home */
+    .hero-split {
       min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* LEFT: Video Carousel */
+    .hero-left {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--black);
+      overflow: hidden;
+    }
+
+    .hero-left::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(220,38,38,0.3), transparent);
+      z-index: 2;
+    }
+
+    /* Video Container */
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .container {
-      max-width: 800px;
-      width: 100%;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 28px;
-      color: #DC2626;
-    }
-
-    .video-carousel {
-      position: relative;
-      background: #1a1a1a;
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-    }
-
-    .video-container {
-      position: relative;
-      aspect-ratio: 1080 / 1350;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #000;
-    }
-
-    .video-container video {
+    .video-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      transition: all 0.4s ease;
-    }
-
-    .video-container.playing video {
-      object-fit: contain;
-    }
-
-    /* Navigation controls - en bas à droite */
-    .nav-controls {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      gap: 10px;
-      z-index: 10;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.8s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .video-container:hover .nav-controls {
+    .video-slide.active {
       opacity: 1;
+      z-index: 1;
+    }
+
+    .video-slide video {
+      width: 90%;
+      height: 90%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    /* Video overlay effects */
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.4) 100%),
+        repeating-linear-gradient(
+          0deg,
+          rgba(0,0,0,0.08) 0px,
+          rgba(0,0,0,0.08) 2px,
+          transparent 2px,
+          transparent 4px
+        );
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Navigation controls */
+    .carousel-nav {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 15px;
+      z-index: 10;
+      align-items: center;
     }
 
     .nav-arrow {
@@ -88,26 +134,39 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
     }
 
     .nav-arrow:hover {
-      background: rgba(220, 38, 38, 0.9);
-      border-color: rgba(220, 38, 38, 0.6);
+      background: var(--red);
+      border-color: var(--red);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
-    }
-
-    .nav-arrow:active {
-      transform: translateY(0);
     }
 
     .nav-arrow svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       fill: white;
-      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+    }
+
+    /* Dots */
+    .dots-nav {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dot.active {
+      background: var(--red);
+      transform: scale(1.3);
     }
 
     /* Play button */
@@ -118,7 +177,7 @@
       transform: translate(-50%, -50%);
       width: 80px;
       height: 80px;
-      background: linear-gradient(135deg, rgba(185, 28, 28, 0.9) 0%, rgba(220, 38, 38, 0.95) 100%);
+      background: linear-gradient(135deg, rgba(185, 28, 28, 0.9), rgba(220, 38, 38, 0.95));
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -126,13 +185,12 @@
       cursor: pointer;
       transition: all 0.4s ease;
       box-shadow: 0 8px 32px rgba(185, 28, 28, 0.4);
-      pointer-events: none;
+      z-index: 5;
       opacity: 0;
     }
 
-    .video-container:not(.playing):hover .play-overlay {
+    .video-slide:not(.playing) .play-overlay {
       opacity: 1;
-      pointer-events: all;
     }
 
     .play-overlay::after {
@@ -147,292 +205,384 @@
 
     .play-overlay:hover {
       transform: translate(-50%, -50%) scale(1.1);
-      background: #DC2626;
+      background: var(--red);
     }
 
     /* Video info */
     .video-info {
-      margin-top: 20px;
-      text-align: center;
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      z-index: 5;
+      max-width: 400px;
     }
 
     .video-title {
-      font-size: 20px;
-      font-weight: 600;
-      color: #DC2626;
-      margin-bottom: 8px;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
     }
 
     .video-description {
       font-size: 14px;
-      color: #999;
-      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
     }
 
-    /* Dots navigation */
-    .dots-nav {
+    /* RIGHT: Photos Gallery */
+    .hero-right {
       display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
+      padding: 60px 40px;
+      background: var(--black);
+      position: relative;
+      overflow-y: auto;
     }
 
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #333;
+    .gallery-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .gallery-title span {
+      color: var(--red);
+    }
+
+    .photos-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .photo-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 12px;
+      overflow: hidden;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: transform 0.3s ease;
     }
 
-    .dot.active {
-      background: #DC2626;
-      transform: scale(1.3);
+    .photo-item:hover {
+      transform: scale(1.05);
     }
 
-    .dot:hover {
-      background: #666;
+    .photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
-    /* Loading state */
-    .video-container.loading::before {
-      content: 'Chargement...';
+    .photo-overlay {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #666;
-      font-size: 18px;
-      z-index: 5;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 15px;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .photo-item:hover .photo-overlay {
+      opacity: 1;
+    }
+
+    .photo-caption {
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 600;
     }
 
     /* Mobile responsive */
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 22px;
+    @media (max-width: 900px) {
+      .hero-split {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
       }
 
-      .nav-controls {
-        bottom: 15px;
-        right: 15px;
-        gap: 8px;
+      .hero-left {
+        min-height: 70vh;
       }
 
-      .nav-arrow {
-        width: 40px;
-        height: 40px;
+      .hero-left::after {
+        display: none;
       }
 
-      .play-overlay {
-        width: 60px;
-        height: 60px;
+      .hero-right {
+        padding: 40px 20px;
+      }
+
+      .photos-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .video-info {
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        max-width: none;
       }
 
       .video-title {
-        font-size: 18px;
+        font-size: 22px;
       }
 
-      .video-description {
-        font-size: 13px;
+      .carousel-nav {
+        bottom: 20px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🎬 Test Carousel Vidéo Court ou Crève</h1>
+  <div class="hero-split">
+    <!-- LEFT: Video Carousel -->
+    <div class="hero-left">
+      <div class="video-wrapper">
+        <!-- Video slides -->
+        <div class="video-slide active" data-index="0">
+          <video muted loop playsinline preload="metadata" poster="video-poster.jpg">
+            <source src="video-preview.mp4" type="video/mp4">
+          </video>
+          <div class="play-overlay"></div>
+        </div>
 
-    <div class="video-carousel">
-      <div class="video-container" id="videoContainer">
-        <video id="videoPlayer" muted loop playsinline preload="metadata"></video>
+        <div class="video-slide" data-index="1">
+          <video muted loop playsinline preload="metadata" poster="video-manifesto-poster.jpg">
+            <source src="video-manifesto.mp4" type="video/mp4">
+          </video>
+          <div class="play-overlay"></div>
+        </div>
 
-        <!-- Flèches navigation -->
-        <div class="nav-controls">
-          <button class="nav-arrow prev" id="prevBtn" aria-label="Vidéo précédente">
+        <div class="video-slide" data-index="2">
+          <video muted loop playsinline preload="metadata" poster="teaser-poster.jpg">
+            <source src="teaser-saison-2.mp4" type="video/mp4">
+          </video>
+          <div class="play-overlay"></div>
+        </div>
+
+        <div class="video-slide" data-index="3">
+          <video muted loop playsinline preload="metadata" poster="video-poster.jpg">
+            <source src="video-preview-old.mp4" type="video/mp4">
+          </video>
+          <div class="play-overlay"></div>
+        </div>
+
+        <!-- Overlay effects -->
+        <div class="video-overlay"></div>
+
+        <!-- Video info -->
+        <div class="video-info">
+          <h2 class="video-title" id="videoTitle">Bande Annonce Saison 1</h2>
+          <p class="video-description" id="videoDesc">Découvre les coulisses de la première saison</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="carousel-nav">
+          <button class="nav-arrow prev" aria-label="Vidéo précédente">
             <svg viewBox="0 0 24 24">
               <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
             </svg>
           </button>
-          <button class="nav-arrow next" id="nextBtn" aria-label="Vidéo suivante">
+
+          <div class="dots-nav" id="dotsNav"></div>
+
+          <button class="nav-arrow next" aria-label="Vidéo suivante">
             <svg viewBox="0 0 24 24">
               <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
             </svg>
           </button>
         </div>
-
-        <!-- Play button -->
-        <div class="play-overlay" id="playBtn"></div>
       </div>
+    </div>
 
-      <!-- Video info -->
-      <div class="video-info">
-        <h2 class="video-title" id="videoTitle"></h2>
-        <p class="video-description" id="videoDesc"></p>
+    <!-- RIGHT: Photos Gallery -->
+    <div class="hero-right">
+      <h2 class="gallery-title">En coulisses <span>📸</span></h2>
+
+      <div class="photos-grid">
+        <div class="photo-item">
+          <img src="photo1.jpg" alt="Tournage Saison 1" loading="lazy">
+          <div class="photo-overlay">
+            <p class="photo-caption">Tournage Saison 1</p>
+          </div>
+        </div>
+
+        <div class="photo-item">
+          <img src="photo2.jpg" alt="Équipe technique" loading="lazy">
+          <div class="photo-overlay">
+            <p class="photo-caption">Équipe technique</p>
+          </div>
+        </div>
+
+        <div class="photo-item">
+          <img src="photo3.jpg" alt="Coulisses plateau" loading="lazy">
+          <div class="photo-overlay">
+            <p class="photo-caption">Coulisses plateau</p>
+          </div>
+        </div>
+
+        <div class="photo-item">
+          <img src="photo4.jpg" alt="Post-production" loading="lazy">
+          <div class="photo-overlay">
+            <p class="photo-caption">Post-production</p>
+          </div>
+        </div>
       </div>
-
-      <!-- Dots navigation -->
-      <div class="dots-nav" id="dotsNav"></div>
     </div>
   </div>
 
   <script>
-    // Liste des vidéos
     const videos = [
       {
-        src: 'video-preview.mp4',
-        poster: 'video-poster.jpg',
         title: 'Bande Annonce Saison 1',
-        description: 'Découvre les coulisses de la première saison de Court ou Crève'
+        description: 'Découvre les coulisses de la première saison'
       },
       {
-        src: 'video-manifesto.mp4',
-        poster: 'video-manifesto-poster.jpg',
         title: 'Manifeste Court ou Crève',
-        description: 'La vision et les valeurs derrière Court ou Crève'
+        description: 'La vision et les valeurs derrière le projet'
       },
       {
-        src: 'teaser-saison-2.mp4',
-        poster: 'teaser-poster.jpg',
         title: 'Teaser Saison 2',
         description: 'Un aperçu de ce qui t\'attend pour la saison 2'
       },
       {
-        src: 'video-preview-old.mp4',
-        poster: 'video-poster.jpg',
         title: 'Archives Saison 1',
         description: 'Version alternative de la bande annonce'
       }
     ];
 
     let currentIndex = 0;
-    let isPlaying = false;
-
-    const videoContainer = document.getElementById('videoContainer');
-    const videoPlayer = document.getElementById('videoPlayer');
-    const playBtn = document.getElementById('playBtn');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
+    const slides = document.querySelectorAll('.video-slide');
+    const dotsNav = document.getElementById('dotsNav');
     const videoTitle = document.getElementById('videoTitle');
     const videoDesc = document.getElementById('videoDesc');
-    const dotsNav = document.getElementById('dotsNav');
 
-    // Créer les dots
+    // Create dots
     function createDots() {
-      dotsNav.innerHTML = '';
-      videos.forEach((_, index) => {
+      slides.forEach((_, index) => {
         const dot = document.createElement('div');
-        dot.className = `dot ${index === currentIndex ? 'active' : ''}`;
-        dot.addEventListener('click', () => loadVideo(index));
+        dot.className = `dot ${index === 0 ? 'active' : ''}`;
+        dot.addEventListener('click', () => goToSlide(index));
         dotsNav.appendChild(dot);
       });
     }
 
-    // Charger une vidéo
-    function loadVideo(index) {
-      if (index < 0 || index >= videos.length) return;
+    // Update info
+    function updateInfo(index) {
+      videoTitle.textContent = videos[index].title;
+      videoDesc.textContent = videos[index].description;
+    }
 
-      // Stop vidéo actuelle
-      if (isPlaying) {
-        videoPlayer.pause();
-        videoPlayer.currentTime = 0;
-        videoContainer.classList.remove('playing');
-        isPlaying = false;
-      }
+    // Go to specific slide with fade
+    function goToSlide(index) {
+      // Stop all videos
+      slides.forEach(slide => {
+        const video = slide.querySelector('video');
+        video.pause();
+        video.currentTime = 0;
+        slide.classList.remove('active', 'playing');
+      });
 
+      // Update current
       currentIndex = index;
-      const video = videos[currentIndex];
 
-      // Loading state
-      videoContainer.classList.add('loading');
-
-      // Charger nouvelle vidéo
-      videoPlayer.src = video.src;
-      videoPlayer.poster = video.poster;
-      videoTitle.textContent = video.title;
-      videoDesc.textContent = video.description;
+      // Fade in new slide
+      slides[currentIndex].classList.add('active');
 
       // Update dots
       document.querySelectorAll('.dot').forEach((dot, i) => {
         dot.classList.toggle('active', i === currentIndex);
       });
 
-      // Remove loading quand prête
-      videoPlayer.addEventListener('loadedmetadata', () => {
-        videoContainer.classList.remove('loading');
-      }, { once: true });
-    }
-
-    // Play/Pause
-    function togglePlay() {
-      if (videoPlayer.paused) {
-        videoPlayer.muted = false;
-        videoPlayer.play();
-        videoContainer.classList.add('playing');
-        isPlaying = true;
-      } else {
-        videoPlayer.pause();
-        videoContainer.classList.remove('playing');
-        isPlaying = false;
-      }
+      // Update info
+      updateInfo(currentIndex);
     }
 
     // Navigation
-    function nextVideo() {
-      loadVideo((currentIndex + 1) % videos.length);
-    }
-
-    function prevVideo() {
-      loadVideo((currentIndex - 1 + videos.length) % videos.length);
-    }
-
-    // Event listeners
-    videoContainer.addEventListener('click', (e) => {
-      if (e.target === videoPlayer || e.target === videoContainer) {
-        togglePlay();
-      }
+    document.querySelector('.nav-arrow.prev').addEventListener('click', () => {
+      const newIndex = (currentIndex - 1 + slides.length) % slides.length;
+      goToSlide(newIndex);
     });
 
-    playBtn.addEventListener('click', togglePlay);
-    nextBtn.addEventListener('click', nextVideo);
-    prevBtn.addEventListener('click', prevVideo);
+    document.querySelector('.nav-arrow.next').addEventListener('click', () => {
+      const newIndex = (currentIndex + 1) % slides.length;
+      goToSlide(newIndex);
+    });
+
+    // Play/Pause
+    document.querySelectorAll('.play-overlay').forEach((btn, index) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const slide = slides[index];
+        const video = slide.querySelector('video');
+
+        if (video.paused) {
+          video.muted = false;
+          video.play();
+          slide.classList.add('playing');
+        } else {
+          video.pause();
+          slide.classList.remove('playing');
+        }
+      });
+    });
+
+    // Click on video to play/pause
+    slides.forEach((slide, index) => {
+      const video = slide.querySelector('video');
+      video.addEventListener('click', () => {
+        if (video.paused) {
+          video.muted = false;
+          video.play();
+          slide.classList.add('playing');
+        } else {
+          video.pause();
+          slide.classList.remove('playing');
+        }
+      });
+    });
 
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') prevVideo();
-      if (e.key === 'ArrowRight') nextVideo();
-      if (e.key === ' ' || e.key === 'Enter') {
-        e.preventDefault();
-        togglePlay();
+      if (e.key === 'ArrowLeft') {
+        document.querySelector('.nav-arrow.prev').click();
+      } else if (e.key === 'ArrowRight') {
+        document.querySelector('.nav-arrow.next').click();
       }
     });
 
-    // Swipe sur mobile
+    // Swipe on mobile
     let touchStartX = 0;
     let touchEndX = 0;
 
-    videoContainer.addEventListener('touchstart', (e) => {
+    document.querySelector('.hero-left').addEventListener('touchstart', (e) => {
       touchStartX = e.changedTouches[0].screenX;
     }, { passive: true });
 
-    videoContainer.addEventListener('touchend', (e) => {
+    document.querySelector('.hero-left').addEventListener('touchend', (e) => {
       touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    }, { passive: true });
-
-    function handleSwipe() {
       const swipeThreshold = 50;
       if (touchEndX < touchStartX - swipeThreshold) {
-        nextVideo();
+        document.querySelector('.nav-arrow.next').click();
+      } else if (touchEndX > touchStartX + swipeThreshold) {
+        document.querySelector('.nav-arrow.prev').click();
       }
-      if (touchEndX > touchStartX + swipeThreshold) {
-        prevVideo();
-      }
-    }
+    }, { passive: true });
 
     // Init
     createDots();
-    loadVideo(0);
   </script>
 </body>
 </html>
