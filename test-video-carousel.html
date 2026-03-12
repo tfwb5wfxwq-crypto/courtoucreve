@@ -61,47 +61,53 @@
       object-fit: contain;
     }
 
-    /* Flèches navigation */
-    .nav-arrow {
+    /* Navigation controls - en bas à droite */
+    .nav-controls {
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(220, 38, 38, 0.9);
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .video-container:hover .nav-controls {
+      opacity: 1;
+    }
+
+    .nav-arrow {
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+      border-radius: 8px;
+      width: 44px;
+      height: 44px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s ease;
-      z-index: 10;
-      box-shadow: 0 4px 16px rgba(220, 38, 38, 0.4);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
     .nav-arrow:hover {
-      background: #DC2626;
-      transform: translateY(-50%) scale(1.1);
-      box-shadow: 0 6px 24px rgba(220, 38, 38, 0.6);
+      background: rgba(220, 38, 38, 0.9);
+      border-color: rgba(220, 38, 38, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
     }
 
     .nav-arrow:active {
-      transform: translateY(-50%) scale(0.95);
-    }
-
-    .nav-arrow.prev {
-      left: 15px;
-    }
-
-    .nav-arrow.next {
-      right: 15px;
+      transform: translateY(0);
     }
 
     .nav-arrow svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       fill: white;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
     }
 
     /* Play button */
@@ -207,17 +213,15 @@
         font-size: 22px;
       }
 
+      .nav-controls {
+        bottom: 15px;
+        right: 15px;
+        gap: 8px;
+      }
+
       .nav-arrow {
         width: 40px;
         height: 40px;
-      }
-
-      .nav-arrow.prev {
-        left: 10px;
-      }
-
-      .nav-arrow.next {
-        right: 10px;
       }
 
       .play-overlay {
@@ -244,16 +248,18 @@
         <video id="videoPlayer" muted loop playsinline preload="metadata"></video>
 
         <!-- Flèches navigation -->
-        <button class="nav-arrow prev" id="prevBtn" aria-label="Vidéo précédente">
-          <svg viewBox="0 0 24 24">
-            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-          </svg>
-        </button>
-        <button class="nav-arrow next" id="nextBtn" aria-label="Vidéo suivante">
-          <svg viewBox="0 0 24 24">
-            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-          </svg>
-        </button>
+        <div class="nav-controls">
+          <button class="nav-arrow prev" id="prevBtn" aria-label="Vidéo précédente">
+            <svg viewBox="0 0 24 24">
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+          </button>
+          <button class="nav-arrow next" id="nextBtn" aria-label="Vidéo suivante">
+            <svg viewBox="0 0 24 24">
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+          </button>
+        </div>
 
         <!-- Play button -->
         <div class="play-overlay" id="playBtn"></div>
