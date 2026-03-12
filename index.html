@@ -2109,6 +2109,12 @@
       opacity: 1;
     }
 
+    /* Hide arrows on mobile after timeout */
+    .gallery-carousel-wrapper.hide-arrows .carousel-arrow {
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+
     .carousel-prev {
       right: 68px;
     }
@@ -3506,6 +3512,34 @@
             carouselPrev?.click();
           }
         }, { passive: true });
+      }
+
+      // Auto-hide arrows on mobile after interaction
+      if (isMobile && carouselWrapper) {
+        let hideTimeout;
+
+        const showArrows = () => {
+          carouselWrapper.classList.remove('hide-arrows');
+          clearTimeout(hideTimeout);
+          hideTimeout = setTimeout(() => {
+            carouselWrapper.classList.add('hide-arrows');
+          }, 3000);
+        };
+
+        // Show arrows on tap, hide after 3s
+        carouselWrapper.addEventListener('touchstart', showArrows, { passive: true });
+
+        // Also trigger on arrow click
+        [carouselPrev, carouselNext].forEach(arrow => {
+          if (arrow) {
+            arrow.addEventListener('click', showArrows);
+          }
+        });
+
+        // Hide arrows initially after 3s
+        setTimeout(() => {
+          carouselWrapper.classList.add('hide-arrows');
+        }, 3000);
       }
     }
 
