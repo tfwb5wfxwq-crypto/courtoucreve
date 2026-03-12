@@ -1948,11 +1948,36 @@
       opacity: 0;
     }
 
+    /* Poster image par-dessus la vidéo */
+    .video-poster-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .video-poster-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      filter: brightness(0.8);
+    }
+
+    /* Cacher le poster quand vidéo joue */
+    .gallery-main.playing .video-poster-img {
+      opacity: 0;
+    }
+
     .gallery-main video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center center; /* Centre le poster */
+      object-position: center center;
       filter: brightness(0.8);
       transition: all 0.4s ease;
       pointer-events: none;
@@ -2314,10 +2339,7 @@
         -webkit-tap-highlight-color: transparent;
       }
 
-      /* Dé-zoom sur mobile pour voir les noms */
-      .gallery-main video {
-        object-fit: contain;
-      }
+      /* Poster mobile optimisé, pas besoin de contain */
 
       .gallery-main.playing::after {
         content: 'Tap pour pause';
@@ -2621,7 +2643,14 @@
 
       <div class="season-gallery">
         <div class="gallery-main" data-video="video-preview.mp4">
-          <video src="video-preview.mp4" muted loop playsinline preload="auto" poster="video-poster.jpg"></video>
+          <video src="video-preview.mp4" muted loop playsinline preload="auto">
+            <source src="video-preview.mp4" type="video/mp4">
+          </video>
+          <!-- Poster séparé pour control mobile/desktop -->
+          <picture class="video-poster-img">
+            <source media="(max-width: 768px)" srcset="video-poster-mobile.jpg">
+            <img src="video-poster.jpg" alt="Florian et Mathis">
+          </picture>
           <div class="gallery-play">
             <div class="play-btn"></div>
           </div>
