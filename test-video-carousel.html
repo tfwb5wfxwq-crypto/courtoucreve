@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Video Carousel - Court ou Crève</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+      color: #DC2626;
+    }
+
+    .video-carousel {
+      position: relative;
+      background: #1a1a1a;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    .video-container {
+      position: relative;
+      aspect-ratio: 1080 / 1350;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.4s ease;
+    }
+
+    .video-container.playing video {
+      object-fit: contain;
+    }
+
+    /* Flèches navigation */
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(220, 38, 38, 0.9);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 10;
+      box-shadow: 0 4px 16px rgba(220, 38, 38, 0.4);
+    }
+
+    .nav-arrow:hover {
+      background: #DC2626;
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 6px 24px rgba(220, 38, 38, 0.6);
+    }
+
+    .nav-arrow:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    .nav-arrow.prev {
+      left: 15px;
+    }
+
+    .nav-arrow.next {
+      right: 15px;
+    }
+
+    .nav-arrow svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+    }
+
+    /* Play button */
+    .play-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, rgba(185, 28, 28, 0.9) 0%, rgba(220, 38, 38, 0.95) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      box-shadow: 0 8px 32px rgba(185, 28, 28, 0.4);
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .video-container:not(.playing):hover .play-overlay {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .play-overlay::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 22px solid white;
+      border-top: 14px solid transparent;
+      border-bottom: 14px solid transparent;
+      margin-left: 6px;
+    }
+
+    .play-overlay:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+      background: #DC2626;
+    }
+
+    /* Video info */
+    .video-info {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .video-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #DC2626;
+      margin-bottom: 8px;
+    }
+
+    .video-description {
+      font-size: 14px;
+      color: #999;
+      line-height: 1.5;
+    }
+
+    /* Dots navigation */
+    .dots-nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #333;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dot.active {
+      background: #DC2626;
+      transform: scale(1.3);
+    }
+
+    .dot:hover {
+      background: #666;
+    }
+
+    /* Loading state */
+    .video-container.loading::before {
+      content: 'Chargement...';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #666;
+      font-size: 18px;
+      z-index: 5;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 22px;
+      }
+
+      .nav-arrow {
+        width: 40px;
+        height: 40px;
+      }
+
+      .nav-arrow.prev {
+        left: 10px;
+      }
+
+      .nav-arrow.next {
+        right: 10px;
+      }
+
+      .play-overlay {
+        width: 60px;
+        height: 60px;
+      }
+
+      .video-title {
+        font-size: 18px;
+      }
+
+      .video-description {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎬 Test Carousel Vidéo Court ou Crève</h1>
+
+    <div class="video-carousel">
+      <div class="video-container" id="videoContainer">
+        <video id="videoPlayer" muted loop playsinline preload="metadata"></video>
+
+        <!-- Flèches navigation -->
+        <button class="nav-arrow prev" id="prevBtn" aria-label="Vidéo précédente">
+          <svg viewBox="0 0 24 24">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+          </svg>
+        </button>
+        <button class="nav-arrow next" id="nextBtn" aria-label="Vidéo suivante">
+          <svg viewBox="0 0 24 24">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+          </svg>
+        </button>
+
+        <!-- Play button -->
+        <div class="play-overlay" id="playBtn"></div>
+      </div>
+
+      <!-- Video info -->
+      <div class="video-info">
+        <h2 class="video-title" id="videoTitle"></h2>
+        <p class="video-description" id="videoDesc"></p>
+      </div>
+
+      <!-- Dots navigation -->
+      <div class="dots-nav" id="dotsNav"></div>
+    </div>
+  </div>
+
+  <script>
+    // Liste des vidéos
+    const videos = [
+      {
+        src: 'video-preview.mp4',
+        poster: 'video-poster.jpg',
+        title: 'Bande Annonce Saison 1',
+        description: 'Découvre les coulisses de la première saison de Court ou Crève'
+      },
+      {
+        src: 'video-manifesto.mp4',
+        poster: 'video-manifesto-poster.jpg',
+        title: 'Manifeste Court ou Crève',
+        description: 'La vision et les valeurs derrière Court ou Crève'
+      },
+      {
+        src: 'teaser-saison-2.mp4',
+        poster: 'teaser-poster.jpg',
+        title: 'Teaser Saison 2',
+        description: 'Un aperçu de ce qui t\'attend pour la saison 2'
+      },
+      {
+        src: 'video-preview-old.mp4',
+        poster: 'video-poster.jpg',
+        title: 'Archives Saison 1',
+        description: 'Version alternative de la bande annonce'
+      }
+    ];
+
+    let currentIndex = 0;
+    let isPlaying = false;
+
+    const videoContainer = document.getElementById('videoContainer');
+    const videoPlayer = document.getElementById('videoPlayer');
+    const playBtn = document.getElementById('playBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const videoTitle = document.getElementById('videoTitle');
+    const videoDesc = document.getElementById('videoDesc');
+    const dotsNav = document.getElementById('dotsNav');
+
+    // Créer les dots
+    function createDots() {
+      dotsNav.innerHTML = '';
+      videos.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = `dot ${index === currentIndex ? 'active' : ''}`;
+        dot.addEventListener('click', () => loadVideo(index));
+        dotsNav.appendChild(dot);
+      });
+    }
+
+    // Charger une vidéo
+    function loadVideo(index) {
+      if (index < 0 || index >= videos.length) return;
+
+      // Stop vidéo actuelle
+      if (isPlaying) {
+        videoPlayer.pause();
+        videoPlayer.currentTime = 0;
+        videoContainer.classList.remove('playing');
+        isPlaying = false;
+      }
+
+      currentIndex = index;
+      const video = videos[currentIndex];
+
+      // Loading state
+      videoContainer.classList.add('loading');
+
+      // Charger nouvelle vidéo
+      videoPlayer.src = video.src;
+      videoPlayer.poster = video.poster;
+      videoTitle.textContent = video.title;
+      videoDesc.textContent = video.description;
+
+      // Update dots
+      document.querySelectorAll('.dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentIndex);
+      });
+
+      // Remove loading quand prête
+      videoPlayer.addEventListener('loadedmetadata', () => {
+        videoContainer.classList.remove('loading');
+      }, { once: true });
+    }
+
+    // Play/Pause
+    function togglePlay() {
+      if (videoPlayer.paused) {
+        videoPlayer.muted = false;
+        videoPlayer.play();
+        videoContainer.classList.add('playing');
+        isPlaying = true;
+      } else {
+        videoPlayer.pause();
+        videoContainer.classList.remove('playing');
+        isPlaying = false;
+      }
+    }
+
+    // Navigation
+    function nextVideo() {
+      loadVideo((currentIndex + 1) % videos.length);
+    }
+
+    function prevVideo() {
+      loadVideo((currentIndex - 1 + videos.length) % videos.length);
+    }
+
+    // Event listeners
+    videoContainer.addEventListener('click', (e) => {
+      if (e.target === videoPlayer || e.target === videoContainer) {
+        togglePlay();
+      }
+    });
+
+    playBtn.addEventListener('click', togglePlay);
+    nextBtn.addEventListener('click', nextVideo);
+    prevBtn.addEventListener('click', prevVideo);
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') prevVideo();
+      if (e.key === 'ArrowRight') nextVideo();
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        togglePlay();
+      }
+    });
+
+    // Swipe sur mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    videoContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    videoContainer.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const swipeThreshold = 50;
+      if (touchEndX < touchStartX - swipeThreshold) {
+        nextVideo();
+      }
+      if (touchEndX > touchStartX + swipeThreshold) {
+        prevVideo();
+      }
+    }
+
+    // Init
+    createDots();
+    loadVideo(0);
+  </script>
+</body>
+</html>
