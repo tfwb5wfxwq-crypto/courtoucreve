@@ -2596,7 +2596,7 @@
 
       <!-- Right: Video & Manifesto -->
       <div class="hero-right">
-        <video class="hero-video" autoplay muted loop playsinline poster="video-manifesto-poster.jpg">
+        <video class="hero-video" autoplay muted loop playsinline preload="auto">
           <source src="video-manifesto.mp4" type="video/mp4">
         </video>
         <div class="hero-video-overlay"></div>
@@ -3279,6 +3279,17 @@
     // Hero video text animation on load
     const heroVideoText = document.querySelector('.hero-video-text');
     const heroVideoSub = document.querySelector('.hero-video-sub');
+    const heroVideo = document.querySelector('.hero-video');
+
+    // Force play de la vidéo hero (mobile peut bloquer autoplay)
+    if (heroVideo) {
+      heroVideo.play().catch(() => {
+        // Si autoplay échoue, retry au premier user interaction
+        document.addEventListener('click', () => {
+          heroVideo.play().catch(() => {});
+        }, { once: true });
+      });
+    }
 
     setTimeout(() => {
       heroVideoText.classList.add('visible');
