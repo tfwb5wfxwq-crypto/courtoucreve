@@ -546,17 +546,36 @@
       overflow: hidden;
     }
 
+    /* Poster placeholder */
+    .hero-video-poster {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .hero-video-poster.hidden {
+      opacity: 0;
+    }
+
     .hero-video {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: fill;
       opacity: 0.5;
       pointer-events: none;
       user-select: none;
       -webkit-user-select: none;
+      z-index: 1;
     }
 
     .hero-video-overlay {
@@ -2596,6 +2615,9 @@
 
       <!-- Right: Video & Manifesto -->
       <div class="hero-right">
+        <!-- Poster placeholder (disparaît quand vidéo charge) -->
+        <img src="video-manifesto-poster.jpg" class="hero-video-poster" alt="">
+
         <video class="hero-video" autoplay muted loop playsinline preload="auto">
           <source src="video-manifesto.mp4" type="video/mp4">
         </video>
@@ -3280,9 +3302,24 @@
     const heroVideoText = document.querySelector('.hero-video-text');
     const heroVideoSub = document.querySelector('.hero-video-sub');
     const heroVideo = document.querySelector('.hero-video');
+    const heroPoster = document.querySelector('.hero-video-poster');
 
     // Force play de la vidéo hero (mobile peut bloquer autoplay)
     if (heroVideo) {
+      // Cacher le poster quand la vidéo commence à jouer
+      heroVideo.addEventListener('playing', () => {
+        if (heroPoster) {
+          heroPoster.classList.add('hidden');
+        }
+      }, { once: true });
+
+      // Cacher le poster quand data loaded
+      heroVideo.addEventListener('loadeddata', () => {
+        if (heroPoster) {
+          heroPoster.classList.add('hidden');
+        }
+      }, { once: true });
+
       heroVideo.play().catch(() => {
         // Si autoplay échoue, retry au premier user interaction
         document.addEventListener('click', () => {
