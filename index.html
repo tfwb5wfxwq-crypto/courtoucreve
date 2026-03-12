@@ -2048,6 +2048,111 @@
       filter: brightness(1);
     }
 
+    /* Carousel wrapper */
+    .gallery-carousel-wrapper {
+      position: relative;
+      flex: 1;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .gallery-carousel {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .gallery-carousel .gallery-main {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+      pointer-events: none;
+    }
+
+    .gallery-carousel .gallery-main.active {
+      opacity: 1;
+      z-index: 1;
+      pointer-events: auto;
+    }
+
+    /* Carousel arrows */
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      opacity: 0;
+    }
+
+    .gallery-carousel-wrapper:hover .carousel-arrow {
+      opacity: 1;
+    }
+
+    .carousel-prev {
+      left: 15px;
+    }
+
+    .carousel-next {
+      right: 15px;
+    }
+
+    .carousel-arrow:hover {
+      background: var(--red);
+      border-color: var(--red);
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 8px 24px rgba(185, 28, 28, 0.4);
+    }
+
+    .carousel-arrow svg {
+      width: 24px;
+      height: 24px;
+      fill: white;
+    }
+
+    /* Carousel dots */
+    .carousel-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 15;
+    }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .carousel-dot.active {
+      background: var(--red);
+      transform: scale(1.3);
+    }
+
+    .carousel-dot:hover {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
     .gallery-side {
       display: flex;
       flex-direction: column;
@@ -2643,19 +2748,54 @@
       </div>
 
       <div class="season-gallery">
-        <div class="gallery-main" data-video="video-preview.mp4">
-          <video src="video-preview.mp4" muted loop playsinline preload="auto">
-            <source src="video-preview.mp4" type="video/mp4">
-          </video>
-          <!-- Poster séparé pour control mobile/desktop -->
-          <picture class="video-poster-img">
-            <source media="(max-width: 768px)" srcset="video-poster-mobile.jpg">
-            <img src="video-poster.jpg" alt="Florian et Mathis">
-          </picture>
-          <div class="gallery-play">
-            <div class="play-btn"></div>
+        <div class="gallery-carousel-wrapper">
+          <div class="gallery-carousel">
+            <div class="gallery-main active" data-video="video-preview.mp4">
+              <video src="video-preview.mp4" muted loop playsinline preload="auto">
+                <source src="video-preview.mp4" type="video/mp4">
+              </video>
+              <!-- Poster séparé pour control mobile/desktop -->
+              <picture class="video-poster-img">
+                <source media="(max-width: 768px)" srcset="video-poster-mobile.jpg">
+                <img src="video-poster.jpg" alt="Florian et Mathis">
+              </picture>
+              <div class="gallery-play">
+                <div class="play-btn"></div>
+              </div>
+            </div>
+
+            <div class="gallery-main" data-video="video3.mp4">
+              <video src="video3.mp4" muted loop playsinline preload="auto">
+                <source src="video3.mp4" type="video/mp4">
+              </video>
+              <picture class="video-poster-img">
+                <img src="video3-poster.jpg" alt="Vidéo 2">
+              </picture>
+              <div class="gallery-play">
+                <div class="play-btn"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigation arrows -->
+          <button class="carousel-arrow carousel-prev" aria-label="Vidéo précédente">
+            <svg viewBox="0 0 24 24">
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+          </button>
+          <button class="carousel-arrow carousel-next" aria-label="Vidéo suivante">
+            <svg viewBox="0 0 24 24">
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+          </button>
+
+          <!-- Dots indicator -->
+          <div class="carousel-dots">
+            <div class="carousel-dot active" data-index="0"></div>
+            <div class="carousel-dot" data-index="1"></div>
           </div>
         </div>
+
         <div class="gallery-side">
           <div class="gallery-thumb active">
             <img src="gallery/pierre-gagnant.jpg?v=10" alt="Pierre, vainqueur Court ou Crève Saison 1 avec son trophée" style="object-position: top;">
@@ -3181,64 +3321,170 @@
     });
 
     // Gallery main video - click to play inline
-    const galleryMain = document.querySelector('.gallery-main');
-    const galleryPlay = document.querySelector('.gallery-play');
+    // === VIDEO CAROUSEL ===
+    const gallerySlides = document.querySelectorAll('.gallery-main');
+    const carouselPrev = document.querySelector('.carousel-prev');
+    const carouselNext = document.querySelector('.carousel-next');
+    const carouselDots = document.querySelectorAll('.carousel-dot');
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    let currentSlide = 0;
 
-    if (galleryMain) {
-      const video = galleryMain.querySelector('video');
+    if (gallerySlides.length > 0) {
+      // Setup each video
+      gallerySlides.forEach((slide, index) => {
+        const video = slide.querySelector('video');
+        const playBtn = slide.querySelector('.gallery-play');
 
-      if (video) {
-        // Fonction pour reset la vidéo
-        function resetVideo() {
-          haptic.trigger('nudge'); // Vibration stop video
-          video.pause();
-          video.controls = false;
-          video.muted = true;
-          galleryPlay.style.display = 'block';
-          galleryMain.classList.remove('playing');
-        }
-
-        // Click to play/pause
-        galleryMain.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-
-          if (video.paused) {
-            haptic.trigger('success'); // Vibration play video
-            // Sur mobile: pas de contrôles, juste play/pause simple
-            video.controls = !isMobile;
-            video.muted = false;
-            video.play();
-            galleryPlay.style.display = 'none';
-            galleryMain.classList.add('playing');
-          } else {
-            resetVideo();
+        if (video && playBtn) {
+          // Fonction pour reset la vidéo
+          function resetVideo() {
+            haptic.trigger('nudge');
+            video.pause();
+            video.controls = false;
+            video.muted = true;
+            playBtn.style.display = 'block';
+            slide.classList.remove('playing');
           }
-        });
 
-        // Reset when ended
-        video.addEventListener('ended', () => {
-          video.currentTime = 0;
-          resetVideo();
-        });
+          // Click to play/pause
+          slide.addEventListener('click', (e) => {
+            // Ne pas intercepter les clics sur les flèches
+            if (e.target.closest('.carousel-arrow')) return;
 
-        // Pause when scrolling away (threshold bas pour réagir vite)
-        const videoObserver = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (!entry.isIntersecting && !video.paused) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (video.paused) {
+              haptic.trigger('success');
+              video.controls = !isMobile;
+              video.muted = false;
+              video.play();
+              playBtn.style.display = 'none';
+              slide.classList.add('playing');
+            } else {
               resetVideo();
             }
           });
-        }, { threshold: 0.5 });
-        videoObserver.observe(galleryMain);
 
-        // Pause when tab hidden
-        document.addEventListener('visibilitychange', () => {
-          if (document.hidden && !video.paused) {
+          // Reset when ended
+          video.addEventListener('ended', () => {
+            video.currentTime = 0;
             resetVideo();
+          });
+
+          // Pause when tab hidden
+          document.addEventListener('visibilitychange', () => {
+            if (document.hidden && !video.paused) {
+              resetVideo();
+            }
+          });
+        }
+      });
+
+      // Pause when scrolling away
+      const carouselWrapper = document.querySelector('.gallery-carousel-wrapper');
+      if (carouselWrapper) {
+        const videoObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+              gallerySlides.forEach(slide => {
+                const video = slide.querySelector('video');
+                if (video && !video.paused) {
+                  const playBtn = slide.querySelector('.gallery-play');
+                  video.pause();
+                  video.controls = false;
+                  video.muted = true;
+                  playBtn.style.display = 'block';
+                  slide.classList.remove('playing');
+                }
+              });
+            }
+          });
+        }, { threshold: 0.5 });
+        videoObserver.observe(carouselWrapper);
+      }
+
+      // Carousel navigation
+      function goToSlide(index) {
+        // Pause all videos
+        gallerySlides.forEach(slide => {
+          const video = slide.querySelector('video');
+          const playBtn = slide.querySelector('.gallery-play');
+          if (video) {
+            video.pause();
+            video.currentTime = 0;
+            video.muted = true;
+            video.controls = false;
+            playBtn.style.display = 'block';
+            slide.classList.remove('playing', 'active');
           }
         });
+
+        // Activate new slide
+        currentSlide = index;
+        gallerySlides[currentSlide].classList.add('active');
+
+        // Update dots
+        carouselDots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === currentSlide);
+        });
+      }
+
+      // Arrow navigation
+      if (carouselPrev) {
+        carouselPrev.addEventListener('click', (e) => {
+          e.stopPropagation();
+          haptic.trigger('nudge');
+          const newIndex = (currentSlide - 1 + gallerySlides.length) % gallerySlides.length;
+          goToSlide(newIndex);
+        });
+      }
+
+      if (carouselNext) {
+        carouselNext.addEventListener('click', (e) => {
+          e.stopPropagation();
+          haptic.trigger('nudge');
+          const newIndex = (currentSlide + 1) % gallerySlides.length;
+          goToSlide(newIndex);
+        });
+      }
+
+      // Dots navigation
+      carouselDots.forEach((dot, index) => {
+        dot.addEventListener('click', (e) => {
+          e.stopPropagation();
+          haptic.trigger('nudge');
+          goToSlide(index);
+        });
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          carouselPrev?.click();
+        } else if (e.key === 'ArrowRight') {
+          carouselNext?.click();
+        }
+      });
+
+      // Swipe on mobile
+      if (carouselWrapper) {
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        carouselWrapper.addEventListener('touchstart', (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        carouselWrapper.addEventListener('touchend', (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          const swipeThreshold = 50;
+          if (touchEndX < touchStartX - swipeThreshold) {
+            carouselNext?.click();
+          } else if (touchEndX > touchStartX + swipeThreshold) {
+            carouselPrev?.click();
+          }
+        }, { passive: true });
       }
     }
 
