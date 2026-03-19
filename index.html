@@ -3700,18 +3700,6 @@
     if (intermittentCheckbox) {
       intermittentCheckbox.addEventListener('change', () => {
         haptic.trigger('buzz'); // 💥 Vibration intense checkbox intermittent
-
-        // Afficher/cacher la checkbox "ami intermittent"
-        if (amiIntermittentCheckbox) {
-          if (intermittentCheckbox.checked) {
-            // Si intermittent coché → cacher ami intermittent + décocher
-            amiIntermittentCheckbox.style.display = 'none';
-            if (amiIntermittentInput) amiIntermittentInput.checked = false;
-          } else {
-            // Si intermittent décoché → afficher ami intermittent
-            amiIntermittentCheckbox.style.display = 'flex';
-          }
-        }
       });
     }
 
