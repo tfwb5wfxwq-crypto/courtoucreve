@@ -3054,21 +3054,26 @@
             </div>
           </div>
 
-          <div class="form-checkboxes">
+          <!-- Bloc statut intermittent -->
+          <div class="form-checkboxes" style="margin-bottom: 16px; padding: 16px; background: rgba(196, 30, 58, 0.05); border-radius: 8px; border: 1px solid rgba(196, 30, 58, 0.2);">
             <label class="custom-checkbox">
               <input type="checkbox" name="intermittent" id="intermittent">
               <span class="checkmark"></span>
               <span class="checkbox-text">Je suis <strong>intermittent(e)</strong> ou je l'ai été</span>
             </label>
-            <label class="custom-checkbox">
-              <input type="checkbox" name="afdas" id="afdas">
-              <span class="checkmark"></span>
-              <span class="checkbox-text">Je n'ai <strong>pas fait</strong> de formation AFDAS cette année</span>
-            </label>
             <label class="custom-checkbox" id="amiIntermittentCheckbox">
               <input type="checkbox" name="amiIntermittent" id="amiIntermittent">
               <span class="checkmark"></span>
               <span class="checkbox-text">Je m'inscris avec un <strong>ami intermittent</strong></span>
+            </label>
+          </div>
+
+          <!-- Bloc AFDAS -->
+          <div class="form-checkboxes">
+            <label class="custom-checkbox">
+              <input type="checkbox" name="afdas" id="afdas">
+              <span class="checkmark"></span>
+              <span class="checkbox-text">Je n'ai <strong>pas fait</strong> de formation AFDAS cette année</span>
             </label>
           </div>
 
