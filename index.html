@@ -3054,22 +3054,37 @@
             </div>
           </div>
 
-          <div class="form-checkboxes">
-            <label class="custom-checkbox">
-              <input type="checkbox" name="intermittent" id="intermittent">
-              <span class="checkmark"></span>
-              <span class="checkbox-text">Je suis <strong>intermittent(e)</strong> ou je l'ai été</span>
-            </label>
-            <label class="custom-checkbox" id="amiIntermittentCheckbox">
-              <input type="checkbox" name="amiIntermittent" id="amiIntermittent">
-              <span class="checkmark"></span>
-              <span class="checkbox-text">Je m'inscris avec un <strong>ami intermittent</strong></span>
-            </label>
-            <label class="custom-checkbox">
-              <input type="checkbox" name="afdas" id="afdas">
-              <span class="checkmark"></span>
-              <span class="checkbox-text">Je n'ai <strong>pas fait</strong> de formation AFDAS cette année</span>
-            </label>
+          <!-- Statut intermittent (au moins une option) -->
+          <div style="margin-bottom: 8px;">
+            <div style="font-size: 13px; color: #999; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+              Statut <span style="color: #c41e3a;">(au moins une option)</span>
+            </div>
+            <div class="form-checkboxes">
+              <label class="custom-checkbox">
+                <input type="checkbox" name="intermittent" id="intermittent">
+                <span class="checkmark"></span>
+                <span class="checkbox-text">Je suis <strong>intermittent(e)</strong> ou je l'ai été</span>
+              </label>
+              <label class="custom-checkbox" id="amiIntermittentCheckbox">
+                <input type="checkbox" name="amiIntermittent" id="amiIntermittent">
+                <span class="checkmark"></span>
+                <span class="checkbox-text">Je m'inscris avec un <strong>ami intermittent</strong></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- AFDAS -->
+          <div style="margin-top: 20px;">
+            <div style="font-size: 13px; color: #999; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+              Éligibilité formation
+            </div>
+            <div class="form-checkboxes">
+              <label class="custom-checkbox">
+                <input type="checkbox" name="afdas" id="afdas">
+                <span class="checkmark"></span>
+                <span class="checkbox-text">Je n'ai <strong>pas fait</strong> de formation AFDAS cette année</span>
+              </label>
+            </div>
           </div>
 
           <button type="submit" class="submit-btn">
