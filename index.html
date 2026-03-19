@@ -3060,15 +3060,21 @@
               <span class="checkmark"></span>
               <span class="checkbox-text">Je suis <strong>intermittent(e)</strong> ou je l'ai été</span>
             </label>
+
+            <div style="text-align: center; margin: 8px 0; color: #666; font-size: 14px; font-weight: 600;">OU</div>
+
+            <label class="custom-checkbox" id="amiIntermittentCheckbox">
+              <input type="checkbox" name="amiIntermittent" id="amiIntermittent">
+              <span class="checkmark"></span>
+              <span class="checkbox-text">Je m'inscris avec un <strong>ami intermittent</strong></span>
+            </label>
+
+            <div style="height: 16px;"></div>
+
             <label class="custom-checkbox">
               <input type="checkbox" name="afdas" id="afdas">
               <span class="checkmark"></span>
               <span class="checkbox-text">Je n'ai <strong>pas fait</strong> de formation AFDAS cette année</span>
-            </label>
-            <label class="custom-checkbox" id="amiIntermittentCheckbox" style="display: none; margin-top: 12px; padding: 12px; background: rgba(196, 30, 58, 0.05); border-radius: 6px;">
-              <input type="checkbox" name="amiIntermittent" id="amiIntermittent">
-              <span class="checkmark"></span>
-              <span class="checkbox-text">Je m'inscris avec un <strong>ami intermittent</strong></span>
             </label>
           </div>
 
@@ -3689,20 +3695,10 @@
     // Vibrations sur les checkboxes
     const intermittentCheckbox = document.getElementById('intermittent');
     const afdasCheckbox = document.getElementById('afdas');
-    const amiIntermittentCheckbox = document.getElementById('amiIntermittentCheckbox');
-    const amiIntermittentInput = document.getElementById('amiIntermittent');
 
     if (intermittentCheckbox) {
       intermittentCheckbox.addEventListener('change', () => {
         haptic.trigger('buzz'); // 💥 Vibration intense checkbox intermittent
-
-        // Afficher/cacher checkbox ami intermittent
-        if (!intermittentCheckbox.checked && amiIntermittentCheckbox) {
-          amiIntermittentCheckbox.style.display = 'flex';
-        } else if (amiIntermittentCheckbox) {
-          amiIntermittentCheckbox.style.display = 'none';
-          if (amiIntermittentInput) amiIntermittentInput.checked = false;
-        }
       });
     }
 
