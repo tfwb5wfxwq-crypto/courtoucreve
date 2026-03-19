@@ -3065,6 +3065,11 @@
               <span class="checkmark"></span>
               <span class="checkbox-text">Je n'ai <strong>pas fait</strong> de formation AFDAS cette année</span>
             </label>
+            <label class="custom-checkbox" id="amiIntermittentCheckbox" style="display: none; margin-top: 12px; padding: 12px; background: rgba(196, 30, 58, 0.05); border-radius: 6px;">
+              <input type="checkbox" name="amiIntermittent" id="amiIntermittent">
+              <span class="checkmark"></span>
+              <span class="checkbox-text">Je m'inscris avec un <strong>ami intermittent</strong></span>
+            </label>
           </div>
 
           <button type="submit" class="submit-btn">
@@ -3076,7 +3081,7 @@
         </form>
 
         <div class="form-note" style="margin-top: 16px; padding: 18px 20px; background: rgba(196, 30, 58, 0.08); border: 2px solid rgba(196, 30, 58, 0.3); border-radius: 8px; display: flex; gap: 16px; align-items: flex-start;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; margin-top: 2px;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; margin-top: 0;">
             <circle cx="12" cy="12" r="10" stroke="#c41e3a" stroke-width="2" fill="none"/>
             <path d="M12 7v6M12 16v.5" stroke="#c41e3a" stroke-width="2" stroke-linecap="round"/>
           </svg>
@@ -3684,10 +3689,20 @@
     // Vibrations sur les checkboxes
     const intermittentCheckbox = document.getElementById('intermittent');
     const afdasCheckbox = document.getElementById('afdas');
+    const amiIntermittentCheckbox = document.getElementById('amiIntermittentCheckbox');
+    const amiIntermittentInput = document.getElementById('amiIntermittent');
 
     if (intermittentCheckbox) {
       intermittentCheckbox.addEventListener('change', () => {
         haptic.trigger('buzz'); // 💥 Vibration intense checkbox intermittent
+
+        // Afficher/cacher checkbox ami intermittent
+        if (!intermittentCheckbox.checked && amiIntermittentCheckbox) {
+          amiIntermittentCheckbox.style.display = 'flex';
+        } else if (amiIntermittentCheckbox) {
+          amiIntermittentCheckbox.style.display = 'none';
+          if (amiIntermittentInput) amiIntermittentInput.checked = false;
+        }
       });
     }
 
@@ -3748,7 +3763,8 @@
         telephone: inscriptionForm.querySelector('[name="Téléphone"]').value,
         motivation: inscriptionForm.querySelector('[name="Motivation"]').value,
         intermittent: inscriptionForm.querySelector('#intermittent').checked,
-        afdas: inscriptionForm.querySelector('#afdas').checked
+        afdas: inscriptionForm.querySelector('#afdas').checked,
+        amiIntermittent: inscriptionForm.querySelector('#amiIntermittent')?.checked || false
       };
 
       // Validation email
