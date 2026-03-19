@@ -3060,17 +3060,6 @@
               <span class="checkmark"></span>
               <span class="checkbox-text">Je suis <strong>intermittent(e)</strong> ou je l'ai été</span>
             </label>
-
-            <div style="text-align: center; margin: 8px 0; color: #666; font-size: 14px; font-weight: 600;">OU</div>
-
-            <label class="custom-checkbox" id="amiIntermittentCheckbox">
-              <input type="checkbox" name="amiIntermittent" id="amiIntermittent">
-              <span class="checkmark"></span>
-              <span class="checkbox-text">Je m'inscris avec un <strong>ami intermittent</strong></span>
-            </label>
-
-            <div style="height: 16px;"></div>
-
             <label class="custom-checkbox">
               <input type="checkbox" name="afdas" id="afdas">
               <span class="checkmark"></span>
@@ -3759,8 +3748,7 @@
         telephone: inscriptionForm.querySelector('[name="Téléphone"]').value,
         motivation: inscriptionForm.querySelector('[name="Motivation"]').value,
         intermittent: inscriptionForm.querySelector('#intermittent').checked,
-        afdas: inscriptionForm.querySelector('#afdas').checked,
-        amiIntermittent: inscriptionForm.querySelector('#amiIntermittent')?.checked || false
+        afdas: inscriptionForm.querySelector('#afdas').checked
       };
 
       // Validation email
