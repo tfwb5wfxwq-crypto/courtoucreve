@@ -3054,8 +3054,7 @@
             </div>
           </div>
 
-          <!-- Bloc statut intermittent -->
-          <div class="form-checkboxes" style="margin-bottom: 16px; padding: 16px; background: rgba(196, 30, 58, 0.05); border-radius: 8px; border: 1px solid rgba(196, 30, 58, 0.2);">
+          <div class="form-checkboxes">
             <label class="custom-checkbox">
               <input type="checkbox" name="intermittent" id="intermittent">
               <span class="checkmark"></span>
@@ -3066,10 +3065,6 @@
               <span class="checkmark"></span>
               <span class="checkbox-text">Je m'inscris avec un <strong>ami intermittent</strong></span>
             </label>
-          </div>
-
-          <!-- Bloc AFDAS -->
-          <div class="form-checkboxes">
             <label class="custom-checkbox">
               <input type="checkbox" name="afdas" id="afdas">
               <span class="checkmark"></span>
@@ -3085,14 +3080,14 @@
           </button>
         </form>
 
-        <div class="form-note" style="margin-top: 16px; padding: 18px 20px; background: rgba(196, 30, 58, 0.08); border: 2px solid rgba(196, 30, 58, 0.3); border-radius: 8px; display: flex; gap: 16px; align-items: flex-start;">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0; margin-top: 0;">
+        <div class="form-note" style="margin-top: 16px; padding: 16px; background: rgba(196, 30, 58, 0.08); border: 2px solid rgba(196, 30, 58, 0.3); border-radius: 8px; display: flex; gap: 12px; align-items: center;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0;">
             <circle cx="12" cy="12" r="10" stroke="#c41e3a" stroke-width="2" fill="none"/>
             <path d="M12 7v6M12 16v.5" stroke="#c41e3a" stroke-width="2" stroke-linecap="round"/>
           </svg>
-          <div>
-            <strong style="display: block; margin-bottom: 8px; color: #c41e3a;">Places réservées aux intermittents du spectacle</strong>
-            <div style="line-height: 1.6;">
+          <div style="flex: 1;">
+            <strong style="display: block; margin-bottom: 6px; color: #c41e3a; font-size: 14px;">Places réservées aux intermittents du spectacle</strong>
+            <div style="line-height: 1.5; font-size: 13px;">
               Formation 100% prise en charge par l'AFDAS.<br>
               Non-intermittent ? Viens avec un <strong>pote intermittent</strong> !
             </div>
@@ -3711,7 +3706,7 @@
 
     if (amiIntermittentInput) {
       amiIntermittentInput.addEventListener('change', () => {
-        haptic.trigger('light'); // ✅ Vibration légère ami intermittent
+        haptic.trigger('buzz'); // 💥 Vibration intense ami intermittent
       });
     }
 
