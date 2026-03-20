@@ -2658,10 +2658,10 @@
       border-radius: 16px;
       box-shadow: 0 4px 20px rgba(185, 28, 28, 0.3);
       max-width: 180px;
-      z-index: 999;
+      z-index: 10000;
       border: 1.5px solid rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(12px);
-      animation: slideInRight 0.5s ease-out, float 3s ease-in-out infinite;
+      animation: slideInRight 0.5s ease-out, breathe 4s ease-in-out infinite;
       transition: all 0.3s ease;
     }
 
@@ -2674,20 +2674,22 @@
     @keyframes slideInRight {
       from {
         opacity: 0;
-        transform: translateX(100px);
+        transform: translateX(100px) scale(0.8);
       }
       to {
         opacity: 1;
-        transform: translateX(0);
+        transform: translateX(0) scale(1);
       }
     }
 
-    @keyframes float {
+    @keyframes breathe {
       0%, 100% {
-        transform: translateY(0);
+        opacity: 0.85;
+        transform: scale(1);
       }
       50% {
-        transform: translateY(-10px);
+        opacity: 1;
+        transform: scale(1.05);
       }
     }
 
@@ -2784,9 +2786,9 @@
   <!-- Widget Intermittents -->
   <div class="intermittent-floating" id="intermittent-floating">
     <button class="intermittent-floating-close" onclick="closeIntermittentWidget()">×</button>
-    <h3>Vos <strong>heures</strong> = vos <strong>cachets</strong></h3>
-    <p>Convertissez vos <strong>heures de formation</strong> en heures travaillées pour maintenir votre statut.</p>
-    <a href="#inscription" class="intermittent-floating-cta" onclick="closeIntermittentWidget()">On vous explique</a>
+    <h3><strong>Heures</strong> = <strong>Cachets</strong></h3>
+    <p>Formations = heures travaillées<br>Maintenez votre statut</p>
+    <a href="#inscription" class="intermittent-floating-cta" onclick="closeIntermittentWidget()">En savoir +</a>
   </div>
 
   <!-- Loading Screen -->
