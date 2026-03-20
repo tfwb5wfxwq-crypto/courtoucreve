@@ -2651,8 +2651,7 @@
     .intermittent-floating {
       position: fixed;
       right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
+      top: 100px;
       background: linear-gradient(135deg, rgba(185, 28, 28, 0.85) 0%, rgba(220, 38, 38, 0.85) 100%);
       color: white;
       padding: 12px;
@@ -2662,23 +2661,33 @@
       z-index: 999;
       border: 1.5px solid rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(12px);
-      animation: slideInRight 0.5s ease-out;
+      animation: slideInRight 0.5s ease-out, float 3s ease-in-out infinite;
       transition: all 0.3s ease;
     }
 
     .intermittent-floating:hover {
       background: linear-gradient(135deg, rgba(185, 28, 28, 0.95) 0%, rgba(220, 38, 38, 0.95) 100%);
       box-shadow: 0 6px 24px rgba(185, 28, 28, 0.4);
+      animation-play-state: paused;
     }
 
     @keyframes slideInRight {
       from {
         opacity: 0;
-        transform: translateY(-50%) translateX(100px);
+        transform: translateX(100px);
       }
       to {
         opacity: 1;
-        transform: translateY(-50%) translateX(0);
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
       }
     }
 
@@ -2695,21 +2704,14 @@
       cursor: pointer;
       font-size: 14px;
       line-height: 1;
-      transition: all 0.2s;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       opacity: 0.7;
     }
 
     .intermittent-floating-close:hover {
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.5);
       opacity: 1;
-    }
-
-    .intermittent-floating-icon {
-      font-size: 1.8em;
-      margin-bottom: 6px;
-      display: block;
-      text-align: center;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+      transform: scale(1.3) rotate(90deg);
     }
 
     .intermittent-floating h3 {
@@ -2782,9 +2784,8 @@
   <!-- Widget Intermittents -->
   <div class="intermittent-floating" id="intermittent-floating">
     <button class="intermittent-floating-close" onclick="closeIntermittentWidget()">×</button>
-    <span class="intermittent-floating-icon">🎭</span>
-    <h3>Vos heures = vos cachets</h3>
-    <p>Convertissez vos heures de formation en heures travaillées pour maintenir votre statut d'intermittent.</p>
+    <h3>Vos <strong>heures</strong> = vos <strong>cachets</strong></h3>
+    <p>Convertissez vos <strong>heures de formation</strong> en heures travaillées pour maintenir votre statut.</p>
     <a href="#inscription" class="intermittent-floating-cta" onclick="closeIntermittentWidget()">On vous explique</a>
   </div>
 
