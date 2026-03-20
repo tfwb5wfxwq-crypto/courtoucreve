@@ -4266,18 +4266,18 @@
   function closeIntermittentWidget() {
     const widget = document.getElementById('intermittent-floating');
     widget.style.display = 'none';
-    localStorage.setItem('intermittent-widget-closed', 'true');
+    // localStorage.setItem('intermittent-widget-closed', 'true'); // Désactivé pour test
   }
 
   // Vérifier au chargement si le widget a été fermé
-  document.addEventListener('DOMContentLoaded', function() {
-    const widget = document.getElementById('intermittent-floating');
-    const wasClosed = localStorage.getItem('intermittent-widget-closed');
-
-    if (wasClosed === 'true') {
-      widget.style.display = 'none';
-    }
-  });
+  // document.addEventListener('DOMContentLoaded', function() {
+  //   const widget = document.getElementById('intermittent-floating');
+  //   const wasClosed = localStorage.getItem('intermittent-widget-closed');
+  //
+  //   if (wasClosed === 'true') {
+  //     widget.style.display = 'none';
+  //   }
+  // });
 
   // Fermer avec la touche Échap
   document.addEventListener('keydown', function(event) {
