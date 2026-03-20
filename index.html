@@ -2647,132 +2647,181 @@
       }
     }
 
-    /* === Encart Intermittents Flottant === */
-    .intermittent-floating {
-      position: fixed;
-      right: 20px;
-      top: 100px;
-      background: linear-gradient(135deg, rgba(185, 28, 28, 0.85) 0%, rgba(220, 38, 38, 0.85) 100%);
-      color: white;
-      padding: 12px;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(185, 28, 28, 0.3);
-      max-width: 180px;
-      z-index: 10000;
-      border: 1.5px solid rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
-      animation: slideInRight 0.5s ease-out, breathe 4s ease-in-out infinite;
-      transition: all 0.3s ease;
+    /* === Section Intermittents === */
+    .intermittent-info {
+      padding: 60px 20px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(10,10,10,0.98) 100%);
+      position: relative;
+      overflow: hidden;
     }
 
-    .intermittent-floating:hover {
-      background: linear-gradient(135deg, rgba(185, 28, 28, 0.95) 0%, rgba(220, 38, 38, 0.95) 100%);
-      box-shadow: 0 6px 24px rgba(185, 28, 28, 0.4);
-      animation-play-state: paused;
-    }
-
-    @keyframes slideInRight {
-      from {
-        opacity: 0;
-        transform: translateX(100px) scale(0.8);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-      }
-    }
-
-    @keyframes breathe {
-      0%, 100% {
-        opacity: 0.85;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.05);
-      }
-    }
-
-    .intermittent-floating-close {
+    .intermittent-info::before {
+      content: '';
       position: absolute;
-      top: 6px;
-      right: 6px;
-      background: rgba(0, 0, 0, 0.2);
-      border: none;
-      color: white;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 14px;
-      line-height: 1;
-      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      opacity: 0.7;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--red) 50%, transparent 100%);
     }
 
-    .intermittent-floating-close:hover {
-      background: rgba(0, 0, 0, 0.5);
-      opacity: 1;
-      transform: scale(1.3) rotate(90deg);
-    }
-
-    .intermittent-floating h3 {
-      margin: 0 0 6px 0;
-      font-size: 0.85em;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      line-height: 1.2;
-    }
-
-    .intermittent-floating p {
-      margin: 0 0 10px 0;
-      font-size: 0.7em;
-      line-height: 1.4;
-      opacity: 0.9;
-    }
-
-    .intermittent-floating-cta {
-      display: block;
-      background: rgba(255, 255, 255, 0.95);
-      color: #B91C1C;
-      padding: 8px 12px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 700;
+    .intermittent-content {
+      max-width: 800px;
+      margin: 0 auto;
       text-align: center;
-      font-size: 0.7em;
-      transition: all 0.2s;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
     }
 
-    .intermittent-floating-cta:hover {
-      background: white;
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    .intermittent-title {
+      font-size: 2.5em;
+      font-weight: 900;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, var(--red) 0%, var(--red-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .intermittent-subtitle {
+      font-size: 1.1em;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .hours-conversion {
+      background: rgba(20,20,20,0.6);
+      border: 2px solid rgba(185, 28, 28, 0.3);
+      border-radius: 20px;
+      padding: 40px;
+      position: relative;
+      backdrop-filter: blur(10px);
+    }
+
+    .hours-display {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      gap: 20px;
+    }
+
+    .hours-box {
+      flex: 1;
+      text-align: center;
+    }
+
+    .hours-number {
+      font-size: 3.5em;
+      font-weight: 900;
+      color: var(--red-light);
+      line-height: 1;
+      display: block;
+      text-shadow: 0 0 30px rgba(185, 28, 28, 0.5);
+    }
+
+    .hours-label {
+      font-size: 0.9em;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 8px;
+    }
+
+    .hours-arrow {
+      font-size: 2.5em;
+      color: var(--red);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+
+    .progress-container {
+      position: relative;
+      height: 40px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--red) 0%, var(--red-light) 100%);
+      border-radius: 20px;
+      width: 0;
+      transition: width 2s cubic-bezier(0.65, 0, 0.35, 1);
+      position: relative;
+      box-shadow: 0 0 20px rgba(185, 28, 28, 0.6);
+    }
+
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .progress-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: 900;
+      font-size: 1.1em;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+      letter-spacing: 1px;
+    }
+
+    .progress-info {
+      margin-top: 20px;
+      font-size: 0.95em;
+      color: rgba(255,255,255,0.5);
+      font-style: italic;
+    }
+
+    .intermittent-info.visible .progress-bar {
+      width: 35.5%; /* 180/507 = 35.5% */
     }
 
     @media (max-width: 768px) {
-      .intermittent-floating {
-        right: 10px;
-        left: auto;
-        max-width: 160px;
-        top: auto;
-        bottom: 80px;
-        transform: none;
-        animation: slideInUp 0.5s ease-out;
+      .intermittent-title {
+        font-size: 1.8em;
       }
 
-      @keyframes slideInUp {
-        from {
-          opacity: 0;
-          transform: translateY(100px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      .hours-conversion {
+        padding: 25px;
+      }
+
+      .hours-number {
+        font-size: 2.5em;
+      }
+
+      .hours-display {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .hours-arrow {
+        transform: rotate(90deg);
+      }
+
+      .progress-text {
+        font-size: 0.9em;
       }
     }
   </style>
@@ -2782,14 +2831,6 @@
   <div class="grain"></div>
   <div class="scanlines"></div>
   <div class="vignette"></div>
-
-  <!-- Widget Intermittents -->
-  <div class="intermittent-floating" id="intermittent-floating">
-    <button class="intermittent-floating-close" onclick="closeIntermittentWidget()">×</button>
-    <h3><strong>Heures</strong> = <strong>Cachets</strong></h3>
-    <p>Formations = heures travaillées<br>Maintenez votre statut</p>
-    <a href="#inscription" class="intermittent-floating-cta" onclick="closeIntermittentWidget()">En savoir +</a>
-  </div>
 
   <!-- Loading Screen -->
   <div class="loader" id="loader">
@@ -3153,6 +3194,37 @@
           <div class="faq-answer">
             Remplis le formulaire ci-dessous avec tes infos et ta motivation. On te recontacte rapidement pour discuter de ton projet.
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Intermittents -->
+    <section class="intermittent-info" id="intermittent-info">
+      <div class="intermittent-content">
+        <h2 class="intermittent-title">Intermittent du spectacle ?</h2>
+        <p class="intermittent-subtitle">Ta formation Court ou Crève compte pour ton statut</p>
+
+        <div class="hours-conversion">
+          <div class="hours-display">
+            <div class="hours-box">
+              <span class="hours-number">180h</span>
+              <span class="hours-label">Formation</span>
+            </div>
+            <div class="hours-arrow">→</div>
+            <div class="hours-box">
+              <span class="hours-number">15</span>
+              <span class="hours-label">Cachets</span>
+            </div>
+          </div>
+
+          <div class="progress-container">
+            <div class="progress-bar"></div>
+            <div class="progress-text">180h / 507h requis</div>
+          </div>
+
+          <p class="progress-info">
+            Ces heures de formation sont comptabilisées pour maintenir ton statut d'intermittent
+          </p>
         </div>
       </div>
     </section>
@@ -4263,29 +4335,26 @@
   })();
   </script>
 
-  <!-- Script Widget Intermittents -->
+  <!-- Script Animation Section Intermittents -->
   <script>
-  // Fonction pour fermer le widget
-  function closeIntermittentWidget() {
-    const widget = document.getElementById('intermittent-floating');
-    widget.style.display = 'none';
-    // localStorage.setItem('intermittent-widget-closed', 'true'); // Désactivé pour test
-  }
+  // Intersection Observer pour animer la barre au scroll
+  const intermittentObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Trigger une seule fois puis stop observer
+        intermittentObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.3 // Déclenche quand 30% de la section est visible
+  });
 
-  // Vérifier au chargement si le widget a été fermé
-  // document.addEventListener('DOMContentLoaded', function() {
-  //   const widget = document.getElementById('intermittent-floating');
-  //   const wasClosed = localStorage.getItem('intermittent-widget-closed');
-  //
-  //   if (wasClosed === 'true') {
-  //     widget.style.display = 'none';
-  //   }
-  // });
-
-  // Fermer avec la touche Échap
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-      closeIntermittentWidget();
+  // Observer la section au chargement
+  document.addEventListener('DOMContentLoaded', () => {
+    const intermittentSection = document.getElementById('intermittent-info');
+    if (intermittentSection) {
+      intermittentObserver.observe(intermittentSection);
     }
   });
   </script>
