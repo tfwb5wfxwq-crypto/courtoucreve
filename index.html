@@ -2860,10 +2860,6 @@
       font-style: italic;
     }
 
-    .intermittent-info.visible .progress-bar {
-      width: 15.8%; /* 80/507 = 15.8% */
-    }
-
     @media (max-width: 768px) {
       .intermittent-info {
         padding: 15px 15px 30px 15px;
@@ -4414,26 +4410,57 @@
 
   <!-- Script Animation Section Intermittents -->
   <script>
-  // Intersection Observer pour animer la barre au scroll
-  const intermittentObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        // Trigger une seule fois puis stop observer
-        intermittentObserver.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.3 // Déclenche quand 30% de la section est visible
-  });
+  // Animation progressive de la barre au scroll
+  let barFilled = false;
+  const targetWidth = 15.8; // Pourcentage cible
 
-  // Observer la section au chargement
-  document.addEventListener('DOMContentLoaded', () => {
-    const intermittentSection = document.getElementById('intermittent-info');
-    if (intermittentSection) {
-      intermittentObserver.observe(intermittentSection);
+  function updateProgressBar() {
+    if (barFilled) return;
+
+    const section = document.getElementById('intermittent-info');
+    if (!section) return;
+
+    const rect = section.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    // Calculer quand la section est visible (0 = pas visible, 1 = complètement visible)
+    const sectionTop = rect.top;
+    const sectionHeight = rect.height;
+
+    // La section commence à animer quand elle entre dans le viewport
+    // et finit d'animer quand elle est centrée
+    let visibility = 0;
+
+    if (sectionTop < windowHeight && sectionTop + sectionHeight > 0) {
+      // Section visible
+      if (sectionTop < windowHeight * 0.5) {
+        // Section au-dessus du milieu de l'écran
+        visibility = Math.min(1, (windowHeight * 0.5 - sectionTop) / (windowHeight * 0.5));
+      }
+
+      // Ajouter la classe visible pour les autres animations
+      section.classList.add('visible');
+
+      // Calculer la largeur de la barre (0% → 15.8%)
+      const currentWidth = visibility * targetWidth;
+      const progressBar = section.querySelector('.progress-bar');
+
+      if (progressBar) {
+        progressBar.style.width = currentWidth + '%';
+
+        // Si on a atteint le max, arrêter l'animation
+        if (currentWidth >= targetWidth) {
+          barFilled = true;
+          progressBar.style.width = targetWidth + '%';
+        }
+      }
     }
-  });
+  }
+
+  // Écouter le scroll
+  window.addEventListener('scroll', updateProgressBar);
+  // Vérifier au chargement
+  window.addEventListener('load', updateProgressBar);
   </script>
 </body>
 </html>
