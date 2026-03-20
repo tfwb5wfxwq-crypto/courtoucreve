@@ -2647,130 +2647,119 @@
       }
     }
 
-    /* === Badge Intermittents === */
-    .intermittent-badge-container {
-      position: relative;
-      display: inline-block;
-      margin-right: 12px;
-    }
-
-    .intermittent-badge {
-      background: linear-gradient(135deg, #667eea, #764ba2);
+    /* === Encart Intermittents Flottant === */
+    .intermittent-floating {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: linear-gradient(135deg, #B91C1C 0%, #DC2626 100%);
       color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 24px;
-      font-size: 0.9em;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 600;
-      box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
-      transition: all 0.3s ease;
-      font-family: inherit;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(185, 28, 28, 0.4);
+      max-width: 280px;
+      z-index: 999;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      animation: slideInRight 0.5s ease-out;
     }
 
-    .intermittent-badge:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-    }
-
-    .intermittent-badge-emoji {
-      font-size: 1.2em;
-      animation: wave 2s ease-in-out infinite;
-    }
-
-    @keyframes wave {
-      0%, 100% { transform: rotate(0deg); }
-      25% { transform: rotate(20deg); }
-      75% { transform: rotate(-20deg); }
-    }
-
-    .intermittent-dropdown {
-      position: absolute;
-      top: calc(100% + 12px);
-      right: 0;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      padding: 24px;
-      width: 320px;
-      display: none;
-      z-index: 1000;
-      animation: slideDown 0.3s ease-out;
-    }
-
-    .intermittent-dropdown.active {
-      display: block;
-    }
-
-    @keyframes slideDown {
+    @keyframes slideInRight {
       from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateY(-50%) translateX(100px);
       }
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(-50%) translateX(0);
       }
     }
 
-    .intermittent-dropdown::before {
-      content: '';
+    .intermittent-floating-close {
       position: absolute;
-      top: -8px;
-      right: 20px;
-      width: 16px;
-      height: 16px;
-      background: white;
-      transform: rotate(45deg);
-      box-shadow: -2px -2px 5px rgba(0,0,0,0.05);
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.3);
+      border: none;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      transition: background 0.2s;
     }
 
-    .intermittent-dropdown h4 {
-      margin: 0 0 10px 0;
-      color: #667eea;
+    .intermittent-floating-close:hover {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .intermittent-floating-icon {
+      font-size: 2.5em;
+      margin-bottom: 12px;
+      display: block;
+      text-align: center;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+
+    .intermittent-floating h3 {
+      margin: 0 0 12px 0;
       font-size: 1.1em;
       font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.3;
     }
 
-    .intermittent-dropdown p {
+    .intermittent-floating p {
       margin: 0 0 16px 0;
-      font-size: 0.95em;
-      color: #4b5563;
-      line-height: 1.5;
-    }
-
-    .intermittent-cta {
-      display: inline-block;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      padding: 12px 24px;
-      border-radius: 10px;
-      text-decoration: none;
       font-size: 0.9em;
-      font-weight: 600;
-      transition: transform 0.2s;
+      line-height: 1.5;
+      opacity: 0.95;
     }
 
-    .intermittent-cta:hover {
+    .intermittent-floating-cta {
+      display: block;
+      background: white;
+      color: #B91C1C;
+      padding: 12px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 700;
+      text-align: center;
+      font-size: 0.95em;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .intermittent-floating-cta:hover {
+      background: #f5f5f5;
       transform: scale(1.05);
     }
 
     @media (max-width: 768px) {
-      .intermittent-badge {
-        padding: 8px 14px;
-        font-size: 0.85em;
+      .intermittent-floating {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        top: auto;
+        bottom: 20px;
+        transform: none;
+        animation: slideInUp 0.5s ease-out;
       }
 
-      .intermittent-badge span {
-        display: none;
-      }
-
-      .intermittent-dropdown {
-        right: -80px;
-        width: 280px;
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(100px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
     }
   </style>
@@ -2780,6 +2769,15 @@
   <div class="grain"></div>
   <div class="scanlines"></div>
   <div class="vignette"></div>
+
+  <!-- Widget Intermittents -->
+  <div class="intermittent-floating" id="intermittent-floating">
+    <button class="intermittent-floating-close" onclick="closeIntermittentWidget()">×</button>
+    <span class="intermittent-floating-icon">🎭</span>
+    <h3>Vos heures = vos cachets</h3>
+    <p>Convertissez vos heures de formation en heures travaillées pour maintenir votre statut d'intermittent.</p>
+    <a href="#inscription" class="intermittent-floating-cta" onclick="closeIntermittentWidget()">On vous explique</a>
+  </div>
 
   <!-- Loading Screen -->
   <div class="loader" id="loader">
@@ -2831,25 +2829,6 @@
         </div>
       </div>
     </a>
-
-    <!-- Badge Intermittents -->
-    <div class="intermittent-badge-container">
-      <button class="intermittent-badge" onclick="toggleIntermittentDropdown(event)">
-        <span class="intermittent-badge-emoji">🎭</span>
-        <span>Intermittent ?</span>
-      </button>
-
-      <div class="intermittent-dropdown" id="intermittent-dropdown">
-        <h4>✨ Vos heures = vos cachets</h4>
-        <p>
-          Convertissez vos heures de formation en heures travaillées
-          pour maintenir votre statut d'intermittent du spectacle.
-        </p>
-        <a href="#inscription" class="intermittent-cta" onclick="closeIntermittentDropdown()">
-          💬 On vous explique tout
-        </a>
-      </div>
-    </div>
 
     <a href="#inscription" class="header-cta">S'inscrire</a>
   </header>
@@ -4272,36 +4251,29 @@
   })();
   </script>
 
-  <!-- Script Badge Intermittents -->
+  <!-- Script Widget Intermittents -->
   <script>
-  // Fonction pour ouvrir/fermer le dropdown
-  function toggleIntermittentDropdown(event) {
-    event.stopPropagation();
-    const dropdown = document.getElementById('intermittent-dropdown');
-    dropdown.classList.toggle('active');
+  // Fonction pour fermer le widget
+  function closeIntermittentWidget() {
+    const widget = document.getElementById('intermittent-floating');
+    widget.style.display = 'none';
+    localStorage.setItem('intermittent-widget-closed', 'true');
   }
 
-  // Fonction pour fermer le dropdown
-  function closeIntermittentDropdown() {
-    const dropdown = document.getElementById('intermittent-dropdown');
-    dropdown.classList.remove('active');
-  }
+  // Vérifier au chargement si le widget a été fermé
+  document.addEventListener('DOMContentLoaded', function() {
+    const widget = document.getElementById('intermittent-floating');
+    const wasClosed = localStorage.getItem('intermittent-widget-closed');
 
-  // Fermer si clic en dehors
-  document.addEventListener('click', function(event) {
-    const dropdown = document.getElementById('intermittent-dropdown');
-    const container = event.target.closest('.intermittent-badge-container');
-
-    if (!container && dropdown.classList.contains('active')) {
-      dropdown.classList.remove('active');
+    if (wasClosed === 'true') {
+      widget.style.display = 'none';
     }
   });
 
-  // Fermer si touche Échap
+  // Fermer avec la touche Échap
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
-      const dropdown = document.getElementById('intermittent-dropdown');
-      dropdown.classList.remove('active');
+      closeIntermittentWidget();
     }
   });
   </script>
