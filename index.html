@@ -2656,7 +2656,7 @@
     }
 
     .intermittent-content {
-      max-width: 800px;
+      max-width: 450px;
       margin: 0 auto;
       text-align: center;
     }
@@ -2683,15 +2683,15 @@
     .hours-conversion {
       background: linear-gradient(135deg, rgba(20,20,20,0.8) 0%, rgba(15,15,15,0.9) 100%);
       border: 1px solid rgba(185, 28, 28, 0.3);
-      border-left: 3px solid var(--red);
       border-radius: 12px;
-      padding: 20px;
+      padding: 25px 20px;
       position: relative;
       backdrop-filter: blur(10px);
       box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05);
       transition: all 0.4s ease;
       opacity: 0;
       transform: translateY(20px);
+      overflow: hidden;
     }
 
     .intermittent-info.visible .hours-conversion {
@@ -2700,7 +2700,7 @@
     }
 
     .hours-conversion:hover {
-      border-left-color: var(--red-light);
+      border-color: var(--red);
       box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 30px rgba(185, 28, 28, 0.15);
     }
 
@@ -2708,11 +2708,10 @@
       content: '';
       position: absolute;
       top: 0;
-      left: 0;
-      right: 0;
+      left: -100%;
+      width: 200%;
       height: 100%;
       background: linear-gradient(90deg, transparent, rgba(185, 28, 28, 0.1), transparent);
-      opacity: 0;
       animation: shine 3s infinite;
     }
 
