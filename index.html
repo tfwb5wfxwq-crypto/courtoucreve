@@ -898,8 +898,36 @@
       50% { opacity: 0.5; transform: scale(1.3); }
     }
 
+    .urgency-banner {
+      margin-top: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(185, 28, 28, 0.15);
+      border: 1px solid rgba(185, 28, 28, 0.5);
+      border-radius: 30px;
+      padding: 10px 20px;
+      animation: urgencyPulse 2.5s ease-in-out infinite;
+    }
+
+    .urgency-fire {
+      font-size: 15px;
+    }
+
+    .urgency-banner span:last-child {
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      color: #fca5a5;
+      font-weight: 600;
+    }
+
+    @keyframes urgencyPulse {
+      0%, 100% { border-color: rgba(185, 28, 28, 0.5); background: rgba(185, 28, 28, 0.15); }
+      50% { border-color: rgba(185, 28, 28, 0.9); background: rgba(185, 28, 28, 0.25); }
+    }
+
     .season-announce {
-      margin-top: 25px;
+      margin-top: 10px;
       display: inline-flex;
       align-items: center;
       gap: 12px;
@@ -2402,6 +2430,15 @@
         padding: 14px 30px;
       }
 
+      .urgency-banner {
+        padding: 8px 14px;
+        gap: 8px;
+      }
+
+      .urgency-banner span:last-child {
+        font-size: 11px;
+      }
+
       .season-announce {
         padding: 8px 14px;
         gap: 10px;
@@ -3008,6 +3045,11 @@
             Je m'inscris
             <span>→</span>
           </a>
+        </div>
+
+        <div class="urgency-banner">
+          <span class="urgency-fire">🔥</span>
+          <span>Dernier jour pour s'inscrire — il reste quelques places</span>
         </div>
 
         <div class="season-announce">
