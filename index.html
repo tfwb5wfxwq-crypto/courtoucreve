@@ -1554,16 +1554,19 @@
       position: relative;
     }
 
-    /* Liseré rouge lumineux en haut de la zone de conversion */
+    /* Connecteur vertical : relie l'encart intermittents au formulaire
+       (même zone de conversion) au lieu de les séparer par un trait */
     .inscription::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--red-light), transparent);
+      top: -38px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 76px;
+      background: linear-gradient(180deg, transparent, var(--red-light), transparent);
       opacity: 0.7;
+      box-shadow: 0 0 14px rgba(220, 38, 38, 0.55);
     }
 
     .form-container {
