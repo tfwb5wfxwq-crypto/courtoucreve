@@ -265,6 +265,13 @@
       opacity: 0;
       transform: translateX(20px);
       overflow: hidden;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .header-cta span {
+      position: relative;
+      z-index: 1;
     }
 
     .header-cta::before {
@@ -291,8 +298,7 @@
 
     .header.scrolled .header-cta:hover {
       background: var(--red-light);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(185, 28, 28, 0.6);
+      box-shadow: 0 4px 20px rgba(185, 28, 28, 0.55);
     }
 
     .header-cta:hover::before {
@@ -810,6 +816,25 @@
       font-weight: 600;
     }
 
+    /* Hook AFDAS mis en avant dans le hero (argument le plus fort) */
+    .hero-afdas {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 8px 16px;
+      font-size: clamp(13px, 1.6vw, 15px);
+      font-weight: 500;
+      color: var(--white);
+      background: rgba(185, 28, 28, 0.14);
+      border: 1px solid rgba(220, 38, 38, 0.45);
+      border-radius: 999px;
+      line-height: 1.4;
+    }
+
+    .hero-afdas strong {
+      color: var(--red-light);
+      font-weight: 700;
+    }
+
     .cta-button {
       display: inline-flex;
       align-items: center;
@@ -1153,6 +1178,7 @@
     /* Team section - compact horizontal */
     .team-section {
       padding: 80px 20px;
+      background: var(--black);
     }
 
     .team-grid {
@@ -1432,6 +1458,11 @@
     }
 
     /* FAQ section */
+    .about {
+      background: var(--black);
+      padding: 80px 20px;
+    }
+
     .faq-list {
       max-width: 800px;
       margin: 0 auto;
@@ -1513,9 +1544,26 @@
 
     /* Contact/Inscription section */
     .inscription {
-      background: linear-gradient(135deg, var(--black) 0%, #1a0a0a 100%);
+      /* Zone de conversion (suite de #intermittent-info) : fond plus clair
+         + liseré/halo rouge, c'est le point chaud de la page */
+      background:
+        radial-gradient(100% 60% at 50% 0%, rgba(185,28,28,0.10) 0%, rgba(185,28,28,0) 55%),
+        linear-gradient(180deg, #1c1314 0%, #1a0d0e 60%, var(--black) 100%);
       max-width: none;
-      padding: 120px 20px;
+      padding: 100px 20px 120px;
+      position: relative;
+    }
+
+    /* Liseré rouge lumineux en haut de la zone de conversion */
+    .inscription::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--red-light), transparent);
+      opacity: 0.7;
     }
 
     .form-container {
@@ -1604,8 +1652,28 @@
     .form-intro {
       text-align: center;
       color: var(--gray);
-      margin-bottom: 40px;
+      margin-bottom: 16px;
       font-size: 16px;
+    }
+
+    .form-intro strong {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    /* Preuve sociale discrète au-dessus du formulaire */
+    .form-socialproof {
+      text-align: center;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 36px;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .form-socialproof strong {
+      color: var(--red-light);
+      font-weight: 700;
     }
 
     .form-row {
@@ -1753,16 +1821,24 @@
       gap: 15px;
       width: 100%;
       padding: 22px;
-      background: var(--red);
+      /* Point le plus lumineux de la page : dégradé rouge vif + glow */
+      background: linear-gradient(135deg, var(--red-light) 0%, var(--red) 100%);
       color: var(--white);
       border: none;
       font-size: 18px;
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 3px;
       cursor: pointer;
       transition: all 0.4s ease;
       margin-top: 20px;
+      box-shadow: 0 8px 30px rgba(220, 38, 38, 0.45), 0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    .submit-btn:hover {
+      background: linear-gradient(135deg, #ef3b3b 0%, var(--red-light) 100%);
+      box-shadow: 0 12px 40px rgba(220, 38, 38, 0.65), 0 0 0 1px rgba(255,255,255,0.1);
+      transform: translateY(-2px);
     }
 
     .submit-btn svg {
@@ -1899,7 +1975,7 @@
 
     /* ========== SAISON 1 REVIEW ========== */
     .season-review {
-      background: var(--black-light);
+      background: var(--black);
       padding: 80px 20px;
       text-align: center;
     }
@@ -2686,8 +2762,11 @@
 
     /* === Section Intermittents === */
     .intermittent-info {
-      padding: 20px 20px 40px 20px;
-      background: transparent;
+      padding: 60px 20px 40px 20px;
+      /* Zone de conversion : fond plus clair + halo rouge pour attirer l'oeil */
+      background:
+        radial-gradient(120% 80% at 50% 0%, rgba(185,28,28,0.12) 0%, rgba(185,28,28,0) 60%),
+        linear-gradient(180deg, var(--black-light) 0%, #1c1314 100%);
       position: relative;
       overflow: hidden;
     }
@@ -3000,7 +3079,7 @@
       </div>
     </a>
 
-    <a href="#inscription" class="header-cta">Rester informé</a>
+    <a href="#inscription" class="header-cta"><span>Je m'inscris →</span></a>
   </header>
 
   <!-- Main Content -->
@@ -3037,19 +3116,15 @@
         <h1 class="hero-subtitle">Formation Réalisation Vidéo & Court-Métrage à Paris</h1>
 
         <p class="hero-tagline">
-          Réalise ton <strong>court-métrage</strong> avec des pros.<br>Projection finale <strong>au cinéma</strong>.
+          Réalise ton <strong>court-métrage</strong> avec des pros.<br>Projection finale <strong>au cinéma</strong>.<br><span class="hero-afdas"><strong>100% prise en charge AFDAS</strong>, gratuite pour les intermittents.</span>
         </p>
 
         <div class="cta-container">
           <a href="#inscription" class="cta-button">
-            Rester informé
+            <span class="live-dot"></span>
+            Je prends ma place
             <span>→</span>
           </a>
-        </div>
-
-        <div class="season-announce">
-          <span class="live-dot"></span>
-          <span>Saison 2 terminée — <strong>bientôt la projection</strong></span>
         </div>
       </div>
 
@@ -3078,7 +3153,7 @@
         <div class="gallery-carousel-wrapper">
           <div class="gallery-carousel">
             <div class="gallery-main active" data-video="video-preview.mp4">
-              <video src="video-preview.mp4" muted loop playsinline preload="auto">
+              <video src="video-preview.mp4" muted loop playsinline preload="auto" poster="video-poster.jpg">
                 <source src="video-preview.mp4" type="video/mp4">
               </video>
               <!-- Poster séparé pour control mobile/desktop -->
@@ -3092,11 +3167,12 @@
             </div>
 
             <div class="gallery-main" data-video="video3.mp4">
-              <video src="video3.mp4" muted loop playsinline preload="auto">
+              <video src="video3.mp4" muted loop playsinline preload="auto" poster="video3-poster.jpg?v=2">
                 <source src="video3.mp4" type="video/mp4">
               </video>
               <picture class="video-poster-img">
-                <img src="video3-poster.jpg?v=2" alt="Vidéo 2">
+                <source media="(max-width: 768px)" srcset="video3-poster.jpg?v=2">
+                <img src="video3-poster.jpg?v=2" alt="Court ou Crève - Saison 1, deuxième extrait vidéo">
               </picture>
               <div class="gallery-play">
                 <div class="play-btn"></div>
@@ -3165,7 +3241,7 @@
       </div>
 
       <a href="#inscription" class="season-cta">
-        Je veux la Saison 3
+        Je veux ma place Saison 3
         <span>→</span>
       </a>
     </section>
@@ -3305,11 +3381,11 @@
 
         <div class="faq-item">
           <div class="faq-question">
-            Comment s'inscrire ?
+            Comment réserver ma place pour la Saison 3 ?
             <span class="faq-icon">+</span>
           </div>
           <div class="faq-answer">
-            Remplis le formulaire ci-dessous avec tes infos et ta motivation. On te recontacte rapidement pour discuter de ton projet.
+            Laisse ton e-mail dans le formulaire ci-dessous (c'est tout ce qu'il faut). Tu rejoins la file d'attente prioritaire : dès qu'une Saison 3 se monte, on recontacte d'abord ceux qui se sont inscrits — les intermittents en premier. Les places sont limitées.
           </div>
         </div>
       </div>
@@ -3345,35 +3421,42 @@
 
     <!-- Inscription -->
     <section class="inscription" id="inscription">
-      <h2 class="section-title">Reste <span>informé</span></h2>
+      <h2 class="section-title">File d'attente <span>prioritaire</span></h2>
 
       <div class="form-container">
-        <p class="form-intro">La <strong>Saison 2 est terminée</strong> — bientôt la projection. Laisse tes infos : si une Saison 3 se monte, on te recontacte en premier.</p>
+        <p class="form-intro"><strong>2 saisons bouclées. Places Saison 3 limitées.</strong> Laisse ton email : les premiers inscrits sont recontactés en priorité. <strong>100% pris en charge AFDAS</strong> pour les intermittents.</p>
+
+        <!-- Preuve sociale : libellé neutre, chiffres à confirmer avant de les afficher -->
+        <!-- TODO Ludovik: confirmer les chiffres exacts (ex: nb de participants, nb de courts-métrages projetés au cinéma sur Saison 1 + Saison 2) puis remplacer les placeholders ci-dessous -->
+        <p class="form-socialproof">
+          <strong>2 saisons</strong> bouclées · des courts-métrages projetés <strong>au cinéma</strong>
+          <!-- TODO Ludovik: ex. "<strong>XX réalisateurs formés</strong> · <strong>XX courts-métrages projetés au cinéma</strong>" -->
+        </p>
 
         <form class="inscription-form" id="inscriptionForm">
           <!-- Honeypot anti-spam -->
           <input type="text" name="website" style="display:none !important" tabindex="-1" autocomplete="off">
           <div class="form-row">
             <div class="form-group">
-              <input type="text" name="Nom" class="form-input" placeholder="Prénom et Nom" required>
+              <input type="text" name="Nom" class="form-input" placeholder="Prénom et Nom" required autocomplete="name">
               <div class="input-line"></div>
             </div>
           </div>
 
           <div class="form-row two-cols">
             <div class="form-group">
-              <input type="email" name="Email" class="form-input" placeholder="E-mail" required>
+              <input type="email" name="Email" class="form-input" placeholder="E-mail" required autocomplete="email">
               <div class="input-line"></div>
             </div>
             <div class="form-group">
-              <input type="tel" name="Téléphone" class="form-input" placeholder="Téléphone" required>
+              <input type="tel" name="Téléphone" class="form-input" placeholder="Téléphone (optionnel)" autocomplete="tel">
               <div class="input-line"></div>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <textarea name="Motivation" class="form-input form-textarea" placeholder="Dis-nous pourquoi Court ou Crève t'intéresse (pour une future saison)" required></textarea>
+              <textarea name="Motivation" class="form-input form-textarea" placeholder="Un mot sur ta motivation (optionnel)"></textarea>
               <div class="input-line"></div>
             </div>
           </div>
@@ -4053,7 +4136,9 @@
       e.preventDefault();
       haptic.trigger('buzz'); // 💥 Vibration INTENSE au clic envoi
 
-      // Vérifier tous les champs requis
+      // Vérifier uniquement les champs requis (Nom + Email).
+      // Téléphone et Motivation sont optionnels : ils n'ont plus l'attribut
+      // `required` donc ne sont jamais inclus dans formInputs ni bloquants.
       let hasError = false;
       formInputs.forEach(input => {
         if (!input.value.trim() || (input.type === 'email' && !input.validity.valid)) {
