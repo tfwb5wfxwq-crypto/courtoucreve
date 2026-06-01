@@ -4101,7 +4101,8 @@
         motivation: inscriptionForm.querySelector('[name="Motivation"]').value,
         intermittent: inscriptionForm.querySelector('#intermittent').checked,
         afdas: inscriptionForm.querySelector('#afdas').checked,
-        amiIntermittent: inscriptionForm.querySelector('#amiIntermittent')?.checked || false
+        amiIntermittent: inscriptionForm.querySelector('#amiIntermittent')?.checked || false,
+        source: document.referrer || ''
       };
 
       // Validation email
@@ -4123,26 +4124,10 @@
         return;
       }
 
-      // Validation téléphone (si fourni)
-      if (data.telephone && data.telephone.trim()) {
-        const phoneRegex = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
-        if (!phoneRegex.test(data.telephone.replace(/\s/g, ''))) {
-          haptic.trigger('error');
-          const phoneInput = inscriptionForm.querySelector('[name="Téléphone"]');
-          phoneInput.style.borderBottom = '2px solid var(--red)';
-          phoneInput.style.color = 'var(--red)';
-          setTimeout(() => {
-            phoneInput.style.borderBottom = '';
-            phoneInput.style.color = '';
-          }, 3000);
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = `<span>Ça part !</span>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>`;
-          return;
-        }
-      }
+      // Téléphone : accepté tel quel (international OK : +32, +41, etc.).
+      // On ne rejette JAMAIS une candidature pour un format de téléphone —
+      // c'est exactement ce bug (regex FR only) qui a perdu une candidature belge.
+      // Le serveur capture en BDD quoi qu'il arrive.
 
       try {
         const response = await fetch('https://xhpsdbmajanmoztijbnx.supabase.co/functions/v1/courtoucreve-contact', {
@@ -4407,7 +4392,9 @@
 
       form.addEventListener('submit', () => {
         journey.formSubmitted = true;
-        track('form_submit', { journey });
+        // Note : l'alerte Telegram de candidature est désormais émise côté serveur
+        // (fonction courtoucreve-contact) UNIQUEMENT après capture réussie en BDD.
+        // On ne déclenche plus d'alerte ici pour éviter tout faux positif.
       });
     }
 
