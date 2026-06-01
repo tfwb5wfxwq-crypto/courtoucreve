@@ -1544,29 +1544,10 @@
 
     /* Contact/Inscription section */
     .inscription {
-      /* Zone de conversion (suite de #intermittent-info) : fond plus clair
-         + liseré/halo rouge, c'est le point chaud de la page */
-      background:
-        radial-gradient(100% 60% at 50% 0%, rgba(185,28,28,0.10) 0%, rgba(185,28,28,0) 55%),
-        linear-gradient(180deg, #1c1314 0%, #1a0d0e 60%, var(--black) 100%);
+      background: var(--black);
       max-width: none;
-      padding: 100px 20px 120px;
+      padding: 80px 20px 120px;
       position: relative;
-    }
-
-    /* Connecteur vertical : relie l'encart intermittents au formulaire
-       (même zone de conversion) au lieu de les séparer par un trait */
-    .inscription::before {
-      content: '';
-      position: absolute;
-      top: -38px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 2px;
-      height: 76px;
-      background: linear-gradient(180deg, transparent, var(--red-light), transparent);
-      opacity: 0.7;
-      box-shadow: 0 0 14px rgba(220, 38, 38, 0.55);
     }
 
     .form-container {
@@ -2765,13 +2746,9 @@
 
     /* === Section Intermittents === */
     .intermittent-info {
-      padding: 60px 20px 40px 20px;
-      /* Zone de conversion : fond plus clair + halo rouge pour attirer l'oeil */
-      background:
-        radial-gradient(120% 80% at 50% 0%, rgba(185,28,28,0.12) 0%, rgba(185,28,28,0) 60%),
-        linear-gradient(180deg, var(--black-light) 0%, #1c1314 100%);
+      padding: 70px 20px 50px 20px;
+      background: var(--black);
       position: relative;
-      overflow: hidden;
     }
 
     .intermittent-content {
@@ -2800,38 +2777,18 @@
     }
 
     .hours-conversion {
-      background: linear-gradient(135deg, rgba(20,20,20,0.8) 0%, rgba(15,15,15,0.9) 100%);
-      border: 1px solid rgba(185, 28, 28, 0.3);
-      border-radius: 12px;
-      padding: 25px 20px;
+      background: transparent;
+      border: none;
+      padding: 10px 0 0 0;
       position: relative;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05);
       transition: all 0.4s ease;
       opacity: 0;
       transform: translateY(20px);
-      overflow: hidden;
     }
 
     .intermittent-info.visible .hours-conversion {
       opacity: 1;
       transform: translateY(0);
-    }
-
-    .hours-conversion:hover {
-      border-color: var(--red);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 30px rgba(185, 28, 28, 0.15);
-    }
-
-    .hours-conversion::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 200%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(185, 28, 28, 0.1), transparent);
-      animation: shine 3s infinite;
     }
 
     @keyframes shine {
